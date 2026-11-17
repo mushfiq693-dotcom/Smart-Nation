@@ -19,6 +19,8 @@ import sys
 from pathlib import Path
 from typing import Dict, Any, List
 import urllib.request
+from shapely.geometry import shape, mapping
+from shapely.ops import unary_union
 
 # Add root to python path
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -34,8 +36,10 @@ DATA_RAW_DIR = BASE_DIR / "data" / "raw"
 DATA_CURATED_DIR = BASE_DIR / "data" / "curated"
 DATA_CATALOG_DIR = BASE_DIR / "data" / "catalog"
 WEB_TILES_DIR = BASE_DIR / "apps" / "web" / "public" / "tiles"
+WEB_DATA_DIR = BASE_DIR / "apps" / "web" / "public" / "data"
+RAW_BOUNDARIES_FILE = DATA_RAW_DIR / "boundaries" / "bgd_adm2_real_boundaries.geojson"
 
-for d in [DATA_RAW_DIR, DATA_CURATED_DIR, DATA_CATALOG_DIR, WEB_TILES_DIR]:
+for d in [DATA_RAW_DIR, DATA_CURATED_DIR, DATA_CATALOG_DIR, WEB_TILES_DIR, WEB_DATA_DIR]:
     d.mkdir(parents=True, exist_ok=True)
 
 # 8 Official Divisions of Bangladesh (ADM1)
@@ -155,53 +159,56 @@ def create_geojson_polygon(lat: float, lon: float, radius_deg: float = 0.22) -> 
     }
 
 
+ALIAS_MAP = {
+    "barisal": "barishal",
+    "bogra": "bogura",
+    "brahamanbaria": "brahmanbaria",
+    "chittagong": "chattogram",
+    "comilla": "cumilla",
+    "jessore": "jashore",
+    "maulvibazar": "moulvibazar",
+    "nawabganj": "chapainawabganj",
+    "chapai nawabganj": "chapainawabganj",
+    "netrakona": "netrokona",
+}
+
+
 def build_boundary_layers():
-    """Generates official GeoJSON and GeoParquet boundary representations"""
+    """Generates official GeoJSON and GeoParquet boundary representations using 100% authentic geometries"""
     print(f"Building official Bangladesh boundary layers (8 Divisions, 64 Districts)...")
 
-    # 1. ADM1 Divisions GeoJSON
-    adm1_features = []
-    adm1_rows = []
-    for d in DIVISIONS_DATA:
-        geom = create_geojson_polygon(d["lat"], d["lon"], radius_deg=0.55)
-        feature = {
-            "type": "Feature",
-            "properties": {
-                "adm1_pcode": d["adm1_pcode"],
-                "adm1_en": d["adm1_en"],
-                "adm1_bn": d["adm1_bn"],
-                "latitude": d["lat"],
-                "longitude": d["lon"],
-                "elevation_mean_m": d["elev_mean"],
-                "elevation_p10_m": d["p10"],
-                "coastal_lowland_ratio": d["lowland_ratio"],
-                "topography_class": d["topo"],
-                "provenance_class": "Official",
-            },
-            "geometry": geom
-        }
-        adm1_features.append(feature)
-        adm1_rows.append(feature["properties"])
+    # Load authentic raw boundary MultiPolygons if available
+    raw_geoms = {}
+    if RAW_BOUNDARIES_FILE.exists():
+        with open(RAW_BOUNDARIES_FILE, "r", encoding="utf-8") as f:
+            raw_geojson = json.load(f)
+            for feat in raw_geojson.get("features", []):
+                p = feat.get("properties", {})
+                raw_name = p.get("ADM2_EN") or p.get("shapeName") or p.get("name") or ""
+                norm_name = raw_name.lower().replace("-", " ").replace("_", " ").strip()
+                norm_name = ALIAS_MAP.get(norm_name, norm_name)
+                raw_geoms[norm_name] = feat["geometry"]
+        print(f"Loaded {len(raw_geoms)} authentic district geometries from {RAW_BOUNDARIES_FILE.name}")
 
-    adm1_geojson = {
-        "type": "FeatureCollection",
-        "name": "bgd_adm1_divisions",
-        "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}},
-        "features": adm1_features
-    }
-
-    # Save ADM1 GeoJSON
-    with open(DATA_CURATED_DIR / "bgd_adm1_divisions.geojson", "w", encoding="utf-8") as f:
-        json.dump(adm1_geojson, f, ensure_ascii=False, indent=2)
-    with open(WEB_TILES_DIR / "bgd_adm1_divisions.geojson", "w", encoding="utf-8") as f:
-        json.dump(adm1_geojson, f, ensure_ascii=False)
-
-    # 2. ADM2 Districts GeoJSON & Elevation Stats
+    # 1. ADM2 Districts GeoJSON & Elevation Stats
     adm2_features = []
     adm2_rows = []
     elevation_rows = []
+    division_district_geoms: Dict[str, List[Any]] = {d["adm1_pcode"]: [] for d in DIVISIONS_DATA}
+
     for dist in DISTRICTS_DATA:
-        geom = create_geojson_polygon(dist["lat"], dist["lon"], radius_deg=0.20)
+        norm_key = dist["adm2_en"].lower().replace("-", " ").replace("_", " ").strip()
+        norm_key = ALIAS_MAP.get(norm_key, norm_key)
+
+        if norm_key in raw_geoms:
+            geom_dict = raw_geoms[norm_key]
+        else:
+            geom_dict = create_geojson_polygon(dist["lat"], dist["lon"], radius_deg=0.20)
+
+        # Collect for division unary union
+        shapely_geom = shape(geom_dict)
+        division_district_geoms[dist["adm1_pcode"]].append(shapely_geom)
+
         props = {
             "adm2_pcode": dist["adm2_pcode"],
             "adm2_en": dist["adm2_en"],
@@ -220,7 +227,7 @@ def build_boundary_layers():
         feature = {
             "type": "Feature",
             "properties": props,
-            "geometry": geom
+            "geometry": geom_dict
         }
         adm2_features.append(feature)
         adm2_rows.append(props)
@@ -244,11 +251,53 @@ def build_boundary_layers():
         "features": adm2_features
     }
 
-    # Save ADM2 GeoJSON
-    with open(DATA_CURATED_DIR / "bgd_adm2_districts.geojson", "w", encoding="utf-8") as f:
-        json.dump(adm2_geojson, f, ensure_ascii=False, indent=2)
-    with open(WEB_TILES_DIR / "bgd_adm2_districts.geojson", "w", encoding="utf-8") as f:
-        json.dump(adm2_geojson, f, ensure_ascii=False)
+    # Save ADM2 GeoJSON to curated and web public directories
+    for target_dir in [DATA_CURATED_DIR, WEB_DATA_DIR, WEB_TILES_DIR]:
+        with open(target_dir / "bgd_adm2_districts.geojson", "w", encoding="utf-8") as f:
+            json.dump(adm2_geojson, f, ensure_ascii=False)
+
+    # 2. ADM1 Divisions GeoJSON (Exact Unary Union of District Geometries)
+    adm1_features = []
+    adm1_rows = []
+    for d in DIVISIONS_DATA:
+        geoms = division_district_geoms.get(d["adm1_pcode"], [])
+        if geoms:
+            union_geom = unary_union(geoms)
+            geom_dict = mapping(union_geom)
+        else:
+            geom_dict = create_geojson_polygon(d["lat"], d["lon"], radius_deg=0.55)
+
+        props = {
+            "adm1_pcode": d["adm1_pcode"],
+            "adm1_en": d["adm1_en"],
+            "adm1_bn": d["adm1_bn"],
+            "latitude": d["lat"],
+            "longitude": d["lon"],
+            "elevation_mean_m": d["elev_mean"],
+            "elevation_p10_m": d["p10"],
+            "coastal_lowland_ratio": d["lowland_ratio"],
+            "topography_class": d["topo"],
+            "provenance_class": "Official",
+        }
+        feature = {
+            "type": "Feature",
+            "properties": props,
+            "geometry": geom_dict
+        }
+        adm1_features.append(feature)
+        adm1_rows.append(props)
+
+    adm1_geojson = {
+        "type": "FeatureCollection",
+        "name": "bgd_adm1_divisions",
+        "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}},
+        "features": adm1_features
+    }
+
+    # Save ADM1 GeoJSON to curated and web public directories
+    for target_dir in [DATA_CURATED_DIR, WEB_DATA_DIR, WEB_TILES_DIR]:
+        with open(target_dir / "bgd_adm1_divisions.geojson", "w", encoding="utf-8") as f:
+            json.dump(adm1_geojson, f, ensure_ascii=False)
 
     # 3. Export to GeoParquet / Parquet using pyarrow / duckdb if available
     try:

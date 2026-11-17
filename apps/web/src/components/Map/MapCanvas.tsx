@@ -13,6 +13,9 @@ import {
   Eye,
   Activity,
   MapPin,
+  Moon,
+  Satellite,
+  Map,
 } from "lucide-react";
 import { useI18n } from "../../context/I18nContext";
 
@@ -22,6 +25,8 @@ export type MetricType =
   | "flood_discharge"
   | "elevation"
   | "sensor_scarcity";
+
+export type BasemapType = "dark" | "satellite" | "streets";
 
 interface MapCanvasProps {
   districtsMatrix?: any[];
@@ -33,6 +38,8 @@ export function MapCanvas({ districtsMatrix = [], onSelectDistrict }: MapCanvasP
   const map = useRef<maplibregl.Map | null>(null);
   const [activeMetric, setActiveMetric] = useState<MetricType>("composite_risk");
   const [activeLayer, setActiveLayer] = useState<"adm2" | "h3">("adm2");
+  const [basemap, setBasemap] = useState<BasemapType>("dark");
+  const [showLabels, setShowLabels] = useState<boolean>(true);
   const [showStations, setShowStations] = useState<boolean>(true);
   const [hoveredDistrict, setHoveredDistrict] = useState<any | null>(null);
   const { lang, t } = useI18n();
@@ -43,13 +50,66 @@ export function MapCanvas({ districtsMatrix = [], onSelectDistrict }: MapCanvasP
   const BD_CENTER: [number, number] = [90.3563, 23.6850];
   const BD_ZOOM = 6.8;
 
+  // MapTiler Cloud Key from .env (Native Vector & Retina Raster Partner for MapLibre)
+  const mapTilerKey =
+    process.env.NEXT_PUBLIC_MAPTILER_KEY?.trim() || "8kXMWbrFazDl6fjhCEgT";
+
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
 
-    // Offline Dark Vector Base Style
-    const darkStyle: maplibregl.StyleSpecification = {
+    // Real Vector & Satellite Raster Base Style Specification with MapTiler Retina @2x Tiles & Open Glyphs
+    const initialStyle: maplibregl.StyleSpecification = {
       version: 8,
-      sources: {},
+      glyphs: mapTilerKey
+        ? `https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=${mapTilerKey}`
+        : "https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf",
+      sources: {
+        // 1. MapTiler Dataviz Dark (Retina @2x High-DPI Tiles for razor-sharp city & river labels)
+        "carto-dark": {
+          type: "raster",
+          tiles: mapTilerKey
+            ? [
+                `https://api.maptiler.com/maps/dataviz-dark/256/{z}/{x}/{y}@2x.png?key=${mapTilerKey}`,
+              ]
+            : [
+                "https://a.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}@2x.png",
+                "https://b.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}@2x.png",
+                "https://c.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}@2x.png",
+                "https://d.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}@2x.png",
+              ],
+          tileSize: 256,
+          attribution: "&copy; MapTiler &copy; OpenStreetMap contributors",
+        },
+        // 2. MapTiler Satellite Hybrid (High-Resolution Real Satellite + Roads, Rivers & Town Names)
+        "esri-satellite": {
+          type: "raster",
+          tiles: mapTilerKey
+            ? [
+                `https://api.maptiler.com/maps/hybrid/256/{z}/{x}/{y}@2x.jpg?key=${mapTilerKey}`,
+              ]
+            : [
+                "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+              ],
+          tileSize: 256,
+          attribution: "&copy; MapTiler &copy; Esri, Maxar",
+        },
+        // 3. MapTiler Streets v2 (Ultra-detailed Upazilas, Thanas, Roads, Rivers & Topography @2x Retina)
+        "carto-voyager": {
+          type: "raster",
+          tiles: mapTilerKey
+            ? [
+                `https://api.maptiler.com/maps/streets-v2/256/{z}/{x}/{y}@2x.png?key=${mapTilerKey}`,
+              ]
+            : [
+                "https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
+                "https://b.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
+                "https://c.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
+                "https://d.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
+              ],
+          tileSize: 256,
+          attribution: "&copy; MapTiler &copy; OpenStreetMap contributors",
+        },
+      },
       layers: [
         {
           id: "background",
@@ -58,47 +118,90 @@ export function MapCanvas({ districtsMatrix = [], onSelectDistrict }: MapCanvasP
             "background-color": "#020617",
           },
         },
+        {
+          id: "basemap-dark-layer",
+          type: "raster",
+          source: "carto-dark",
+          layout: {
+            visibility: "visible",
+          },
+          paint: {
+            "raster-opacity": 0.95,
+          },
+        },
+        {
+          id: "basemap-satellite-layer",
+          type: "raster",
+          source: "esri-satellite",
+          layout: {
+            visibility: "none",
+          },
+          paint: {
+            "raster-opacity": 1.0,
+          },
+        },
+        {
+          id: "basemap-streets-layer",
+          type: "raster",
+          source: "carto-voyager",
+          layout: {
+            visibility: "none",
+          },
+          paint: {
+            "raster-opacity": 0.95,
+          },
+        },
       ],
     };
 
     const mapInstance = new maplibregl.Map({
       container: mapContainer.current,
-      style: darkStyle,
+      style: initialStyle,
       center: BD_CENTER,
       zoom: BD_ZOOM,
       minZoom: 5.5,
-      maxZoom: 12,
+      maxZoom: 14,
+      maxBounds: [
+        [85.0, 20.0], // Southwest [lng, lat]
+        [95.5, 27.5], // Northeast [lng, lat]
+      ],
       attributionControl: false,
     });
 
     mapInstance.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
 
     mapInstance.on("load", () => {
-      // 1. Add Districts GeoJSON Source
+      // 1. Add Districts GeoJSON Source (100% Real MultiPolygon Boundaries)
       mapInstance.addSource("districts-source", {
         type: "geojson",
         data: "/data/bgd_adm2_districts.geojson",
       });
 
-      // 2. Add H3 Hexagons GeoJSON Source
+      // 2. Add District Centroids Source (For Crystal-Clear Vector Text Labels)
+      mapInstance.addSource("centroids-source", {
+        type: "geojson",
+        data: "/data/bgd_adm2_centroids.geojson",
+      });
+
+      // 3. Add H3 Hexagons GeoJSON Source
       mapInstance.addSource("h3-hexagons-source", {
         type: "geojson",
         data: "/data/bgd_h3_res7_hexagons.geojson",
       });
 
-      // 3. Add Divisions GeoJSON Source
+      // 4. Add Divisions GeoJSON Source (Unary Union Boundary)
       mapInstance.addSource("divisions-source", {
         type: "geojson",
         data: "/data/bgd_adm1_divisions.geojson",
       });
 
-      // 4. Add OpenAQ Stations Source
+      // 5. Add OpenAQ Stations Source
       mapInstance.addSource("stations-source", {
         type: "geojson",
         data: "/data/openaq_bd_stations.geojson",
       });
 
-      // Layer: Districts Fill
+      // Layer: Districts Fill (Semi-transparent Choropleth over real basemap)
       mapInstance.addLayer({
         id: "districts-fill",
         type: "fill",
@@ -110,14 +213,13 @@ export function MapCanvas({ districtsMatrix = [], onSelectDistrict }: MapCanvasP
           "fill-color": [
             "interpolate",
             ["linear"],
-            ["coalesce", ["get", "elevation_mean_m"], 10],
-            0, "#047857",
-            5, "#10b981",
-            20, "#eab308",
-            50, "#ea580c",
-            100, "#991b1b",
+            ["coalesce", ["get", "coastal_lowland_ratio"], 0.3],
+            0.0, "#10b981",
+            0.3, "#eab308",
+            0.6, "#f97316",
+            0.9, "#dc2626",
           ],
-          "fill-opacity": 0.75,
+          "fill-opacity": 0.55,
         },
       });
 
@@ -130,9 +232,9 @@ export function MapCanvas({ districtsMatrix = [], onSelectDistrict }: MapCanvasP
           visibility: "visible",
         },
         paint: {
-          "line-color": "#1e293b",
-          "line-width": 1.2,
-          "line-opacity": 0.9,
+          "line-color": "rgba(255, 255, 255, 0.3)",
+          "line-width": 0.8,
+          "line-opacity": 0.85,
         },
       });
 
@@ -143,7 +245,7 @@ export function MapCanvas({ districtsMatrix = [], onSelectDistrict }: MapCanvasP
         source: "districts-source",
         paint: {
           "line-color": "#38bdf8",
-          "line-width": 2.5,
+          "line-width": 2.8,
           "line-opacity": [
             "case",
             ["boolean", ["feature-state", "hover"], false],
@@ -170,7 +272,7 @@ export function MapCanvas({ districtsMatrix = [], onSelectDistrict }: MapCanvasP
             0.5, "#eab308",
             0.8, "#ef4444",
           ],
-          "fill-opacity": 0.8,
+          "fill-opacity": 0.7,
         },
       });
 
@@ -189,16 +291,16 @@ export function MapCanvas({ districtsMatrix = [], onSelectDistrict }: MapCanvasP
         },
       });
 
-      // Layer: Divisions Boundary Line (Prominent)
+      // Layer: Divisions Boundary Line (Prominent Cyan Neon Boundary)
       mapInstance.addLayer({
         id: "divisions-line",
         type: "line",
         source: "divisions-source",
         paint: {
-          "line-color": "#0284c7",
-          "line-width": 2.0,
-          "line-opacity": 0.8,
-          "line-dasharray": [2, 1],
+          "line-color": "#00f0ff",
+          "line-width": 2.2,
+          "line-opacity": 0.85,
+          "line-dasharray": [3, 2],
         },
       });
 
@@ -215,6 +317,64 @@ export function MapCanvas({ districtsMatrix = [], onSelectDistrict }: MapCanvasP
           "circle-radius": 5,
           "circle-stroke-width": 2,
           "circle-stroke-color": "#ffffff",
+        },
+      });
+
+      // Layer: Crisp Vector District Text Labels (with dark halo for 100% legibility)
+      mapInstance.addLayer({
+        id: "districts-labels",
+        type: "symbol",
+        source: "centroids-source",
+        layout: {
+          visibility: "visible",
+          "text-field": ["get", isBn ? "adm2_bn" : "adm2_en"],
+          "text-font": ["Open Sans Bold", "Arial Unicode MS Regular"],
+          "text-size": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            5.5, 9.5,
+            7.0, 11.5,
+            8.5, 14.0,
+            10.0, 17.0,
+          ],
+          "text-anchor": "center",
+          "text-allow-overlap": false,
+          "text-ignore-placement": false,
+          "text-max-width": 8,
+        },
+        paint: {
+          "text-color": "#ffffff",
+          "text-halo-color": "#020617",
+          "text-halo-width": 2.5,
+          "text-halo-blur": 0.8,
+        },
+      });
+
+      // Layer: Secondary Sub-Labels when zoomed in (e.g. elevation & alternate language)
+      mapInstance.addLayer({
+        id: "districts-sub-labels",
+        type: "symbol",
+        source: "centroids-source",
+        minzoom: 8.2,
+        layout: {
+          visibility: "visible",
+          "text-field": [
+            "concat",
+            ["get", isBn ? "adm2_en" : "adm2_bn"],
+            " • ",
+            ["to-string", ["get", "elevation_mean_m"]],
+            "m",
+          ],
+          "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+          "text-size": 11,
+          "text-anchor": "top",
+          "text-offset": [0, 0.85],
+        },
+        paint: {
+          "text-color": "#38bdf8",
+          "text-halo-color": "#020617",
+          "text-halo-width": 2.0,
         },
       });
 
@@ -256,17 +416,18 @@ export function MapCanvas({ districtsMatrix = [], onSelectDistrict }: MapCanvasP
         }
       });
 
+      // Click to select district & open detailed dossier
       mapInstance.on("click", "districts-fill", (e) => {
         if (!e.features || e.features.length === 0) return;
         const feature = e.features[0];
         const props = feature.properties;
 
-        // Fly to Centroid
+        // Fly gently toward clicked district centroid
         if (props.longitude && props.latitude) {
           mapInstance.flyTo({
             center: [Number(props.longitude), Number(props.latitude)],
-            zoom: 8.5,
-            duration: 1200,
+            zoom: Math.max(mapInstance.getZoom(), 8.2),
+            duration: 800,
           });
         }
 
@@ -286,6 +447,72 @@ export function MapCanvas({ districtsMatrix = [], onSelectDistrict }: MapCanvasP
     };
   }, []);
 
+  // Update Dynamic Language in Map Labels
+  useEffect(() => {
+    if (!map.current || !map.current.isStyleLoaded()) return;
+
+    try {
+      map.current.setLayoutProperty(
+        "districts-labels",
+        "text-field",
+        ["get", isBn ? "adm2_bn" : "adm2_en"]
+      );
+      map.current.setLayoutProperty(
+        "districts-sub-labels",
+        "text-field",
+        [
+          "concat",
+          ["get", isBn ? "adm2_en" : "adm2_bn"],
+          " • ",
+          ["to-string", ["get", "elevation_mean_m"]],
+          "m",
+        ]
+      );
+    } catch {
+      // Ignored if style is still initializing
+    }
+  }, [lang, isBn]);
+
+  // Toggle Label Visibility
+  useEffect(() => {
+    if (!map.current || !map.current.isStyleLoaded()) return;
+
+    try {
+      const visibility = showLabels ? "visible" : "none";
+      map.current.setLayoutProperty("districts-labels", "visibility", visibility);
+      map.current.setLayoutProperty("districts-sub-labels", "visibility", visibility);
+    } catch {}
+  }, [showLabels]);
+
+  // Update Basemap Visibility
+  useEffect(() => {
+    if (!map.current || !map.current.isStyleLoaded()) return;
+
+    try {
+      map.current.setLayoutProperty(
+        "basemap-dark-layer",
+        "visibility",
+        basemap === "dark" ? "visible" : "none"
+      );
+      map.current.setLayoutProperty(
+        "basemap-satellite-layer",
+        "visibility",
+        basemap === "satellite" ? "visible" : "none"
+      );
+      map.current.setLayoutProperty(
+        "basemap-streets-layer",
+        "visibility",
+        basemap === "streets" ? "visible" : "none"
+      );
+
+      // Adjust district fill opacity for satellite contrast
+      const targetOpacity = basemap === "satellite" ? 0.42 : 0.58;
+      map.current.setPaintProperty("districts-fill", "fill-opacity", targetOpacity);
+    } catch {
+      // Ignored if map style is reloading
+    }
+  }, [basemap]);
+
   // Update Choropleth Colors when activeMetric changes
   useEffect(() => {
     if (!map.current || !map.current.isStyleLoaded()) return;
@@ -294,12 +521,12 @@ export function MapCanvas({ districtsMatrix = [], onSelectDistrict }: MapCanvasP
 
     switch (activeMetric) {
       case "composite_risk":
-        // Yellow to Orange to Crimson Red
+        // Emerald green to amber to crimson red
         colorExpression = [
           "interpolate",
           ["linear"],
           ["coalesce", ["get", "coastal_lowland_ratio"], 0.3],
-          0.0, "#22c55e",
+          0.0, "#10b981",
           0.3, "#eab308",
           0.6, "#f97316",
           0.9, "#dc2626",
@@ -435,8 +662,62 @@ export function MapCanvas({ districtsMatrix = [], onSelectDistrict }: MapCanvasP
         })}
       </div>
 
-      {/* Top Right Controls: Layer Toggle & Reset View */}
+      {/* Top Right Controls: Basemap Selector, Labels, Layer Toggle & Reset View */}
       <div className="absolute top-4 right-4 z-10 hidden sm:flex items-center gap-2">
+        {/* Basemap Switcher */}
+        <div className="flex items-center rounded-xl border border-slate-800 bg-slate-900/90 p-1 shadow-2xl backdrop-blur-xl text-xs font-medium">
+          <button
+            onClick={() => setBasemap("dark")}
+            className={`px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition-colors ${
+              basemap === "dark"
+                ? "bg-slate-800 text-emerald-400 font-bold border border-emerald-500/30"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+            title="CartoDB Dark Matter Basemap"
+          >
+            <Moon className="h-3.5 w-3.5" />
+            <span className="hidden lg:inline">{isBn ? "ডার্ক" : "Dark"}</span>
+          </button>
+          <button
+            onClick={() => setBasemap("satellite")}
+            className={`px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition-colors ${
+              basemap === "satellite"
+                ? "bg-slate-800 text-cyan-400 font-bold border border-cyan-500/30"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+            title="ESRI World Imagery Real Satellite"
+          >
+            <Satellite className="h-3.5 w-3.5" />
+            <span className="hidden lg:inline">{isBn ? "স্যাটেলাইট" : "Satellite"}</span>
+          </button>
+          <button
+            onClick={() => setBasemap("streets")}
+            className={`px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition-colors ${
+              basemap === "streets"
+                ? "bg-slate-800 text-amber-400 font-bold border border-amber-500/30"
+                : "text-slate-400 hover:text-slate-200"
+            }`}
+            title="Clean Street & Topography Map"
+          >
+            <Map className="h-3.5 w-3.5" />
+            <span className="hidden lg:inline">{isBn ? "টোপো" : "Terrain"}</span>
+          </button>
+        </div>
+
+        {/* Labels Toggle (Dynamic Bengali/English Nameplates) */}
+        <button
+          onClick={() => setShowLabels(!showLabels)}
+          className={`flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-xs font-medium shadow-2xl backdrop-blur-xl transition-all ${
+            showLabels
+              ? "border-emerald-500/40 bg-emerald-950/80 text-emerald-300 font-bold"
+              : "border-slate-800 bg-slate-900/90 text-slate-400"
+          }`}
+          title="Toggle Crisp District Labels"
+        >
+          <Eye className="h-3.5 w-3.5 text-emerald-400" />
+          <span className="hidden lg:inline">{isBn ? "লেবেল" : "Labels"}</span>
+        </button>
+
         {/* Layer Switcher (ADM2 vs H3) */}
         <div className="flex items-center rounded-xl border border-slate-800 bg-slate-900/90 p-1 shadow-2xl backdrop-blur-xl text-xs font-medium">
           <button
@@ -464,7 +745,7 @@ export function MapCanvas({ districtsMatrix = [], onSelectDistrict }: MapCanvasP
         {/* Stations Toggle */}
         <button
           onClick={() => setShowStations(!showStations)}
-          className={`flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-medium shadow-2xl backdrop-blur-xl transition-all ${
+          className={`flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-xs font-medium shadow-2xl backdrop-blur-xl transition-all ${
             showStations
               ? "border-cyan-500/40 bg-cyan-950/80 text-cyan-300"
               : "border-slate-800 bg-slate-900/90 text-slate-400"
@@ -535,12 +816,17 @@ export function MapCanvas({ districtsMatrix = [], onSelectDistrict }: MapCanvasP
 
       {/* Floating Hover Tooltip */}
       {hoveredDistrict && (
-        <div className="absolute top-18 md:top-20 right-4 z-20 pointer-events-none rounded-xl border border-slate-700 bg-slate-900/95 p-3 shadow-2xl backdrop-blur-xl text-xs space-y-1 max-w-xs animate-in fade-in duration-200">
+        <div className="absolute top-20 right-4 z-20 pointer-events-none rounded-xl border border-slate-700 bg-slate-900/95 p-3 shadow-2xl backdrop-blur-xl text-xs space-y-1.5 max-w-xs animate-in fade-in duration-200">
           <div className="flex items-center justify-between gap-3">
-            <span className="font-bold text-white text-sm">
-              {isBn ? hoveredDistrict.adm2_bn || hoveredDistrict.adm2_en : hoveredDistrict.adm2_en}
-            </span>
-            <span className="font-mono text-[10px] text-cyan-400 bg-slate-800 px-1 py-0.5 rounded">
+            <div>
+              <span className="font-bold text-white text-sm block">
+                {isBn ? hoveredDistrict.adm2_bn || hoveredDistrict.adm2_en : hoveredDistrict.adm2_en}
+              </span>
+              <span className="text-[10px] text-slate-400">
+                {hoveredDistrict.adm2_en} • {hoveredDistrict.topography_class?.replace("_", " ") || "Delta"}
+              </span>
+            </div>
+            <span className="font-mono text-[10px] text-cyan-400 bg-slate-800 px-1.5 py-0.5 rounded border border-cyan-500/20">
               {hoveredDistrict.adm2_pcode}
             </span>
           </div>

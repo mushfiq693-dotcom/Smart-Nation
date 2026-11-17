@@ -28,7 +28,7 @@ import { api } from "../lib/api";
 
 export function Header() {
   const pathname = usePathname();
-  const { lang, toggleLang, t } = useI18n();
+  const { lang, toggleLang, setLang, t } = useI18n();
   const { role, setRole } = useAuth();
   const [roleMenuOpen, setRoleMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -315,7 +315,7 @@ export function Header() {
           {/* Language Switcher Pill matching unseenbangladesh: "বাং | EN" */}
           <div className="flex items-center bg-slate-900/80 border border-slate-700/80 rounded-full p-0.5 shadow-inner">
             <button
-              onClick={() => lang !== "bn" && toggleLang()}
+              onClick={() => setLang("bn")}
               className={`rounded-full px-2.5 py-1 text-xs font-bold transition-all ${
                 lang === "bn"
                   ? "bg-white text-slate-900 shadow-sm"
@@ -325,7 +325,7 @@ export function Header() {
               বাং
             </button>
             <button
-              onClick={() => lang !== "en" && toggleLang()}
+              onClick={() => setLang("en")}
               className={`rounded-full px-2.5 py-1 text-xs font-bold transition-all ${
                 lang === "en"
                   ? "bg-white text-slate-900 shadow-sm"

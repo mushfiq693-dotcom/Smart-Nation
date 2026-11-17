@@ -46,7 +46,7 @@ const MapCanvas = dynamic(
 );
 
 export default function Home() {
-  const { lang, toggleLang, t } = useI18n();
+  const { lang, toggleLang, setLang, t } = useI18n();
   const isBn = lang === "bn";
   const { role } = useAuth();
 
@@ -253,7 +253,7 @@ export default function Home() {
               {/* Mini Language Pill */}
               <div className="flex items-center bg-slate-950/60 border border-slate-700/60 rounded-full p-0.5 text-[10px]">
                 <button
-                  onClick={() => lang !== "bn" && toggleLang()}
+                  onClick={() => setLang("bn")}
                   className={`rounded-full px-2 py-0.5 font-bold transition-all ${
                     isBn ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-white"
                   }`}
@@ -261,7 +261,7 @@ export default function Home() {
                   বাং
                 </button>
                 <button
-                  onClick={() => lang !== "en" && toggleLang()}
+                  onClick={() => setLang("en")}
                   className={`rounded-full px-2 py-0.5 font-bold transition-all ${
                     !isBn ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-white"
                   }`}
@@ -439,6 +439,7 @@ export default function Home() {
                 districts.find((d) => d.adm2_pcode === "BD3026") ||
                 districts[0]
               }
+              onClose={() => setSelectedDistrict(null)}
             />
           </div>
         </div>
