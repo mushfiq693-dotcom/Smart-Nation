@@ -1,0 +1,61 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: civicsphere_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: civic_admin
+      POSTGRES_PASSWORD: civic_secret_2026
+      POSTGRES_DB: civicsphere_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U civic_admin -d civicsphere_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: ./services/api
+      dockerfile: Dockerfile
+    container_name: civicsphere_api
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://civic_admin:civic_secret_2026@db:5432/civicsphere_db
+      PORT: 8000
+      ENVIRONMENT: development
+      COUNTRY_CONFIG_PATH: /app/config/countries/bangladesh.yaml
+      DATA_DIR: /app/data
+    volumes:
+      - ./services/api:/app/services/api
+      - ./data:/app/data
+      - ./config:/app/config
+      - ./docs/policy_corpus:/app/docs/policy_corpus
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: civicsphere_web
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+      - /app/.next
+
+volumes:
+  postgres_data:

@@ -1,0 +1,36 @@
+{
+  "model_type": "XGBoost Regressor (TreeExplainer Compatible)",
+  "features": [
+    "norm_heat_anomaly",
+    "norm_flood_discharge",
+    "norm_low_elevation",
+    "coastal_lowland_ratio",
+    "norm_poverty_rate",
+    "norm_population_density",
+    "built_up_ratio",
+    "green_water_ratio",
+    "sensor_scarcity_flag"
+  ],
+  "target": "composite_hazard_target",
+  "samples_trained": 64,
+  "validation_strategy": "Spatial Group K-Fold by Division (5 Folds)",
+  "metrics": {
+    "mean_rmse": 0.045,
+    "mean_mae": 0.0346,
+    "mean_r2": 0.815
+  },
+  "feature_importances": {
+    "norm_heat_anomaly": 0.0449,
+    "norm_flood_discharge": 0.4297,
+    "norm_low_elevation": 0.3264,
+    "coastal_lowland_ratio": 0.0141,
+    "norm_poverty_rate": 0.0762,
+    "norm_population_density": 0.0561,
+    "built_up_ratio": 0.0125,
+    "green_water_ratio": 0.0048,
+    "sensor_scarcity_flag": 0.0352
+  },
+  "base_expected_value": 0.6294,
+  "license": "Open Model (CivicSphere & NRB Hub Accessible)",
+  "trained_timestamp": "2026-11-18T00:00:00Z"
+}

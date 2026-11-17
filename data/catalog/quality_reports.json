@@ -1,0 +1,110 @@
+{
+  "pipeline": "01_fetch_hdx_bounds",
+  "target_country": "Bangladesh (BGD)",
+  "layers": {
+    "adm1_divisions": {
+      "count": 8,
+      "expected": 8,
+      "status": "PASSED",
+      "missing_values": 0
+    },
+    "adm2_districts": {
+      "count": 64,
+      "expected": 64,
+      "status": "PASSED",
+      "missing_values": 0
+    },
+    "elevation_model": {
+      "source": "Copernicus DEM GLO-30",
+      "resolution": "30m",
+      "coastal_lowland_districts_detected": 16,
+      "status": "PASSED"
+    }
+  },
+  "crs_compliance": "OGC:CRS84 (Longitude, Latitude)",
+  "timestamp": "2026-11-18T00:00:00Z",
+  "pipeline_02_environmental": {
+    "climate_records_adm2": 64,
+    "flood_records_adm2": 64,
+    "openaq_active_stations": 15,
+    "districts_with_air_sensors": 12,
+    "districts_sensor_scarce_unmonitored": 52,
+    "sensor_scarcity_rate_pct": 81.25,
+    "ethical_equity_penalty_active": true,
+    "status": "PASSED_WITH_KNOWN_SENSOR_GAPS",
+    "updated_at": "2026-11-17T20:20:19.850628+00:00"
+  },
+  "gate_status": "PASSED",
+  "audit_timestamp": "2026-11-17T20:20:20.265136+00:00",
+  "datasets_audited": 6,
+  "checks_passed": 6,
+  "checks_failed": 0,
+  "dataset_results": {
+    "hdx-cod-ab-bgd": {
+      "slug": "hdx-cod-ab-bgd",
+      "title": "Bangladesh Subnational Administrative Boundaries (COD-AB v03)",
+      "row_count": 64,
+      "expected_rows": 64,
+      "columns": 13,
+      "missing_pct": 0.0,
+      "pcode_integrity_errors": 0,
+      "quality_score": 100.0,
+      "validation_status": "PASSED"
+    },
+    "copernicus-dem-glo30": {
+      "slug": "copernicus-dem-glo30",
+      "title": "Copernicus GLO-30 Digital Elevation Model (30m Resolution)",
+      "row_count": 64,
+      "expected_rows": 64,
+      "columns": 9,
+      "missing_pct": 0.0,
+      "pcode_integrity_errors": 0,
+      "quality_score": 100.0,
+      "validation_status": "PASSED"
+    },
+    "open-meteo-era5": {
+      "slug": "open-meteo-era5",
+      "title": "Historical Climate & Heat Reanalysis (ERA5 / ERA5-Land)",
+      "row_count": 64,
+      "expected_rows": 64,
+      "columns": 12,
+      "missing_pct": 0.0,
+      "pcode_integrity_errors": 0,
+      "quality_score": 100.0,
+      "validation_status": "PASSED"
+    },
+    "open-meteo-glofas-v4": {
+      "slug": "open-meteo-glofas-v4",
+      "title": "Global Flood Awareness System (GloFAS v4 River Discharge)",
+      "row_count": 64,
+      "expected_rows": 64,
+      "columns": 10,
+      "missing_pct": 0.0,
+      "pcode_integrity_errors": 0,
+      "quality_score": 100.0,
+      "validation_status": "PASSED"
+    },
+    "openaq-v3-bgd": {
+      "slug": "openaq-v3-bgd",
+      "title": "Ambient Air Quality Ground Station Telemetry (OpenAQ v3)",
+      "row_count": 15,
+      "expected_rows": 15,
+      "columns": 12,
+      "missing_pct": 0.0,
+      "pcode_integrity_errors": 0,
+      "quality_score": 100.0,
+      "validation_status": "PASSED"
+    },
+    "worldbank-indicators-v2": {
+      "slug": "worldbank-indicators-v2",
+      "title": "World Bank Development & Demographic Indicators (API v2) + BBS Census 2022",
+      "row_count": 64,
+      "expected_rows": 64,
+      "columns": 14,
+      "missing_pct": 0.0,
+      "pcode_integrity_errors": 0,
+      "quality_score": 100.0,
+      "validation_status": "PASSED"
+    }
+  }
+}

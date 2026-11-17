@@ -1,0 +1,140 @@
+[
+  {
+    "slug": "hdx-cod-ab-bgd",
+    "title": "Bangladesh Subnational Administrative Boundaries (COD-AB v03)",
+    "source_org": "UN OCHA / Bangladesh Bureau of Statistics (BBS)",
+    "license": "CC BY-IGO",
+    "provenance_class": "Official",
+    "reporting_period": "2022-2025 (BBS March 2025 Alignment)",
+    "spatial_coverage": "National & 64 Districts",
+    "records": 64,
+    "quality_score": 100.0,
+    "missing_pct": 0.0,
+    "quality_report": {
+      "slug": "hdx-cod-ab-bgd",
+      "title": "Bangladesh Subnational Administrative Boundaries (COD-AB v03)",
+      "row_count": 64,
+      "expected_rows": 64,
+      "columns": 13,
+      "missing_pct": 0.0,
+      "pcode_integrity_errors": 0,
+      "quality_score": 100.0,
+      "validation_status": "PASSED"
+    }
+  },
+  {
+    "slug": "copernicus-dem-glo30",
+    "title": "Copernicus GLO-30 Digital Elevation Model (30m Resolution)",
+    "source_org": "European Space Agency (ESA) / OpenTopography",
+    "license": "Free worldwide reproduction and adaptation",
+    "provenance_class": "Official",
+    "reporting_period": "2020-2024 Reference Baseline",
+    "spatial_coverage": "Bangladesh (30m Planar Grid)",
+    "records": 64,
+    "quality_score": 100.0,
+    "missing_pct": 0.0,
+    "quality_report": {
+      "slug": "copernicus-dem-glo30",
+      "title": "Copernicus GLO-30 Digital Elevation Model (30m Resolution)",
+      "row_count": 64,
+      "expected_rows": 64,
+      "columns": 9,
+      "missing_pct": 0.0,
+      "pcode_integrity_errors": 0,
+      "quality_score": 100.0,
+      "validation_status": "PASSED"
+    }
+  },
+  {
+    "slug": "open-meteo-era5",
+    "title": "Historical Climate & Heat Reanalysis (ERA5 / ERA5-Land)",
+    "source_org": "ECMWF / Open-Meteo",
+    "license": "CC BY 4.0 Non-commercial Free Tier",
+    "provenance_class": "Reanalysis_Estimate",
+    "reporting_period": "1950 - Present (Daily & Hourly)",
+    "spatial_coverage": "Bangladesh (0.1 deg ~11km grid)",
+    "records": 64,
+    "quality_score": 100.0,
+    "missing_pct": 0.0,
+    "quality_report": {
+      "slug": "open-meteo-era5",
+      "title": "Historical Climate & Heat Reanalysis (ERA5 / ERA5-Land)",
+      "row_count": 64,
+      "expected_rows": 64,
+      "columns": 12,
+      "missing_pct": 0.0,
+      "pcode_integrity_errors": 0,
+      "quality_score": 100.0,
+      "validation_status": "PASSED"
+    }
+  },
+  {
+    "slug": "open-meteo-glofas-v4",
+    "title": "Global Flood Awareness System (GloFAS v4 River Discharge)",
+    "source_org": "Copernicus EMS / Open-Meteo",
+    "license": "CC BY 4.0 Non-commercial Free Tier",
+    "provenance_class": "Reanalysis_Estimate",
+    "reporting_period": "1984 - Present + 7-Month Forecast",
+    "spatial_coverage": "Major River Basins (0.05 deg ~5km grid)",
+    "records": 64,
+    "quality_score": 100.0,
+    "missing_pct": 0.0,
+    "quality_report": {
+      "slug": "open-meteo-glofas-v4",
+      "title": "Global Flood Awareness System (GloFAS v4 River Discharge)",
+      "row_count": 64,
+      "expected_rows": 64,
+      "columns": 10,
+      "missing_pct": 0.0,
+      "pcode_integrity_errors": 0,
+      "quality_score": 100.0,
+      "validation_status": "PASSED"
+    }
+  },
+  {
+    "slug": "openaq-v3-bgd",
+    "title": "Ambient Air Quality Ground Station Telemetry (OpenAQ v3)",
+    "source_org": "OpenAQ Community / Department of Environment (DoE)",
+    "license": "Open Data with Attribution",
+    "provenance_class": "Official",
+    "reporting_period": "Real-time & Historical Telemetry",
+    "spatial_coverage": "Ground Monitoring Stations (Country ID: 128)",
+    "records": 15,
+    "quality_score": 100.0,
+    "missing_pct": 0.0,
+    "quality_report": {
+      "slug": "openaq-v3-bgd",
+      "title": "Ambient Air Quality Ground Station Telemetry (OpenAQ v3)",
+      "row_count": 15,
+      "expected_rows": 15,
+      "columns": 12,
+      "missing_pct": 0.0,
+      "pcode_integrity_errors": 0,
+      "quality_score": 100.0,
+      "validation_status": "PASSED"
+    }
+  },
+  {
+    "slug": "worldbank-indicators-v2",
+    "title": "World Bank Development & Demographic Indicators (API v2) + BBS Census 2022",
+    "source_org": "The World Bank Group / BBS",
+    "license": "CC BY 4.0",
+    "provenance_class": "Official",
+    "reporting_period": "2022 - 2024",
+    "spatial_coverage": "National & 64 Districts Disaggregated",
+    "records": 64,
+    "quality_score": 100.0,
+    "missing_pct": 0.0,
+    "quality_report": {
+      "slug": "worldbank-indicators-v2",
+      "title": "World Bank Development & Demographic Indicators (API v2) + BBS Census 2022",
+      "row_count": 64,
+      "expected_rows": 64,
+      "columns": 14,
+      "missing_pct": 0.0,
+      "pcode_integrity_errors": 0,
+      "quality_score": 100.0,
+      "validation_status": "PASSED"
+    }
+  }
+]

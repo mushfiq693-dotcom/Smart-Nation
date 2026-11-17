@@ -1,0 +1,14 @@
+{
+  "name": "civicsphere-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CivicSphere AI & ClimAct Twin Monorepo",
+  "workspaces": [
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=civicsphere-web",
+    "build": "npm run build --workspace=civicsphere-web",
+    "lint": "npm run lint --workspace=civicsphere-web"
+  }
+}

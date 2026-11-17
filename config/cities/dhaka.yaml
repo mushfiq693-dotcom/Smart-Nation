@@ -1,0 +1,85 @@
+city_meta:
+  code: "DHA"
+  name_en: "Dhaka Metropolitan Area"
+  name_bn: "ঢাকা মেট্রোপলিটন এলাকা"
+  parent_country: "BGD"
+  default_crs: "OGC:CRS84"
+  projected_crs: "EPSG:32646" # UTM Zone 46N
+  bounding_box:
+    min_lon: 90.3000
+    min_lat: 23.6500
+    max_lon: 90.5500
+    max_lat: 23.9500
+  map_center:
+    lat: 23.8103
+    lon: 90.4125
+    default_zoom: 11.5
+  currency:
+    primary: "BDT"
+    symbol: "৳"
+    exchange_rate_usd: 122.50
+  locales:
+    default: "en"
+    supported: ["en", "bn"]
+
+admin_hierarchy:
+  adm0:
+    name_en: "City"
+    name_bn: "শহর"
+    unit: "Greater Dhaka"
+  adm1:
+    name_en: "Corporations / Zones"
+    name_bn: "সিটি কর্পোরেশন / জোন"
+    units: ["Dhaka North City Corporation (DNCC)", "Dhaka South City Corporation (DSCC)"]
+  adm2:
+    name_en: "Thana / Police Station"
+    name_bn: "থানা"
+    count: 50
+    key_thanas:
+      - "Mirpur"
+      - "Mohammadpur"
+      - "Dhanmondi"
+      - "Gulshan"
+      - "Banani"
+      - "Uttara"
+      - "Motijheel"
+      - "Kotwali (Old Dhaka)"
+      - "Tejgaon"
+      - "Badda"
+      - "Khilgaon"
+      - "Jatrabari"
+      - "Savar"
+  adm3:
+    name_en: "Ward"
+    name_bn: "ওয়ার্ড"
+    count: 129 # DNCC 54 wards + DSCC 75 wards
+
+flagship_vertical:
+  code: "climact_twin_dhaka"
+  title_en: "ClimAct Dhaka: Megacity Heat Island, Air Quality & Waterlogging Twin"
+  title_bn: "ক্লাইমঅ্যাক্ট ঢাকা: মেগাসিটি তাপদ্বীপ, বায়ুদূষণ ও জলাবদ্ধতা ডিজিটাল টুইন"
+  key_hazards:
+    - code: "urban_heat_island"
+      name: "Urban Heat Island (UHI) & Surface Temp Anomaly"
+      indicator: "apparent_temp_anomaly_c"
+      threshold_critical: 38.0
+    - code: "particulate_air_pollution"
+      name: "Particulate Matter PM2.5 Exposure"
+      indicator: "pm25_ug_m3"
+      threshold_critical: 85.0
+    - code: "urban_waterlogging"
+      name: "Monsoon Waterlogging & Drainage Flash Flood"
+      indicator: "waterlogging_risk_index"
+      threshold_critical: 0.70
+    - code: "green_canopy_deficit"
+      name: "Tree Canopy Deficit & Built-up Density"
+      indicator: "impervious_surface_fraction"
+      threshold_critical: 0.75
+
+institutions:
+  municipal_north: "Dhaka North City Corporation (DNCC)"
+  municipal_south: "Dhaka South City Corporation (DSCC)"
+  development_authority: "Rajdhani Unnayan Kartripakkha (RAJUK)"
+  water_drainage: "Dhaka WASA"
+  environment: "Department of Environment (DoE)"
+  meteorology: "Bangladesh Meteorological Department (BMD)"

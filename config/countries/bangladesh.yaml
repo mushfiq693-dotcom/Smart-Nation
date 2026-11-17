@@ -1,0 +1,73 @@
+country_meta:
+  iso_alpha3: "BGD"
+  iso_alpha2: "BD"
+  name_en: "Bangladesh"
+  name_bn: "বাংলাদেশ"
+  default_crs: "OGC:CRS84" # Longitude, Latitude order
+  projected_crs: "EPSG:32645" # UTM Zone 45N for planar/meter calculations
+  bounding_box:
+    min_lon: 88.01
+    min_lat: 20.74
+    max_lon: 92.68
+    max_lat: 26.63
+  map_center:
+    lat: 23.6850
+    lon: 90.3563
+    default_zoom: 7.2
+  currency:
+    primary: "BDT"
+    symbol: "৳"
+    exchange_rate_usd: 122.50
+  locales:
+    default: "en"
+    supported: ["en", "bn"]
+
+admin_hierarchy:
+  adm0:
+    name_en: "National"
+    name_bn: "জাতীয়"
+    count: 1
+  adm1:
+    name_en: "Division"
+    name_bn: "বিভাগ"
+    pcode_prefix: "BD"
+    count: 8
+    units: ["Barishal", "Chattogram", "Dhaka", "Khulna", "Mymensingh", "Rajshahi", "Rangpur", "Sylhet"]
+  adm2:
+    name_en: "District"
+    name_bn: "জেলা"
+    count: 64
+  adm3:
+    name_en: "Upazila / City Corporation"
+    name_bn: "উপজেলা / সিটি কর্পোরেশন"
+    count: 507 # 495 Upazilas + 12 City Corporations (HDX COD-AB v03)
+
+flagship_vertical:
+  code: "climact_twin"
+  title_en: "ClimAct Twin: Urban Heat, Air Quality & Flood Resilience Simulator"
+  title_bn: "ক্লাইমঅ্যাক্ট টুইন: নগর তাপদাহ, বায়ুমান ও বন্যা সহনশীলতা সিমুলেটর"
+  key_hazards:
+    - code: "heat"
+      name: "Extreme Urban Heat & Heatwave Anomaly"
+      indicator: "apparent_temp_anomaly_c"
+      threshold_critical: 40.0
+    - code: "air_quality"
+      name: "Particulate Matter PM2.5 Pollution"
+      indicator: "pm25_ug_m3"
+      threshold_critical: 75.0
+    - code: "flood"
+      name: "Monsoon & River Discharge Flood Exposure"
+      indicator: "glofas_p75_discharge"
+      threshold_critical: 0.85
+    - code: "low_elevation"
+      name: "Low-lying Elevation & Storm Inundation"
+      indicator: "elevation_p10_m"
+      threshold_critical: 5.0
+
+institutions:
+  statistics: "Bangladesh Bureau of Statistics (BBS)"
+  hydrology: "Bangladesh Water Development Board (BWDB) / FFWC"
+  meteorology: "Bangladesh Meteorological Department (BMD)"
+  environment: "Department of Environment (DoE)"
+  planning: "Ministry of Planning / Local Government Division (LGD)"
+  urban_dev: "Rajdhani Unnayan Kartripakkha (RAJUK)"

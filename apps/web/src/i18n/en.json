@@ -1,0 +1,72 @@
+{
+  "brand": "CivicSphere AI",
+  "tagline": "One Nation. One Evidence Layer. From Public Data to Better Decisions.",
+  "pilot": "Bangladesh National & Regional Data Intelligence",
+  "vertical": "ClimAct Twin (Heat, AQI & Flood Resilience)",
+  "badge_lakehouse": "Dual-Engine Spatial Lakehouse",
+  "badge_ml": "XGBoost Regressor (R² = 0.815)",
+  "badge_live": "API & DB Connected",
+  "badge_offline": "Local Cached Mode",
+  "nav": {
+    "dashboard": "National Overview",
+    "simulator": "ClimAct Policy Simulator",
+    "data_hub": "Data Hub & Catalog",
+    "copilot": "AI Policy Copilot",
+    "outcomes": "Outcomes Tracker",
+    "governance": "Governance & NRB Hub"
+  },
+  "roles": {
+    "Public_Portal": {
+      "title": "Public Transparency",
+      "badge": "Public",
+      "desc": "Read-only access to published climate indicators and open models."
+    },
+    "Municipal_Analyst": {
+      "title": "Municipal Analyst",
+      "badge": "Analyst",
+      "desc": "Simulate what-if budget allocations and inspect SHAP explainability."
+    },
+    "Policy_Reviewer": {
+      "title": "Policy Reviewer",
+      "badge": "Reviewer",
+      "desc": "Review simulation trade-offs, generate policy memos, and audit outcomes."
+    },
+    "System_Admin": {
+      "title": "System Administrator",
+      "badge": "Admin",
+      "desc": "Full governance access, audit log trails, and pipeline triggers."
+    }
+  },
+  "metrics": {
+    "districts_count": "64 Districts",
+    "divisions_count": "8 Divisions",
+    "census_pop": "165.1M Citizens",
+    "sensor_scarcity": "12 Monitored / 52 Scarce",
+    "model_accuracy": "R² = 0.815 (Spatial CV)",
+    "lakehouse_latency": "< 10ms Query Latency",
+    "risk_score": "Composite Hazard Risk (R̂_i)",
+    "heat_anomaly": "Heatwave Anomaly (°C)",
+    "flood_discharge": "River Discharge (m³/s)",
+    "pm25": "PM2.5 Ambient AQI (µg/m³)",
+    "elevation": "Elevation Mean (m)",
+    "poverty_rate": "Poverty Headcount (%)",
+    "equity_weight": "Equity Factor (α_equity)"
+  },
+  "actions": {
+    "run_simulation": "Run What-If Simulation",
+    "generate_brief": "Generate Cabinet Memo",
+    "export_markdown": "Export Markdown",
+    "view_shap": "Inspect SHAP Drivers",
+    "view_details": "View District Dossier",
+    "ask_copilot": "Query Grounded AI Copilot",
+    "filter_all": "All 64 Districts",
+    "filter_sensor_scarce": "Sensor-Scarce Districts Only",
+    "toggle_lang": "বাংলায় দেখুন",
+    "switch_role": "Switch Role"
+  },
+  "footer": {
+    "govt_title": "People's Republic of Bangladesh — Decision Support Architecture",
+    "copyright": "Built for DIU AI Builders Congress 2026 · CivicSphere AI & ClimAct Twin",
+    "open_data": "Open Data Licenses: HDX COD-AB (CC-BY), Copernicus GLO-30, Open-Meteo ERA5/GloFAS, OpenAQ v3 (ODbL), BBS Census 2022."
+  }
+}
