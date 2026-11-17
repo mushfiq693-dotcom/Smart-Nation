@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import {
@@ -51,7 +51,6 @@ export default function Home() {
   const { role } = useAuth();
 
   const [districts, setDistricts] = useState<any[]>([]);
-  const [filteredDistricts, setFilteredDistricts] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [sensorScarceOnly, setSensorScarceOnly] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -70,7 +69,6 @@ export default function Home() {
         if (isMounted) {
           const list = data.results || data.records || [];
           setDistricts(list);
-          setFilteredDistricts(list);
           setLoading(false);
         }
       })
@@ -82,8 +80,8 @@ export default function Home() {
     };
   }, []);
 
-  useEffect(() => {
-    let list = [...districts];
+  const filteredDistricts = useMemo(() => {
+    let list = districts;
     if (sensorScarceOnly) {
       list = list.filter((d) => !d.has_ground_aq_station);
     }
@@ -96,8 +94,25 @@ export default function Home() {
           d.adm2_pcode?.toLowerCase().includes(q)
       );
     }
-    setFilteredDistricts(list);
+    return list;
   }, [searchQuery, sensorScarceOnly, districts]);
+
+  const handleSelectDistrict = useCallback((dist: any) => {
+    setSelectedDistrict(dist);
+  }, []);
+
+  const handleCloseDossier = useCallback(() => {
+    setSelectedDistrict(null);
+  }, []);
+
+  const activeDistrict = useMemo(() => {
+    return (
+      selectedDistrict ||
+      districts.find((d) => d.adm2_pcode === "BD3026") ||
+      districts[0] ||
+      null
+    );
+  }, [selectedDistrict, districts]);
 
   const quickPrompts = isBn
     ? [
@@ -428,18 +443,14 @@ export default function Home() {
           <div className="lg:col-span-8 rounded-3xl overflow-hidden border border-white/15 shadow-2xl bg-slate-950">
             <MapCanvas
               districtsMatrix={districts}
-              onSelectDistrict={(dist) => setSelectedDistrict(dist)}
+              onSelectDistrict={handleSelectDistrict}
             />
           </div>
 
           <div className="lg:col-span-4">
             <DistrictDossier
-              district={
-                selectedDistrict ||
-                districts.find((d) => d.adm2_pcode === "BD3026") ||
-                districts[0]
-              }
-              onClose={() => setSelectedDistrict(null)}
+              district={activeDistrict}
+              onClose={handleCloseDossier}
             />
           </div>
         </div>

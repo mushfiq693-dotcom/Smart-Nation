@@ -33,9 +33,14 @@ interface MapCanvasProps {
   onSelectDistrict?: (district: any) => void;
 }
 
-export function MapCanvas({ districtsMatrix = [], onSelectDistrict }: MapCanvasProps) {
+function MapCanvasComponent({ districtsMatrix = [], onSelectDistrict }: MapCanvasProps) {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maplibregl.Map | null>(null);
+  const onSelectDistrictRef = useRef(onSelectDistrict);
+  onSelectDistrictRef.current = onSelectDistrict;
+  const districtsMatrixRef = useRef(districtsMatrix);
+  districtsMatrixRef.current = districtsMatrix;
+
   const [activeMetric, setActiveMetric] = useState<MetricType>("composite_risk");
   const [activeLayer, setActiveLayer] = useState<"adm2" | "h3">("adm2");
   const [basemap, setBasemap] = useState<BasemapType>("dark");
@@ -431,10 +436,10 @@ export function MapCanvas({ districtsMatrix = [], onSelectDistrict }: MapCanvasP
           });
         }
 
-        if (onSelectDistrict) {
+        if (onSelectDistrictRef.current) {
           // Merge with full matrix attributes if available
-          const fullRecord = districtsMatrix.find((d) => d.adm2_pcode === props.adm2_pcode) || props;
-          onSelectDistrict(fullRecord);
+          const fullRecord = districtsMatrixRef.current.find((d) => d.adm2_pcode === props.adm2_pcode) || props;
+          onSelectDistrictRef.current(fullRecord);
         }
       });
     });
@@ -858,3 +863,5 @@ export function MapCanvas({ districtsMatrix = [], onSelectDistrict }: MapCanvasP
     </div>
   );
 }
+
+export const MapCanvas = React.memo(MapCanvasComponent);

@@ -25,19 +25,32 @@ interface DistrictDossierProps {
   onClose?: () => void;
 }
 
+// In-memory cache to prevent redundant network fetches
+const shapCache = new Map<string, any>();
+
 export function DistrictDossier({ district, onClose }: DistrictDossierProps) {
   const { lang, t } = useI18n();
   const [shapData, setShapData] = useState<any | null>(null);
   const [loadingShap, setLoadingShap] = useState(false);
 
+  const pcode = district?.adm2_pcode;
+
   useEffect(() => {
-    if (!district || !district.adm2_pcode) return;
+    if (!pcode) return;
+
+    const cacheKey = `${pcode}_${lang}`;
+    if (shapCache.has(cacheKey)) {
+      setShapData(shapCache.get(cacheKey));
+      setLoadingShap(false);
+      return;
+    }
 
     let isMounted = true;
     setLoadingShap(true);
     api
-      .getExplainability(district.adm2_pcode, lang)
+      .getExplainability(pcode, lang)
       .then((data) => {
+        shapCache.set(cacheKey, data);
         if (isMounted) {
           setShapData(data);
           setLoadingShap(false);
@@ -53,7 +66,7 @@ export function DistrictDossier({ district, onClose }: DistrictDossierProps) {
     return () => {
       isMounted = false;
     };
-  }, [district, lang]);
+  }, [pcode, lang]);
 
   if (!district) return null;
 
@@ -62,7 +75,7 @@ export function DistrictDossier({ district, onClose }: DistrictDossierProps) {
   const isSensorScarce = district.air_station_count === 0;
 
   return (
-    <div className="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-slate-950/95 border-l border-slate-800 shadow-2xl backdrop-blur-2xl flex flex-col justify-between overflow-y-auto">
+    <div className="w-full rounded-3xl border border-white/15 bg-slate-950/80 backdrop-blur-2xl shadow-2xl flex flex-col justify-between overflow-hidden max-h-[700px] overflow-y-auto">
       {/* Dossier Header */}
       <div>
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-800 bg-slate-900/90 px-6 py-4 backdrop-blur-md">

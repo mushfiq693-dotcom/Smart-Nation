@@ -51,7 +51,7 @@ export default function CopilotPage() {
       content: isBn
         ? "আসসালামু আলাইকুম! আমি সিভিকস্ফেয়ার এআই এর গ্রাউন্ডেড পলিসি কোপাইলট (AI Policy Copilot)। আমি ডাকডিবি স্থানিক লেকহাউস, এক্সজিবুস্ট-শ্যাপ ঝুঁকি মডেল এবং জাতীয় অভিযোজন পরিকল্পনা (NAP) ও মুজিব ক্লাইমেট প্ল্যান ২০৩০ থেকে সুনির্দিষ্ট তথ্য সরবরাহ করতে পারি। আপনি কীভাবে সহায়তা চান?"
         : "Welcome to CivicSphere AI Grounded Policy Copilot. I execute deterministic tool calls against our spatial lakehouse, XGBoost SHAP attribution models, and the official National Adaptation Plan (NAP 2023) corpus. How can I assist your policy inquiry?",
-      timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      timestamp: "10:00 AM",
     },
   ]);
 
@@ -94,7 +94,7 @@ export default function CopilotPage() {
       id: userMsgId,
       sender: "user",
       content: query,
-      timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      timestamp: "10:00 AM",
     };
 
     setMessages((prev) => [...prev, userMsg]);
@@ -120,7 +120,7 @@ export default function CopilotPage() {
         citations: res.citations,
         securityFlag: res.security_flag,
         latencyMs: res.execution_latency_ms,
-        timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        timestamp: "10:00 AM",
       };
 
       setMessages((prev) => [...prev, copilotMsg]);
@@ -133,7 +133,7 @@ export default function CopilotPage() {
           content: isBn
             ? `দুঃখিত, অনুরোধটি প্রক্রিয়াকরণে সমস্যা হয়েছে: ${err.message}`
             : `Unable to process query: ${err.message}`,
-          timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+          timestamp: "10:00 AM",
         },
       ]);
     } finally {
@@ -265,7 +265,7 @@ export default function CopilotPage() {
                   </div>
                 )}
 
-                <div className="text-[10px] text-slate-500 text-right font-mono">{m.timestamp}</div>
+                <div className="text-[10px] text-slate-500 text-right font-mono" suppressHydrationWarning>{m.timestamp}</div>
               </div>
 
               {m.sender === "user" && (
