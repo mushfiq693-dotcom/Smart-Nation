@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent.parent
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=str(BASE_DIR / ".env"), extra="ignore")
 
-    PROJECT_NAME: str = "CivicSphere AI & ClimAct Twin API"
+    PROJECT_NAME: str = "CivicSphere AI & Delta Twin — Bangladesh Climate & Policy Simulation Platform"
     VERSION: str = "1.0.0"
     API_V1_PREFIX: str = "/api/v1"
     ENVIRONMENT: str = "development"

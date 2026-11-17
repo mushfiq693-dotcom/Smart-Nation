@@ -6,12 +6,12 @@ from app.routers import auth, governance, regions, data_hub, simulate, copilot, 
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
-    description="CivicSphere AI & ClimAct Twin: Dual-Engine Public Data Intelligence & Policy Simulation Platform",
+    description="Delta AI: Dual-Engine Public Data Intelligence & Policy Simulation Platform for Bangladesh Delta Plan 2100",
     docs_url="/docs",
     redoc_url="/redoc",
 )
 
-# CORS setup
+# CORS setup - supports local development and production Vercel deployments
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -20,7 +20,7 @@ app.add_middleware(
         "http://localhost:8000",
         "http://127.0.0.1:8000",
     ],
-    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:[0-9]+)?",
+    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:[0-9]+)?|https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
