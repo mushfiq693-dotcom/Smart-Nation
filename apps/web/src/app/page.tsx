@@ -30,6 +30,8 @@ import { useI18n } from "../context/I18nContext";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../lib/api";
 import { DistrictDossier } from "../components/Map/DistrictDossier";
+import { MapControlPanel } from "../components/Map/MapControlPanel";
+import type { MetricType, BasemapType } from "../components/Map/MapCanvas";
 
 // Dynamically import MapCanvas to avoid SSR WebGL issues
 const MapCanvas = dynamic(
@@ -55,6 +57,12 @@ export default function Home() {
   const [sensorScarceOnly, setSensorScarceOnly] = useState(false);
   const [loading, setLoading] = useState(true);
   const [selectedDistrict, setSelectedDistrict] = useState<any | null>(null);
+  const [activeMetric, setActiveMetric] = useState<MetricType>("composite_risk");
+  const [activeLayer, setActiveLayer] = useState<"adm2" | "h3">("adm2");
+  const [basemap, setBasemap] = useState<BasemapType>("dark");
+  const [showLabels, setShowLabels] = useState<boolean>(true);
+  const [showStations, setShowStations] = useState<boolean>(true);
+  const [rightPanelTab, setRightPanelTab] = useState<"controls" | "dossier">("controls");
 
   // Hero AI Assistant Search State
   const [heroPrompt, setHeroPrompt] = useState("");
@@ -99,10 +107,12 @@ export default function Home() {
 
   const handleSelectDistrict = useCallback((dist: any) => {
     setSelectedDistrict(dist);
+    setRightPanelTab("dossier");
   }, []);
 
   const handleCloseDossier = useCallback(() => {
     setSelectedDistrict(null);
+    setRightPanelTab("controls");
   }, []);
 
   const activeDistrict = useMemo(() => {
@@ -207,13 +217,6 @@ export default function Home() {
 
         {/* Hero Title & Subtitle */}
         <div className="mx-auto max-w-4xl text-center space-y-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-950/40 px-4 py-1 text-xs text-emerald-300 backdrop-blur-md shadow-sm mb-2">
-            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="font-semibold">{isBn ? "জাতীয় স্থানিক ইন্টেলিজেন্স প্ল্যাটফর্ম" : "National Spatial Decision Twin"}</span>
-            <span className="text-slate-500">&middot;</span>
-            <span className="font-mono text-cyan-300">BBS & HDX COD-AB</span>
-          </div>
-
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-center leading-[1.12]">
             {isBn ? (
               <>
@@ -251,8 +254,8 @@ export default function Home() {
             {/* Header Line inside Card */}
             <div className="flex items-center justify-between pb-3 border-b border-white/10 text-xs">
               <div className="flex items-center gap-2 text-slate-300">
-                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-tr from-pink-500 via-purple-500 to-indigo-500 text-white shadow-sm">
-                  <Sparkles className="h-3 w-3" />
+                <div className="flex h-6 w-6 items-center justify-center rounded-md bg-slate-900 border border-emerald-400/40 overflow-hidden p-0.5 shadow-sm">
+                  <img src="/delta-emblem-badge.png" alt="Delta AI" className="h-full w-full object-contain" />
                 </div>
                 <span className="font-semibold text-white">
                   {isBn ? "ডেল্টা এআই সহকারী" : "Delta AI Assistant"}
@@ -438,20 +441,70 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Map & District Dossier Grid */}
+        {/* Map & Right-side Intelligence Suite */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           <div className="lg:col-span-8 rounded-3xl overflow-hidden border border-white/15 shadow-2xl bg-slate-950">
             <MapCanvas
               districtsMatrix={districts}
               onSelectDistrict={handleSelectDistrict}
+              activeMetric={activeMetric}
+              setActiveMetric={setActiveMetric}
+              activeLayer={activeLayer}
+              setActiveLayer={setActiveLayer}
+              basemap={basemap}
+              setBasemap={setBasemap}
+              showLabels={showLabels}
+              setShowLabels={setShowLabels}
+              showStations={showStations}
+              setShowStations={setShowStations}
             />
           </div>
 
-          <div className="lg:col-span-4">
-            <DistrictDossier
-              district={activeDistrict}
-              onClose={handleCloseDossier}
-            />
+          <div className="lg:col-span-4 space-y-3">
+            {/* Tab Header if a district is selected */}
+            {selectedDistrict && (
+              <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-slate-900/90 border border-white/10 shadow-lg backdrop-blur-xl">
+                <button
+                  onClick={() => setRightPanelTab("controls")}
+                  className={`flex-1 py-1.5 px-3 rounded-xl text-xs font-semibold transition-all ${
+                    rightPanelTab === "controls"
+                      ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm"
+                      : "text-slate-400 hover:text-slate-200"
+                  }`}
+                >
+                  ⚙️ {isBn ? "লেয়ার কন্ট্রোল" : "Layer Controls"}
+                </button>
+                <button
+                  onClick={() => setRightPanelTab("dossier")}
+                  className={`flex-1 py-1.5 px-3 rounded-xl text-xs font-semibold transition-all ${
+                    rightPanelTab === "dossier"
+                      ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm"
+                      : "text-slate-400 hover:text-slate-200"
+                  }`}
+                >
+                  📍 {isBn ? selectedDistrict.adm2_bn || selectedDistrict.adm2_en : selectedDistrict.adm2_en} {isBn ? "ডসিয়ার" : "Dossier"}
+                </button>
+              </div>
+            )}
+
+            {/* Panel View */}
+            {rightPanelTab === "dossier" && selectedDistrict ? (
+              <DistrictDossier
+                district={selectedDistrict}
+                onClose={handleCloseDossier}
+              />
+            ) : (
+              <MapControlPanel
+                activeMetric={activeMetric}
+                setActiveMetric={setActiveMetric}
+                activeLayer={activeLayer}
+                setActiveLayer={setActiveLayer}
+                basemap={basemap}
+                setBasemap={setBasemap}
+                showLabels={showLabels}
+                setShowLabels={setShowLabels}
+              />
+            )}
           </div>
         </div>
       </section>

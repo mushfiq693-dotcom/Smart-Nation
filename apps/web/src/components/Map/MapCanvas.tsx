@@ -28,12 +28,35 @@ export type MetricType =
 
 export type BasemapType = "dark" | "satellite" | "streets";
 
-interface MapCanvasProps {
+export interface MapCanvasProps {
   districtsMatrix?: any[];
   onSelectDistrict?: (district: any) => void;
+  activeMetric?: MetricType;
+  setActiveMetric?: (metric: MetricType) => void;
+  activeLayer?: "adm2" | "h3";
+  setActiveLayer?: (layer: "adm2" | "h3") => void;
+  basemap?: BasemapType;
+  setBasemap?: (basemap: BasemapType) => void;
+  showLabels?: boolean;
+  setShowLabels?: (show: boolean) => void;
+  showStations?: boolean;
+  setShowStations?: (show: boolean) => void;
 }
 
-function MapCanvasComponent({ districtsMatrix = [], onSelectDistrict }: MapCanvasProps) {
+function MapCanvasComponent({
+  districtsMatrix = [],
+  onSelectDistrict,
+  activeMetric: propActiveMetric,
+  setActiveMetric: propSetActiveMetric,
+  activeLayer: propActiveLayer,
+  setActiveLayer: propSetActiveLayer,
+  basemap: propBasemap,
+  setBasemap: propSetBasemap,
+  showLabels: propShowLabels,
+  setShowLabels: propSetShowLabels,
+  showStations: propShowStations,
+  setShowStations: propSetShowStations,
+}: MapCanvasProps) {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maplibregl.Map | null>(null);
   const onSelectDistrictRef = useRef(onSelectDistrict);
@@ -41,11 +64,26 @@ function MapCanvasComponent({ districtsMatrix = [], onSelectDistrict }: MapCanva
   const districtsMatrixRef = useRef(districtsMatrix);
   districtsMatrixRef.current = districtsMatrix;
 
-  const [activeMetric, setActiveMetric] = useState<MetricType>("composite_risk");
-  const [activeLayer, setActiveLayer] = useState<"adm2" | "h3">("adm2");
-  const [basemap, setBasemap] = useState<BasemapType>("dark");
-  const [showLabels, setShowLabels] = useState<boolean>(true);
-  const [showStations, setShowStations] = useState<boolean>(true);
+  const [internalMetric, setInternalMetric] = useState<MetricType>("composite_risk");
+  const activeMetric = propActiveMetric ?? internalMetric;
+  const setActiveMetric = propSetActiveMetric ?? setInternalMetric;
+
+  const [internalLayer, setInternalLayer] = useState<"adm2" | "h3">("adm2");
+  const activeLayer = propActiveLayer ?? internalLayer;
+  const setActiveLayer = propSetActiveLayer ?? setInternalLayer;
+
+  const [internalBasemap, setInternalBasemap] = useState<BasemapType>("dark");
+  const basemap = propBasemap ?? internalBasemap;
+  const setBasemap = propSetBasemap ?? setInternalBasemap;
+
+  const [internalLabels, setInternalLabels] = useState<boolean>(true);
+  const showLabels = propShowLabels ?? internalLabels;
+  const setShowLabels = propSetShowLabels ?? setInternalLabels;
+
+  const [internalStations, setInternalStations] = useState<boolean>(true);
+  const showStations = propShowStations ?? internalStations;
+  const setShowStations = propSetShowStations ?? setInternalStations;
+
   const [hoveredDistrict, setHoveredDistrict] = useState<any | null>(null);
   const { lang, t } = useI18n();
 
@@ -645,115 +683,15 @@ function MapCanvasComponent({ districtsMatrix = [], onSelectDistrict }: MapCanva
       {/* Map Canvas Element */}
       <div ref={mapContainer} className="w-full h-full" />
 
-      {/* Top Floating Control Bar: Metric Selector */}
-      <div className="absolute top-4 left-4 right-4 md:right-auto z-10 flex flex-wrap items-center gap-1.5 rounded-2xl border border-slate-800 bg-slate-900/90 p-1.5 shadow-2xl backdrop-blur-xl">
-        {metricButtons.map((btn) => {
-          const Icon = btn.icon;
-          const isActive = activeMetric === btn.id;
-          return (
-            <button
-              key={btn.id}
-              onClick={() => setActiveMetric(btn.id)}
-              className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-semibold transition-all ${
-                isActive
-                  ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 shadow-sm"
-                  : "text-slate-400 hover:bg-slate-800/80 hover:text-slate-200"
-              }`}
-            >
-              <Icon className={`h-3.5 w-3.5 ${isActive ? "text-emerald-400" : "text-slate-400"}`} />
-              <span>{btn.label}</span>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Top Right Controls: Basemap Selector, Labels, Layer Toggle & Reset View */}
-      <div className="absolute top-4 right-4 z-10 hidden sm:flex items-center gap-2">
-        {/* Basemap Switcher */}
-        <div className="flex items-center rounded-xl border border-slate-800 bg-slate-900/90 p-1 shadow-2xl backdrop-blur-xl text-xs font-medium">
-          <button
-            onClick={() => setBasemap("dark")}
-            className={`px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition-colors ${
-              basemap === "dark"
-                ? "bg-slate-800 text-emerald-400 font-bold border border-emerald-500/30"
-                : "text-slate-400 hover:text-slate-200"
-            }`}
-            title="CartoDB Dark Matter Basemap"
-          >
-            <Moon className="h-3.5 w-3.5" />
-            <span className="hidden lg:inline">{isBn ? "ডার্ক" : "Dark"}</span>
-          </button>
-          <button
-            onClick={() => setBasemap("satellite")}
-            className={`px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition-colors ${
-              basemap === "satellite"
-                ? "bg-slate-800 text-cyan-400 font-bold border border-cyan-500/30"
-                : "text-slate-400 hover:text-slate-200"
-            }`}
-            title="ESRI World Imagery Real Satellite"
-          >
-            <Satellite className="h-3.5 w-3.5" />
-            <span className="hidden lg:inline">{isBn ? "স্যাটেলাইট" : "Satellite"}</span>
-          </button>
-          <button
-            onClick={() => setBasemap("streets")}
-            className={`px-2.5 py-1 rounded-lg flex items-center gap-1.5 transition-colors ${
-              basemap === "streets"
-                ? "bg-slate-800 text-amber-400 font-bold border border-amber-500/30"
-                : "text-slate-400 hover:text-slate-200"
-            }`}
-            title="Clean Street & Topography Map"
-          >
-            <Map className="h-3.5 w-3.5" />
-            <span className="hidden lg:inline">{isBn ? "টোপো" : "Terrain"}</span>
-          </button>
-        </div>
-
-        {/* Labels Toggle (Dynamic Bengali/English Nameplates) */}
-        <button
-          onClick={() => setShowLabels(!showLabels)}
-          className={`flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-xs font-medium shadow-2xl backdrop-blur-xl transition-all ${
-            showLabels
-              ? "border-emerald-500/40 bg-emerald-950/80 text-emerald-300 font-bold"
-              : "border-slate-800 bg-slate-900/90 text-slate-400"
-          }`}
-          title="Toggle Crisp District Labels"
-        >
-          <Eye className="h-3.5 w-3.5 text-emerald-400" />
-          <span className="hidden lg:inline">{isBn ? "লেবেল" : "Labels"}</span>
-        </button>
-
-        {/* Layer Switcher (ADM2 vs H3) */}
-        <div className="flex items-center rounded-xl border border-slate-800 bg-slate-900/90 p-1 shadow-2xl backdrop-blur-xl text-xs font-medium">
-          <button
-            onClick={() => setActiveLayer("adm2")}
-            className={`px-3 py-1 rounded-lg transition-colors ${
-              activeLayer === "adm2"
-                ? "bg-emerald-500/20 text-emerald-300 font-bold"
-                : "text-slate-400 hover:text-slate-200"
-            }`}
-          >
-            ADM2 (64)
-          </button>
-          <button
-            onClick={() => setActiveLayer("h3")}
-            className={`px-3 py-1 rounded-lg transition-colors ${
-              activeLayer === "h3"
-                ? "bg-cyan-500/20 text-cyan-300 font-bold"
-                : "text-slate-400 hover:text-slate-200"
-            }`}
-          >
-            H3 Hex (448)
-          </button>
-        </div>
-
+      {/* Top Right Floating Controls: ONLY OpenAQ & Reset View as requested */}
+      <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
         {/* Stations Toggle */}
         <button
           onClick={() => setShowStations(!showStations)}
-          className={`flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-xs font-medium shadow-2xl backdrop-blur-xl transition-all ${
+          className={`flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold shadow-2xl backdrop-blur-xl transition-all ${
             showStations
-              ? "border-cyan-500/40 bg-cyan-950/80 text-cyan-300"
-              : "border-slate-800 bg-slate-900/90 text-slate-400"
+              ? "border-cyan-500/40 bg-cyan-950/85 text-cyan-300 shadow-cyan-950/50"
+              : "border-slate-800 bg-slate-900/90 text-slate-400 hover:text-slate-200"
           }`}
           title="Toggle OpenAQ Ground Stations"
         >
@@ -764,11 +702,11 @@ function MapCanvasComponent({ districtsMatrix = [], onSelectDistrict }: MapCanva
         {/* Reset View Button */}
         <button
           onClick={resetView}
-          className="flex items-center gap-1.5 rounded-xl border border-slate-800 bg-slate-900/90 px-3 py-1.5 text-xs font-medium text-slate-300 hover:border-slate-700 hover:bg-slate-800 shadow-2xl backdrop-blur-xl transition-colors"
+          className="flex items-center gap-1.5 rounded-xl border border-slate-800 bg-slate-900/90 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:border-slate-700 hover:bg-slate-800 shadow-2xl backdrop-blur-xl transition-colors"
           title="Reset to Bangladesh center"
         >
           <RotateCcw className="h-3.5 w-3.5 text-slate-400" />
-          <span className="hidden md:inline">{isBn ? "রিসেট" : "Reset"}</span>
+          <span>{isBn ? "রিসেট" : "Reset"}</span>
         </button>
       </div>
 
