@@ -72,7 +72,7 @@ function MapCanvasComponent({
   const activeLayer = propActiveLayer ?? internalLayer;
   const setActiveLayer = propSetActiveLayer ?? setInternalLayer;
 
-  const [internalBasemap, setInternalBasemap] = useState<BasemapType>("dark");
+  const [internalBasemap, setInternalBasemap] = useState<BasemapType>("streets");
   const basemap = propBasemap ?? internalBasemap;
   const setBasemap = propSetBasemap ?? setInternalBasemap;
 
@@ -166,7 +166,7 @@ function MapCanvasComponent({
           type: "raster",
           source: "carto-dark",
           layout: {
-            visibility: "visible",
+            visibility: "none",
           },
           paint: {
             "raster-opacity": 0.95,
@@ -188,7 +188,7 @@ function MapCanvasComponent({
           type: "raster",
           source: "carto-voyager",
           layout: {
-            visibility: "none",
+            visibility: "visible",
           },
           paint: {
             "raster-opacity": 0.95,

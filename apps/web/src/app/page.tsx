@@ -59,7 +59,7 @@ export default function Home() {
   const [selectedDistrict, setSelectedDistrict] = useState<any | null>(null);
   const [activeMetric, setActiveMetric] = useState<MetricType>("composite_risk");
   const [activeLayer, setActiveLayer] = useState<"adm2" | "h3">("adm2");
-  const [basemap, setBasemap] = useState<BasemapType>("dark");
+  const [basemap, setBasemap] = useState<BasemapType>("streets");
   const [showLabels, setShowLabels] = useState<boolean>(true);
   const [showStations, setShowStations] = useState<boolean>(true);
   const [rightPanelTab, setRightPanelTab] = useState<"controls" | "dossier">("controls");
@@ -543,12 +543,6 @@ export default function Home() {
               <MapControlPanel
                 activeMetric={activeMetric}
                 setActiveMetric={setActiveMetric}
-                activeLayer={activeLayer}
-                setActiveLayer={setActiveLayer}
-                basemap={basemap}
-                setBasemap={setBasemap}
-                showLabels={showLabels}
-                setShowLabels={setShowLabels}
               />
             )}
           </div>
