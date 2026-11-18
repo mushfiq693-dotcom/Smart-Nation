@@ -147,6 +147,31 @@ export function Header() {
     }
   };
 
+  const handleHomeClick = (e: React.MouseEvent) => {
+    setActiveDropdown(null);
+    setMobileMenuOpen(false);
+    if (pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.history.replaceState(null, "", "/");
+    }
+  };
+
+  const handleSimSelect = (e: React.MouseEvent, href: string) => {
+    setActiveDropdown(null);
+    setMobileMenuOpen(false);
+
+    if (href.includes("#") && pathname === href.split("#")[0]) {
+      e.preventDefault();
+      const id = href.split("#")[1];
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.history.replaceState(null, "", href);
+      }
+    }
+  };
+
   const simulationSubItems = [
     { href: "/simulator", label: lang === "bn" ? "বাজেট সিমুলেটর (What-If)" : "What-If Budget Simulator", icon: Sliders },
     { href: "/simulator#equity", label: lang === "bn" ? "ইকুইটি স্লাইডার (α_equity)" : "Equity Optimization Slider", icon: Sparkles },
@@ -165,7 +190,7 @@ export function Header() {
         className="pointer-events-auto mx-auto max-w-7xl glass-capsule rounded-full px-4 md:px-6 py-2.5 flex items-center justify-between transition-all duration-300 shadow-2xl border border-white/15 bg-slate-950/80 backdrop-blur-xl"
       >
         {/* Left: Brand Emblem & Title */}
-        <Link href="/" className="flex items-center gap-2.5 md:gap-3 group shrink-0">
+        <Link href="/" onClick={handleHomeClick} className="flex items-center gap-2.5 md:gap-3 group shrink-0">
           <div className="relative flex h-10 w-10 md:h-11 md:w-11 items-center justify-center rounded-2xl bg-slate-900/90 p-0.5 shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform duration-200 border border-emerald-400/40 overflow-hidden ring-1 ring-white/10">
             <img
               src="/delta-emblem-badge.png"
@@ -188,6 +213,7 @@ export function Header() {
           {/* 1. Home */}
           <Link
             href="/"
+            onClick={handleHomeClick}
             className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all ${
               pathname === "/" && !activeDropdown
                 ? "bg-white text-slate-900 shadow-md font-semibold"
@@ -268,7 +294,7 @@ export function Header() {
                     <Link
                       key={sub.href}
                       href={sub.href}
-                      onClick={() => setActiveDropdown(null)}
+                      onClick={(e) => handleSimSelect(e, sub.href)}
                       className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs text-slate-200 hover:bg-emerald-500/20 hover:text-emerald-300 transition-colors"
                     >
                       <SubIcon className="h-4 w-4 text-emerald-400" />
@@ -466,7 +492,7 @@ export function Header() {
           <nav className="flex flex-col gap-2">
             <Link
               href="/"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={handleHomeClick}
               className="flex items-center gap-3 rounded-2xl px-4 py-2.5 text-sm font-medium text-slate-200 hover:bg-slate-800"
             >
               <Globe2 className="h-4 w-4 text-emerald-400" />

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Shield, Sparkles, Terminal, FileText, Database } from "lucide-react";
+import { Shield, Sparkles, Terminal, FileText, Database, ArrowUp } from "lucide-react";
 import { useI18n } from "../context/I18nContext";
 
 export function Footer() {
@@ -49,6 +49,14 @@ export function Footer() {
             <FileText className="h-3 w-3 text-amber-400" />
             <span className="font-mono">FastAPI Swagger</span>
           </a>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="flex items-center gap-1.5 rounded-lg border border-slate-800 bg-slate-900/60 px-2.5 py-1 text-[11px] text-slate-400 hover:text-emerald-300 hover:border-emerald-500/40 transition-colors"
+            title="Scroll to Top"
+          >
+            <ArrowUp className="h-3 w-3 text-emerald-400" />
+            <span>{lang === "bn" ? "উপরে যান" : "Top"}</span>
+          </button>
         </div>
       </div>
 

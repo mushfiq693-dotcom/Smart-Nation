@@ -70,6 +70,23 @@ export default function SimulatorPage() {
   // Top District SHAP State
   const [topShap, setTopShap] = useState<any | null>(null);
 
+  // Smooth scroll to anchor hash (e.g. #equity)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const checkHash = () => {
+      if (window.location.hash) {
+        const id = window.location.hash.replace("#", "");
+        setTimeout(() => {
+          const el = document.getElementById(id);
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 150);
+      }
+    };
+    checkHash();
+    window.addEventListener("hashchange", checkHash);
+    return () => window.removeEventListener("hashchange", checkHash);
+  }, []);
+
   // Execute Simulation
   const executeSimulation = useCallback(
     async (
@@ -239,7 +256,7 @@ export default function SimulatorPage() {
             </div>
 
             {/* 2. Equity Weighting Slider (alpha_equity) */}
-            <div className="space-y-3 pt-2 border-t border-slate-800">
+            <div id="equity" className="space-y-3 pt-2 border-t border-slate-800 scroll-mt-28">
               <div className="flex items-center justify-between">
                 <div>
                   <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
