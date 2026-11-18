@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Sparkles, Bot, X, Send, ArrowRight, CornerDownLeft } from "lucide-react";
 import { useI18n } from "../context/I18nContext";
+import { generateChatbotResponse } from "../lib/chatbotEngine";
 
 export function FloatingCopilot() {
   const { lang } = useI18n();
@@ -40,31 +41,11 @@ export function FloatingCopilot() {
     setQuestion("");
     setIsTyping(true);
 
-    // Call live FastAPI Copilot endpoint or simulate grounded response
     setTimeout(() => {
-      let reply = "";
-      const lower = q.toLowerCase();
-      if (lower.includes("ঢাকা") || lower.includes("dhaka")) {
-        reply = isBn
-          ? "ঢাকা (BD3026) জেলায় নগরায়নের কারণে আরবান হিট আইল্যান্ড এফেক্ট সর্বোচ্চ (+1.8°C)। এখানে তাপমাত্রা ৩৫°C ছাড়িয়ে যাওয়ার দিনসংখ্যা ৪২ দিন। সুপারিশ: গুলশান, মিরপুর ও পুরান ঢাকায় কুল-রুফ ও নগর বনায়নে অগ্রাধিকার দিন।"
-          : "Dhaka (BD3026) exhibits the highest Urban Heat Island anomaly (+1.8°C) with 42 annual heatwave exceedance days. Recommended: Prioritize reflective cool roofs and urban tree canopies in high-density wards.";
-      } else if (lower.includes("খুলনা") || lower.includes("khulna") || lower.includes("বন্যা") || lower.includes("flood")) {
-        reply = isBn
-          ? "খুলনা (BD4047) উপকূলীয় নিম্নাঞ্চলের অন্তর্গত (৮৪% এলাকা <৫মি উচ্চতায়)। GloFAS রিভার ডিসচার্জ এবং জলোচ্ছ্বাসের ঝুঁকি অত্যন্ত বেশি। ৫ কোটি টাকার জন্য প্রস্তাবিত: ৮০% স্লুইস-গেট ও পোল্ডার সংস্কার এবং ২০% রিফিউজ শেল্টার।"
-          : "Khulna (BD4047) has 84% coastal lowland area (<5m elevation) with GloFAS river discharge percentile at 0.79. With $500k budget, 80% should be allocated to tidal polder reinforcement and 20% to early warning.";
-      } else if (lower.includes("সেন্সর") || lower.includes("sensor")) {
-        reply = isBn
-          ? "বাংলাদেশে ৫২টি জেলায় (যেমন কুড়িগ্রাম, পঞ্চগড়, মেহেরপুর) কোনো অফিসিয়াল ওপেনএকিউ (OpenAQ) গ্রাউন্ড মনিটরিং স্টেশন নেই। ইকুইটি স্লাইডার (α=1.0) বাড়ালে এই জেলাগুলোতে পরিবেশগত সেন্সর স্থাপনে সর্বোচ্চ বাজেট বরাদ্দ হয়।"
-          : "52 districts in Bangladesh lack ground air quality sensors. By adjusting the Equity Slider (α=1.0), the platform shifts priority investment toward deploying monitoring sensors in these underserved regions.";
-      } else {
-        reply = isBn
-          ? `আপনার প্রশ্ন "${q}" এর বিশ্লেষণে ডাকডিবি লেকহাউস ও ওপেন-মেটিও রিয়েল ডেটা বলছে—উচ্চ-ঝুঁকিপূর্ণ জেলাগুলোতে সমন্বিত দুর্যোগ ব্যবস্থাপনা কার্যকর করা প্রয়োজন। বিস্তারিত সিমুলেশনের জন্য আমাদের সিমুলেটর স্টুডিও দেখুন।`
-          : `Based on unified DuckDB Spatial lakehouse evidence for "${q}", resilient infrastructure investments yield 2.8x higher protection when weighted with equity. Check the Simulation Studio for custom allocations.`;
-      }
-
+      const reply = generateChatbotResponse(q, lang);
       setMessages((prev) => [...prev, { sender: "ai", text: reply }]);
       setIsTyping(false);
-    }, 700);
+    }, 400);
   };
 
   return (

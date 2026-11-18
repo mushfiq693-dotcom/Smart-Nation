@@ -29,6 +29,7 @@ import {
 import { useI18n } from "../context/I18nContext";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../lib/api";
+import { generateChatbotResponse } from "../lib/chatbotEngine";
 import { DistrictDossier } from "../components/Map/DistrictDossier";
 import { MapControlPanel } from "../components/Map/MapControlPanel";
 import type { MetricType, BasemapType } from "../components/Map/MapCanvas";
@@ -194,28 +195,10 @@ export default function Home() {
     setHeroAnswer(null);
 
     setTimeout(() => {
-      let reply = "";
-      const lower = q.toLowerCase();
-      if (lower.includes("ঢাকা") || lower.includes("dhaka")) {
-        reply = isBn
-          ? "🎯 ঢাকা জেলা (BD3026): আরবান হিট আইল্যান্ড এফেক্ট +১.৮°C এবং ৪৫ লাখেরও বেশি ঘনবসতিপূর্ণ নাগরিক তীব্র তাপদাহের ঝুঁকিতে। ৫ কোটি টাকা বাজেটে মিরপুর, মোহাম্মদপুর ও পুরান ঢাকার সরকারি ভবনে কুল-রুফ কোটিং এবং ড্রেনেজ সম্প্রসারণ করলে তাপদাহ ২.১°C হ্রাস পাবে এবং আনুমানিক ১২ লাখ মানুষ প্রত্যক্ষ সুরক্ষা পাবে।"
-          : "🎯 Dhaka District (BD3026): High Urban Heat Island anomaly (+1.8°C). Allocating $500k to reflective cool-roof coatings and permeable drainage in high-density wards yields a 2.1°C local reduction, protecting ~1.2M citizens.";
-      } else if (lower.includes("খুলনা") || lower.includes("khulna") || lower.includes("নদী") || lower.includes("flood")) {
-        reply = isBn
-          ? "🌊 খুলনা জেলা (BD4047): ৮৪% উপকূলীয় অঞ্চল ৫ মিটারের নিচে এবং GloFAS রিভার ডিসচার্জ পার্সেন্টাইল ০.৭৯। সিমুলেটর মডেল অনুযায়ী, ৮০% বরাদ্দ পোল্ডার মেরামত ও ম্যানগ্রোভ বাফার বনায়নে দিলে জলোচ্ছ্বাসের ঝুঁকি ৩৭% কমে যায়।"
-          : "🌊 Khulna District (BD4047): 84% coastal lowland under 5m elevation with GloFAS flood discharge percentile at 0.79. Recommends 80% polder reinforcement and 20% coastal green mangrove buffers.";
-      } else if (lower.includes("সেন্সর") || lower.includes("sensor")) {
-        reply = isBn
-          ? "📡 সেন্সর অডিট: বাংলাদেশের ৬৪ জেলার মধ্যে ৫২টি জেলাতেই কোনো ওপেনএকিউ গ্রাউন্ড এয়ার স্টেশন নেই। ইকুইটি স্লাইডার (α_equity = ১.০) নির্বাচন করলে স্বয়ংক্রিয়ভাবে সুবিধাবঞ্চিত এই ৫২টি জেলায় নতুন লো-কস্ট সেন্সর গ্রিড স্থাপনে ফান্ড স্থানান্তরিত হয়।"
-          : "📡 Sensor Scarcity: 52 out of 64 districts currently lack ground air-quality telemetry. Raising the Equity Slider (α_equity = 1.0) automatically directs allocation towards establishing low-cost municipal sensor networks.";
-      } else {
-        reply = isBn
-          ? `📊 ডাকডিবি লেকহাউস ও এক্সজিবুস্ট মডেল প্রমাণ: "${q}" সংক্রান্ত বিশ্লেষণে দেখা গেছে, সমন্বিত জলবায়ু-সহনশীল অবকাঠামোতে বিনিয়োগ করলে সাধারণ অনুদানের চেয়ে ৩ গুণ বেশি রিটার্ন পাওয়া যায়। নিচের ম্যাপে জেলা নির্বাচন করে বিস্তারিত প্রোফাইল দেখুন।`
-          : `📊 Lakehouse Evidence: Analysis for "${q}" demonstrates that targeted multi-hazard interventions under fiscal constraints yield a 3.1x higher resilience index. Explore the live interactive map below.`;
-      }
+      const reply = generateChatbotResponse(q, lang);
       setHeroAnswer(reply);
       setIsAnswering(false);
-    }, 600);
+    }, 350);
   };
 
   return (
