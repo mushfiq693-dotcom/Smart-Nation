@@ -15,8 +15,8 @@
         "adm2_en": "Barguna",
         "adm2_bn": "বরগুনা",
         "adm1_pcode": "BD10",
-        "latitude": 22.1587,
-        "longitude": 90.1824,
+        "latitude": 22.141171,
+        "longitude": 90.120499,
         "population_2022": 1010530,
         "area_sqkm": 1831,
         "elevation_mean_m": 2.4,
@@ -24,14 +24,14 @@
         "coastal_lowland_ratio": 0.89,
         "topography_class": "Coastal_Lowland",
         "provenance_class": "Official",
-        "center_lon": 90.203742,
-        "center_lat": 22.172762
+        "center_lon": 90.120499,
+        "center_lat": 22.141171
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.203742,
-          22.172762
+          90.120499,
+          22.141171
         ]
       }
     },
@@ -42,8 +42,8 @@
         "adm2_en": "Barishal",
         "adm2_bn": "বরিশাল",
         "adm1_pcode": "BD10",
-        "latitude": 22.701,
-        "longitude": 90.3535,
+        "latitude": 22.811339,
+        "longitude": 90.341638,
         "population_2022": 2570450,
         "area_sqkm": 2785,
         "elevation_mean_m": 3.9,
@@ -51,14 +51,14 @@
         "coastal_lowland_ratio": 0.76,
         "topography_class": "Coastal_Lowland",
         "provenance_class": "Official",
-        "center_lon": 90.32507,
-        "center_lat": 22.761281
+        "center_lon": 90.341638,
+        "center_lat": 22.811339
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.32507,
-          22.761281
+          90.341638,
+          22.811339
         ]
       }
     },
@@ -69,8 +69,8 @@
         "adm2_en": "Bhola",
         "adm2_bn": "ভোলা",
         "adm1_pcode": "BD10",
-        "latitude": 22.6859,
-        "longitude": 90.6481,
+        "latitude": 22.335934,
+        "longitude": 90.733161,
         "population_2022": 1932514,
         "area_sqkm": 3403,
         "elevation_mean_m": 2.8,
@@ -78,14 +78,14 @@
         "coastal_lowland_ratio": 0.88,
         "topography_class": "Coastal_Lowland",
         "provenance_class": "Official",
-        "center_lon": 90.768556,
-        "center_lat": 22.405126
+        "center_lon": 90.733161,
+        "center_lat": 22.335934
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.768556,
-          22.405126
+          90.733161,
+          22.335934
         ]
       }
     },
@@ -96,8 +96,8 @@
         "adm2_en": "Jhalokati",
         "adm2_bn": "ঝালকাঠি",
         "adm1_pcode": "BD10",
-        "latitude": 22.6406,
-        "longitude": 90.1987,
+        "latitude": 22.57284,
+        "longitude": 90.184019,
         "population_2022": 710236,
         "area_sqkm": 758,
         "elevation_mean_m": 3.5,
@@ -105,14 +105,14 @@
         "coastal_lowland_ratio": 0.79,
         "topography_class": "Coastal_Lowland",
         "provenance_class": "Official",
-        "center_lon": 90.172359,
-        "center_lat": 22.56169
+        "center_lon": 90.184019,
+        "center_lat": 22.57284
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.172359,
-          22.56169
+          90.184019,
+          22.57284
         ]
       }
     },
@@ -123,8 +123,8 @@
         "adm2_en": "Patuakhali",
         "adm2_bn": "পটুয়াখালী",
         "adm1_pcode": "BD10",
-        "latitude": 22.3596,
-        "longitude": 90.3299,
+        "latitude": 22.191128,
+        "longitude": 90.398995,
         "population_2022": 1727254,
         "area_sqkm": 3220,
         "elevation_mean_m": 2.2,
@@ -132,14 +132,14 @@
         "coastal_lowland_ratio": 0.92,
         "topography_class": "Coastal_Lowland",
         "provenance_class": "Official",
-        "center_lon": 90.459865,
-        "center_lat": 22.258409
+        "center_lon": 90.398995,
+        "center_lat": 22.191128
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.459865,
-          22.258409
+          90.398995,
+          22.191128
         ]
       }
     },
@@ -150,8 +150,8 @@
         "adm2_en": "Pirojpur",
         "adm2_bn": "পিরোজপুর",
         "adm1_pcode": "BD10",
-        "latitude": 22.5841,
-        "longitude": 89.972,
+        "latitude": 22.533775,
+        "longitude": 89.993206,
         "population_2022": 1198193,
         "area_sqkm": 1308,
         "elevation_mean_m": 3.1,
@@ -159,14 +159,14 @@
         "coastal_lowland_ratio": 0.81,
         "topography_class": "Coastal_Lowland",
         "provenance_class": "Official",
-        "center_lon": 89.995154,
-        "center_lat": 22.514073
+        "center_lon": 89.993206,
+        "center_lat": 22.533775
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.995154,
-          22.514073
+          89.993206,
+          22.533775
         ]
       }
     },
@@ -177,8 +177,8 @@
         "adm2_en": "Bandarban",
         "adm2_bn": "বান্দরবান",
         "adm1_pcode": "BD20",
-        "latitude": 22.1953,
-        "longitude": 92.2184,
+        "latitude": 21.807106,
+        "longitude": 92.363835,
         "population_2022": 481109,
         "area_sqkm": 4479,
         "elevation_mean_m": 185.0,
@@ -186,14 +186,14 @@
         "coastal_lowland_ratio": 0.05,
         "topography_class": "Hilly",
         "provenance_class": "Official",
-        "center_lon": 92.387011,
-        "center_lat": 21.770727
+        "center_lon": 92.363835,
+        "center_lat": 21.807106
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          92.387011,
-          21.770727
+          92.363835,
+          21.807106
         ]
       }
     },
@@ -204,8 +204,8 @@
         "adm2_en": "Brahmanbaria",
         "adm2_bn": "ব্রাহ্মণবাড়িয়া",
         "adm1_pcode": "BD20",
-        "latitude": 23.9571,
-        "longitude": 91.1119,
+        "latitude": 23.95304,
+        "longitude": 91.08351,
         "population_2022": 3306559,
         "area_sqkm": 1927,
         "elevation_mean_m": 8.5,
@@ -213,14 +213,14 @@
         "coastal_lowland_ratio": 0.55,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 91.111938,
-        "center_lat": 23.956634
+        "center_lon": 91.08351,
+        "center_lat": 23.95304
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          91.111938,
-          23.956634
+          91.08351,
+          23.95304
         ]
       }
     },
@@ -231,8 +231,8 @@
         "adm2_en": "Chandpur",
         "adm2_bn": "চাঁদপুর",
         "adm1_pcode": "BD20",
-        "latitude": 23.2333,
-        "longitude": 90.6667,
+        "latitude": 23.273607,
+        "longitude": 90.771107,
         "population_2022": 2635748,
         "area_sqkm": 1704,
         "elevation_mean_m": 4.5,
@@ -240,14 +240,14 @@
         "coastal_lowland_ratio": 0.68,
         "topography_class": "Coastal_Lowland",
         "provenance_class": "Official",
-        "center_lon": 90.841839,
-        "center_lat": 23.24523
+        "center_lon": 90.771107,
+        "center_lat": 23.273607
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.841839,
-          23.24523
+          90.771107,
+          23.273607
         ]
       }
     },
@@ -258,8 +258,8 @@
         "adm2_en": "Chattogram",
         "adm2_bn": "চট্টগ্রাম",
         "adm1_pcode": "BD20",
-        "latitude": 22.3569,
-        "longitude": 91.7832,
+        "latitude": 22.443238,
+        "longitude": 91.83437,
         "population_2022": 9169464,
         "area_sqkm": 5283,
         "elevation_mean_m": 18.2,
@@ -267,14 +267,14 @@
         "coastal_lowland_ratio": 0.44,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 92.040132,
-        "center_lat": 22.423583
+        "center_lon": 91.83437,
+        "center_lat": 22.443238
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          92.040132,
-          22.423583
+          91.83437,
+          22.443238
         ]
       }
     },
@@ -285,8 +285,8 @@
         "adm2_en": "Cumilla",
         "adm2_bn": "কুমিল্লা",
         "adm1_pcode": "BD20",
-        "latitude": 23.4607,
-        "longitude": 91.1809,
+        "latitude": 23.436868,
+        "longitude": 91.033967,
         "population_2022": 6212216,
         "area_sqkm": 3087,
         "elevation_mean_m": 11.2,
@@ -294,14 +294,14 @@
         "coastal_lowland_ratio": 0.4,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 91.076283,
-        "center_lat": 23.421978
+        "center_lon": 91.033967,
+        "center_lat": 23.436868
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          91.076283,
-          23.421978
+          91.033967,
+          23.436868
         ]
       }
     },
@@ -312,8 +312,8 @@
         "adm2_en": "Cox's Bazar",
         "adm2_bn": "কক্সবাজার",
         "adm1_pcode": "BD20",
-        "latitude": 21.4272,
-        "longitude": 92.0058,
+        "latitude": 21.483912,
+        "longitude": 92.063876,
         "population_2022": 2823265,
         "area_sqkm": 2492,
         "elevation_mean_m": 14.8,
@@ -321,14 +321,14 @@
         "coastal_lowland_ratio": 0.52,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 92.092086,
-        "center_lat": 21.332798
+        "center_lon": 92.063876,
+        "center_lat": 21.483912
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          92.092086,
-          21.332798
+          92.063876,
+          21.483912
         ]
       }
     },
@@ -339,8 +339,8 @@
         "adm2_en": "Feni",
         "adm2_bn": "ফেনী",
         "adm1_pcode": "BD20",
-        "latitude": 23.0186,
-        "longitude": 91.3966,
+        "latitude": 22.999468,
+        "longitude": 91.412459,
         "population_2022": 1648896,
         "area_sqkm": 928,
         "elevation_mean_m": 7.4,
@@ -348,14 +348,14 @@
         "coastal_lowland_ratio": 0.62,
         "topography_class": "Coastal_Lowland",
         "provenance_class": "Official",
-        "center_lon": 91.401875,
-        "center_lat": 23.020804
+        "center_lon": 91.412459,
+        "center_lat": 22.999468
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          91.401875,
-          23.020804
+          91.412459,
+          22.999468
         ]
       }
     },
@@ -366,8 +366,8 @@
         "adm2_en": "Khagrachhari",
         "adm2_bn": "খাগড়াছড়ি",
         "adm1_pcode": "BD20",
-        "latitude": 23.1193,
-        "longitude": 91.9847,
+        "latitude": 23.164402,
+        "longitude": 91.952133,
         "population_2022": 714119,
         "area_sqkm": 2700,
         "elevation_mean_m": 95.0,
@@ -375,14 +375,14 @@
         "coastal_lowland_ratio": 0.08,
         "topography_class": "Hilly",
         "provenance_class": "Official",
-        "center_lon": 91.961101,
-        "center_lat": 23.213888
+        "center_lon": 91.952133,
+        "center_lat": 23.164402
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          91.961101,
-          23.213888
+          91.952133,
+          23.164402
         ]
       }
     },
@@ -393,8 +393,8 @@
         "adm2_en": "Lakshmipur",
         "adm2_bn": "লক্ষ্মীপুর",
         "adm1_pcode": "BD20",
-        "latitude": 22.9425,
-        "longitude": 90.8412,
+        "latitude": 22.891783,
+        "longitude": 90.85593,
         "population_2022": 1938111,
         "area_sqkm": 1456,
         "elevation_mean_m": 4.2,
@@ -402,14 +402,14 @@
         "coastal_lowland_ratio": 0.72,
         "topography_class": "Coastal_Lowland",
         "provenance_class": "Official",
-        "center_lon": 90.867446,
-        "center_lat": 22.869442
+        "center_lon": 90.85593,
+        "center_lat": 22.891783
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.867446,
-          22.869442
+          90.85593,
+          22.891783
         ]
       }
     },
@@ -420,8 +420,8 @@
         "adm2_en": "Noakhali",
         "adm2_bn": "নোয়াখালী",
         "adm1_pcode": "BD20",
-        "latitude": 22.8696,
-        "longitude": 91.0995,
+        "latitude": 22.693778,
+        "longitude": 91.124723,
         "population_2022": 3625252,
         "area_sqkm": 4203,
         "elevation_mean_m": 3.9,
@@ -429,14 +429,14 @@
         "coastal_lowland_ratio": 0.75,
         "topography_class": "Coastal_Lowland",
         "provenance_class": "Official",
-        "center_lon": 91.131581,
-        "center_lat": 22.78678
+        "center_lon": 91.124723,
+        "center_lat": 22.693778
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          91.131581,
-          22.78678
+          91.124723,
+          22.693778
         ]
       }
     },
@@ -447,8 +447,8 @@
         "adm2_en": "Rangamati",
         "adm2_bn": "রাঙ্গামাটি",
         "adm1_pcode": "BD20",
-        "latitude": 22.6533,
-        "longitude": 92.1753,
+        "latitude": 22.829989,
+        "longitude": 92.279573,
         "population_2022": 647587,
         "area_sqkm": 6116,
         "elevation_mean_m": 120.0,
@@ -456,14 +456,14 @@
         "coastal_lowland_ratio": 0.06,
         "topography_class": "Hilly",
         "provenance_class": "Official",
-        "center_lon": 92.222969,
-        "center_lat": 22.792974
+        "center_lon": 92.279573,
+        "center_lat": 22.829989
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          92.222969,
-          22.792974
+          92.279573,
+          22.829989
         ]
       }
     },
@@ -474,8 +474,8 @@
         "adm2_en": "Dhaka",
         "adm2_bn": "ঢাকা",
         "adm1_pcode": "BD30",
-        "latitude": 23.8103,
-        "longitude": 90.4125,
+        "latitude": 23.786943,
+        "longitude": 90.250784,
         "population_2022": 14734025,
         "area_sqkm": 1464,
         "elevation_mean_m": 8.4,
@@ -483,14 +483,14 @@
         "coastal_lowland_ratio": 0.45,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 90.356858,
-        "center_lat": 23.781785
+        "center_lon": 90.250784,
+        "center_lat": 23.786943
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.356858,
-          23.781785
+          90.250784,
+          23.786943
         ]
       }
     },
@@ -501,8 +501,8 @@
         "adm2_en": "Faridpur",
         "adm2_bn": "ফরিদপুর",
         "adm1_pcode": "BD30",
-        "latitude": 23.6071,
-        "longitude": 89.8426,
+        "latitude": 23.478967,
+        "longitude": 89.838909,
         "population_2022": 2162876,
         "area_sqkm": 2073,
         "elevation_mean_m": 7.8,
@@ -510,14 +510,14 @@
         "coastal_lowland_ratio": 0.48,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 89.871665,
-        "center_lat": 23.465986
+        "center_lon": 89.838909,
+        "center_lat": 23.478967
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.871665,
-          23.465986
+          89.838909,
+          23.478967
         ]
       }
     },
@@ -528,8 +528,8 @@
         "adm2_en": "Gazipur",
         "adm2_bn": "গাজীপুর",
         "adm1_pcode": "BD30",
-        "latitude": 24.0023,
-        "longitude": 90.4264,
+        "latitude": 24.098422,
+        "longitude": 90.444983,
         "population_2022": 5263474,
         "area_sqkm": 1800,
         "elevation_mean_m": 14.2,
@@ -537,14 +537,14 @@
         "coastal_lowland_ratio": 0.22,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 90.407402,
-        "center_lat": 24.092695
+        "center_lon": 90.444983,
+        "center_lat": 24.098422
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.407402,
-          24.092695
+          90.444983,
+          24.098422
         ]
       }
     },
@@ -555,8 +555,8 @@
         "adm2_en": "Gopalganj",
         "adm2_bn": "গোপালগঞ্জ",
         "adm1_pcode": "BD30",
-        "latitude": 23.0051,
-        "longitude": 89.8266,
+        "latitude": 23.105532,
+        "longitude": 89.899507,
         "population_2022": 1295053,
         "area_sqkm": 1490,
         "elevation_mean_m": 4.8,
@@ -564,14 +564,14 @@
         "coastal_lowland_ratio": 0.65,
         "topography_class": "Coastal_Lowland",
         "provenance_class": "Official",
-        "center_lon": 89.86267,
-        "center_lat": 23.106449
+        "center_lon": 89.899507,
+        "center_lat": 23.105532
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.86267,
-          23.106449
+          89.899507,
+          23.105532
         ]
       }
     },
@@ -582,8 +582,8 @@
         "adm2_en": "Kishoreganj",
         "adm2_bn": "কিশোরগঞ্জ",
         "adm1_pcode": "BD30",
-        "latitude": 24.4449,
-        "longitude": 90.7766,
+        "latitude": 24.376191,
+        "longitude": 90.942398,
         "population_2022": 3267630,
         "area_sqkm": 2689,
         "elevation_mean_m": 9.5,
@@ -591,14 +591,14 @@
         "coastal_lowland_ratio": 0.52,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 90.928379,
-        "center_lat": 24.336107
+        "center_lon": 90.942398,
+        "center_lat": 24.376191
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.928379,
-          24.336107
+          90.942398,
+          24.376191
         ]
       }
     },
@@ -609,8 +609,8 @@
         "adm2_en": "Madaripur",
         "adm2_bn": "মাদারীপুর",
         "adm1_pcode": "BD30",
-        "latitude": 23.1641,
-        "longitude": 90.1897,
+        "latitude": 23.217995,
+        "longitude": 90.165104,
         "population_2022": 1293027,
         "area_sqkm": 1145,
         "elevation_mean_m": 5.2,
@@ -618,14 +618,14 @@
         "coastal_lowland_ratio": 0.6,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 90.133784,
-        "center_lat": 23.230986
+        "center_lon": 90.165104,
+        "center_lat": 23.217995
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.133784,
-          23.230986
+          90.165104,
+          23.217995
         ]
       }
     },
@@ -636,8 +636,8 @@
         "adm2_en": "Manikganj",
         "adm2_bn": "মানিকগঞ্জ",
         "adm1_pcode": "BD30",
-        "latitude": 23.8644,
-        "longitude": 90.0047,
+        "latitude": 23.843927,
+        "longitude": 89.949629,
         "population_2022": 1558024,
         "area_sqkm": 1379,
         "elevation_mean_m": 7.9,
@@ -645,14 +645,14 @@
         "coastal_lowland_ratio": 0.46,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 89.94293,
-        "center_lat": 23.834802
+        "center_lon": 89.949629,
+        "center_lat": 23.843927
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.94293,
-          23.834802
+          89.949629,
+          23.843927
         ]
       }
     },
@@ -663,8 +663,8 @@
         "adm2_en": "Munshiganj",
         "adm2_bn": "মুন্সীগঞ্জ",
         "adm1_pcode": "BD30",
-        "latitude": 23.5422,
-        "longitude": 90.5305,
+        "latitude": 23.525741,
+        "longitude": 90.417269,
         "population_2022": 1621374,
         "area_sqkm": 955,
         "elevation_mean_m": 5.8,
@@ -672,14 +672,14 @@
         "coastal_lowland_ratio": 0.58,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 90.437833,
-        "center_lat": 23.526022
+        "center_lon": 90.417269,
+        "center_lat": 23.525741
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.437833,
-          23.526022
+          90.417269,
+          23.525741
         ]
       }
     },
@@ -690,8 +690,8 @@
         "adm2_en": "Narayanganj",
         "adm2_bn": "নারায়ণগঞ্জ",
         "adm1_pcode": "BD30",
-        "latitude": 23.6337,
-        "longitude": 90.4965,
+        "latitude": 23.723223,
+        "longitude": 90.577995,
         "population_2022": 3909138,
         "area_sqkm": 759,
         "elevation_mean_m": 6.8,
@@ -699,14 +699,14 @@
         "coastal_lowland_ratio": 0.52,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 90.61618,
-        "center_lat": 23.715787
+        "center_lon": 90.577995,
+        "center_lat": 23.723223
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.61618,
-          23.715787
+          90.577995,
+          23.723223
         ]
       }
     },
@@ -717,8 +717,8 @@
         "adm2_en": "Narsingdi",
         "adm2_bn": "নরসিংদী",
         "adm1_pcode": "BD30",
-        "latitude": 23.9322,
-        "longitude": 90.7154,
+        "latitude": 24.002287,
+        "longitude": 90.773227,
         "population_2022": 2584452,
         "area_sqkm": 1141,
         "elevation_mean_m": 11.4,
@@ -726,14 +726,14 @@
         "coastal_lowland_ratio": 0.32,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 90.808843,
-        "center_lat": 24.008774
+        "center_lon": 90.773227,
+        "center_lat": 24.002287
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.808843,
-          24.008774
+          90.773227,
+          24.002287
         ]
       }
     },
@@ -744,8 +744,8 @@
         "adm2_en": "Rajbari",
         "adm2_bn": "রাজবাড়ী",
         "adm1_pcode": "BD30",
-        "latitude": 23.7574,
-        "longitude": 89.6445,
+        "latitude": 23.727656,
+        "longitude": 89.561559,
         "population_2022": 1189821,
         "area_sqkm": 1119,
         "elevation_mean_m": 8.6,
@@ -753,14 +753,14 @@
         "coastal_lowland_ratio": 0.38,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 89.576266,
-        "center_lat": 23.735163
+        "center_lon": 89.561559,
+        "center_lat": 23.727656
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.576266,
-          23.735163
+          89.561559,
+          23.727656
         ]
       }
     },
@@ -771,8 +771,8 @@
         "adm2_en": "Shariatpur",
         "adm2_bn": "শরীয়তপুর",
         "adm1_pcode": "BD30",
-        "latitude": 23.2423,
-        "longitude": 90.4348,
+        "latitude": 23.247426,
+        "longitude": 90.408287,
         "population_2022": 1254546,
         "area_sqkm": 1182,
         "elevation_mean_m": 5.4,
@@ -780,14 +780,14 @@
         "coastal_lowland_ratio": 0.62,
         "topography_class": "Coastal_Lowland",
         "provenance_class": "Official",
-        "center_lon": 90.422567,
-        "center_lat": 23.228499
+        "center_lon": 90.408287,
+        "center_lat": 23.247426
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.422567,
-          23.228499
+          90.408287,
+          23.247426
         ]
       }
     },
@@ -798,8 +798,8 @@
         "adm2_en": "Tangail",
         "adm2_bn": "টাঙ্গাইল",
         "adm1_pcode": "BD30",
-        "latitude": 24.2513,
-        "longitude": 89.9167,
+        "latitude": 24.356274,
+        "longitude": 89.99862,
         "population_2022": 4037608,
         "area_sqkm": 3414,
         "elevation_mean_m": 13.5,
@@ -807,14 +807,14 @@
         "coastal_lowland_ratio": 0.25,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 90.00158,
-        "center_lat": 24.376604
+        "center_lon": 89.99862,
+        "center_lat": 24.356274
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.00158,
-          24.376604
+          89.99862,
+          24.356274
         ]
       }
     },
@@ -825,8 +825,8 @@
         "adm2_en": "Bagerhat",
         "adm2_bn": "বাগেরহাট",
         "adm1_pcode": "BD40",
-        "latitude": 22.6602,
-        "longitude": 89.7895,
+        "latitude": 22.369379,
+        "longitude": 89.739519,
         "population_2022": 1613079,
         "area_sqkm": 3959,
         "elevation_mean_m": 2.8,
@@ -834,14 +834,14 @@
         "coastal_lowland_ratio": 0.85,
         "topography_class": "Coastal_Lowland",
         "provenance_class": "Official",
-        "center_lon": 89.754322,
-        "center_lat": 22.523516
+        "center_lon": 89.739519,
+        "center_lat": 22.369379
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.754322,
-          22.523516
+          89.739519,
+          22.369379
         ]
       }
     },
@@ -852,8 +852,8 @@
         "adm2_en": "Chuadanga",
         "adm2_bn": "চুয়াডাঙ্গা",
         "adm1_pcode": "BD40",
-        "latitude": 23.6402,
-        "longitude": 88.8418,
+        "latitude": 23.608262,
+        "longitude": 88.847931,
         "population_2022": 1234066,
         "area_sqkm": 1173,
         "elevation_mean_m": 12.8,
@@ -861,14 +861,14 @@
         "coastal_lowland_ratio": 0.12,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 88.823478,
-        "center_lat": 23.605448
+        "center_lon": 88.847931,
+        "center_lat": 23.608262
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          88.823478,
-          23.605448
+          88.847931,
+          23.608262
         ]
       }
     },
@@ -879,8 +879,8 @@
         "adm2_en": "Jashore",
         "adm2_bn": "যশোর",
         "adm1_pcode": "BD40",
-        "latitude": 23.1664,
-        "longitude": 89.2137,
+        "latitude": 23.089734,
+        "longitude": 89.174724,
         "population_2022": 3076849,
         "area_sqkm": 2607,
         "elevation_mean_m": 8.5,
@@ -888,14 +888,14 @@
         "coastal_lowland_ratio": 0.35,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 89.125758,
-        "center_lat": 23.085459
+        "center_lon": 89.174724,
+        "center_lat": 23.089734
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.125758,
-          23.085459
+          89.174724,
+          23.089734
         ]
       }
     },
@@ -906,8 +906,8 @@
         "adm2_en": "Jhenaidah",
         "adm2_bn": "ঝিনাইদহ",
         "adm1_pcode": "BD40",
-        "latitude": 23.545,
-        "longitude": 89.1526,
+        "latitude": 23.489181,
+        "longitude": 89.087461,
         "population_2022": 2005849,
         "area_sqkm": 1961,
         "elevation_mean_m": 11.2,
@@ -915,14 +915,14 @@
         "coastal_lowland_ratio": 0.18,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 89.123466,
-        "center_lat": 23.494733
+        "center_lon": 89.087461,
+        "center_lat": 23.489181
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.123466,
-          23.494733
+          89.087461,
+          23.489181
         ]
       }
     },
@@ -933,8 +933,8 @@
         "adm2_en": "Khulna",
         "adm2_bn": "খুলনা",
         "adm1_pcode": "BD40",
-        "latitude": 22.8456,
-        "longitude": 89.5403,
+        "latitude": 22.470268,
+        "longitude": 89.447828,
         "population_2022": 2613385,
         "area_sqkm": 4394,
         "elevation_mean_m": 3.6,
@@ -942,14 +942,14 @@
         "coastal_lowland_ratio": 0.84,
         "topography_class": "Coastal_Lowland",
         "provenance_class": "Official",
-        "center_lon": 89.419111,
-        "center_lat": 22.502472
+        "center_lon": 89.447828,
+        "center_lat": 22.470268
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.419111,
-          22.502472
+          89.447828,
+          22.470268
         ]
       }
     },
@@ -960,8 +960,8 @@
         "adm2_en": "Kushtia",
         "adm2_bn": "কুষ্টিয়া",
         "adm1_pcode": "BD40",
-        "latitude": 23.9013,
-        "longitude": 89.1205,
+        "latitude": 23.922954,
+        "longitude": 89.021963,
         "population_2022": 2149692,
         "area_sqkm": 1608,
         "elevation_mean_m": 14.5,
@@ -969,14 +969,14 @@
         "coastal_lowland_ratio": 0.08,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 89.024433,
-        "center_lat": 23.943289
+        "center_lon": 89.021963,
+        "center_lat": 23.922954
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.024433,
-          23.943289
+          89.021963,
+          23.922954
         ]
       }
     },
@@ -987,8 +987,8 @@
         "adm2_en": "Magura",
         "adm2_bn": "মাগুরা",
         "adm1_pcode": "BD40",
-        "latitude": 23.4873,
-        "longitude": 89.4198,
+        "latitude": 23.443174,
+        "longitude": 89.433723,
         "population_2022": 1033115,
         "area_sqkm": 1049,
         "elevation_mean_m": 7.6,
@@ -996,14 +996,14 @@
         "coastal_lowland_ratio": 0.42,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 89.456376,
-        "center_lat": 23.470919
+        "center_lon": 89.433723,
+        "center_lat": 23.443174
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.456376,
-          23.470919
+          89.433723,
+          23.443174
         ]
       }
     },
@@ -1014,8 +1014,8 @@
         "adm2_en": "Meherpur",
         "adm2_bn": "মেহেরপুর",
         "adm1_pcode": "BD40",
-        "latitude": 23.7622,
-        "longitude": 88.6318,
+        "latitude": 23.794148,
+        "longitude": 88.70716,
         "population_2022": 705356,
         "area_sqkm": 716,
         "elevation_mean_m": 14.0,
@@ -1023,14 +1023,14 @@
         "coastal_lowland_ratio": 0.09,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 88.701584,
-        "center_lat": 23.78956
+        "center_lon": 88.70716,
+        "center_lat": 23.794148
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          88.701584,
-          23.78956
+          88.70716,
+          23.794148
         ]
       }
     },
@@ -1041,8 +1041,8 @@
         "adm2_en": "Narail",
         "adm2_bn": "নড়াইল",
         "adm1_pcode": "BD40",
-        "latitude": 23.1725,
-        "longitude": 89.5127,
+        "latitude": 23.13009,
+        "longitude": 89.580209,
         "population_2022": 788673,
         "area_sqkm": 990,
         "elevation_mean_m": 6.2,
@@ -1050,14 +1050,14 @@
         "coastal_lowland_ratio": 0.54,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 89.528663,
-        "center_lat": 23.132387
+        "center_lon": 89.580209,
+        "center_lat": 23.13009
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.528663,
-          23.132387
+          89.580209,
+          23.13009
         ]
       }
     },
@@ -1068,8 +1068,8 @@
         "adm2_en": "Satkhira",
         "adm2_bn": "সাতক্ষীরা",
         "adm1_pcode": "BD40",
-        "latitude": 22.7185,
-        "longitude": 89.0705,
+        "latitude": 22.381539,
+        "longitude": 89.136783,
         "population_2022": 2196581,
         "area_sqkm": 3858,
         "elevation_mean_m": 3.2,
@@ -1077,14 +1077,14 @@
         "coastal_lowland_ratio": 0.86,
         "topography_class": "Coastal_Lowland",
         "provenance_class": "Official",
-        "center_lon": 89.13794,
-        "center_lat": 22.473976
+        "center_lon": 89.136783,
+        "center_lat": 22.381539
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.13794,
-          22.473976
+          89.136783,
+          22.381539
         ]
       }
     },
@@ -1095,8 +1095,8 @@
         "adm2_en": "Jamalpur",
         "adm2_bn": "জামালপুর",
         "adm1_pcode": "BD45",
-        "latitude": 24.9375,
-        "longitude": 89.9378,
+        "latitude": 24.973122,
+        "longitude": 89.846262,
         "population_2022": 2499737,
         "area_sqkm": 2032,
         "elevation_mean_m": 17.5,
@@ -1104,14 +1104,14 @@
         "coastal_lowland_ratio": 0.16,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 89.778172,
-        "center_lat": 24.998653
+        "center_lon": 89.846262,
+        "center_lat": 24.973122
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.778172,
-          24.998653
+          89.846262,
+          24.973122
         ]
       }
     },
@@ -1122,8 +1122,8 @@
         "adm2_en": "Mymensingh",
         "adm2_bn": "ময়মনসিংহ",
         "adm1_pcode": "BD45",
-        "latitude": 24.7471,
-        "longitude": 90.4203,
+        "latitude": 24.699128,
+        "longitude": 90.428575,
         "population_2022": 5899052,
         "area_sqkm": 4363,
         "elevation_mean_m": 18.2,
@@ -1131,14 +1131,14 @@
         "coastal_lowland_ratio": 0.14,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 90.417623,
-        "center_lat": 24.724385
+        "center_lon": 90.428575,
+        "center_lat": 24.699128
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.417623,
-          24.724385
+          90.428575,
+          24.699128
         ]
       }
     },
@@ -1149,8 +1149,8 @@
         "adm2_en": "Netrokona",
         "adm2_bn": "নেত্রকোণা",
         "adm1_pcode": "BD45",
-        "latitude": 24.8709,
-        "longitude": 90.7279,
+        "latitude": 24.870656,
+        "longitude": 90.844659,
         "population_2022": 2324856,
         "area_sqkm": 2810,
         "elevation_mean_m": 12.4,
@@ -1158,14 +1158,14 @@
         "coastal_lowland_ratio": 0.38,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 90.834256,
-        "center_lat": 24.882197
+        "center_lon": 90.844659,
+        "center_lat": 24.870656
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.834256,
-          24.882197
+          90.844659,
+          24.870656
         ]
       }
     },
@@ -1176,8 +1176,8 @@
         "adm2_en": "Sherpur",
         "adm2_bn": "শেরপুর",
         "adm1_pcode": "BD45",
-        "latitude": 25.0205,
-        "longitude": 90.0153,
+        "latitude": 25.082249,
+        "longitude": 90.074447,
         "population_2022": 1501189,
         "area_sqkm": 1364,
         "elevation_mean_m": 22.8,
@@ -1185,14 +1185,14 @@
         "coastal_lowland_ratio": 0.08,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 90.095217,
-        "center_lat": 25.091946
+        "center_lon": 90.074447,
+        "center_lat": 25.082249
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          90.095217,
-          25.091946
+          90.074447,
+          25.082249
         ]
       }
     },
@@ -1203,8 +1203,8 @@
         "adm2_en": "Bogura",
         "adm2_bn": "বগুড়া",
         "adm1_pcode": "BD50",
-        "latitude": 24.8465,
-        "longitude": 89.3777,
+        "latitude": 24.824454,
+        "longitude": 89.378823,
         "population_2022": 3734300,
         "area_sqkm": 2920,
         "elevation_mean_m": 19.5,
@@ -1212,14 +1212,14 @@
         "coastal_lowland_ratio": 0.1,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 89.331414,
-        "center_lat": 24.830391
+        "center_lon": 89.378823,
+        "center_lat": 24.824454
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.331414,
-          24.830391
+          89.378823,
+          24.824454
         ]
       }
     },
@@ -1230,8 +1230,8 @@
         "adm2_en": "Joypurhat",
         "adm2_bn": "জয়পুরহাট",
         "adm1_pcode": "BD50",
-        "latitude": 25.1015,
-        "longitude": 89.0277,
+        "latitude": 25.092715,
+        "longitude": 89.082914,
         "population_2022": 956447,
         "area_sqkm": 965,
         "elevation_mean_m": 24.2,
@@ -1239,14 +1239,14 @@
         "coastal_lowland_ratio": 0.04,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 89.091566,
-        "center_lat": 25.062477
+        "center_lon": 89.082914,
+        "center_lat": 25.092715
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.091566,
-          25.062477
+          89.082914,
+          25.092715
         ]
       }
     },
@@ -1257,8 +1257,8 @@
         "adm2_en": "Naogaon",
         "adm2_bn": "নওগাঁ",
         "adm1_pcode": "BD50",
-        "latitude": 24.8109,
-        "longitude": 88.9414,
+        "latitude": 24.89961,
+        "longitude": 88.751609,
         "population_2022": 2784598,
         "area_sqkm": 3436,
         "elevation_mean_m": 22.6,
@@ -1266,14 +1266,14 @@
         "coastal_lowland_ratio": 0.05,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 88.73876,
-        "center_lat": 24.872891
+        "center_lon": 88.751609,
+        "center_lat": 24.89961
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          88.73876,
-          24.872891
+          88.751609,
+          24.89961
         ]
       }
     },
@@ -1284,8 +1284,8 @@
         "adm2_en": "Natore",
         "adm2_bn": "নাটোর",
         "adm1_pcode": "BD50",
-        "latitude": 24.4206,
-        "longitude": 89.0003,
+        "latitude": 24.380373,
+        "longitude": 89.086832,
         "population_2022": 1859921,
         "area_sqkm": 1896,
         "elevation_mean_m": 16.8,
@@ -1293,14 +1293,14 @@
         "coastal_lowland_ratio": 0.18,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 89.090674,
-        "center_lat": 24.393909
+        "center_lon": 89.086832,
+        "center_lat": 24.380373
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.090674,
-          24.393909
+          89.086832,
+          24.380373
         ]
       }
     },
@@ -1311,8 +1311,8 @@
         "adm2_en": "Pabna",
         "adm2_bn": "পাবনা",
         "adm1_pcode": "BD50",
-        "latitude": 24.0064,
-        "longitude": 89.2372,
+        "latitude": 24.053176,
+        "longitude": 89.385303,
         "population_2022": 2909622,
         "area_sqkm": 2371,
         "elevation_mean_m": 12.2,
@@ -1320,14 +1320,14 @@
         "coastal_lowland_ratio": 0.22,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 89.338384,
-        "center_lat": 24.08102
+        "center_lon": 89.385303,
+        "center_lat": 24.053176
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.338384,
-          24.08102
+          89.385303,
+          24.053176
         ]
       }
     },
@@ -1338,8 +1338,8 @@
         "adm2_en": "Rajshahi",
         "adm2_bn": "রাজশাহী",
         "adm1_pcode": "BD50",
-        "latitude": 24.3636,
-        "longitude": 88.6241,
+        "latitude": 24.465757,
+        "longitude": 88.651396,
         "population_2022": 2915013,
         "area_sqkm": 2407,
         "elevation_mean_m": 23.4,
@@ -1347,14 +1347,14 @@
         "coastal_lowland_ratio": 0.03,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 88.596558,
-        "center_lat": 24.415217
+        "center_lon": 88.651396,
+        "center_lat": 24.465757
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          88.596558,
-          24.415217
+          88.651396,
+          24.465757
         ]
       }
     },
@@ -1365,8 +1365,8 @@
         "adm2_en": "Sirajganj",
         "adm2_bn": "সিরাজগঞ্জ",
         "adm1_pcode": "BD50",
-        "latitude": 24.4534,
-        "longitude": 89.7008,
+        "latitude": 24.391617,
+        "longitude": 89.599693,
         "population_2022": 3544038,
         "area_sqkm": 2498,
         "elevation_mean_m": 13.5,
@@ -1374,14 +1374,14 @@
         "coastal_lowland_ratio": 0.32,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 89.523126,
-        "center_lat": 24.397979
+        "center_lon": 89.599693,
+        "center_lat": 24.391617
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.523126,
-          24.397979
+          89.599693,
+          24.391617
         ]
       }
     },
@@ -1392,8 +1392,8 @@
         "adm2_en": "Chapai Nawabganj",
         "adm2_bn": "চাঁপাইনবাবগঞ্জ",
         "adm1_pcode": "BD50",
-        "latitude": 24.5965,
-        "longitude": 88.2775,
+        "latitude": 24.715759,
+        "longitude": 88.26412,
         "population_2022": 1835528,
         "area_sqkm": 1703,
         "elevation_mean_m": 26.5,
@@ -1401,14 +1401,14 @@
         "coastal_lowland_ratio": 0.02,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 88.259949,
-        "center_lat": 24.69269
+        "center_lon": 88.26412,
+        "center_lat": 24.715759
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          88.259949,
-          24.69269
+          88.26412,
+          24.715759
         ]
       }
     },
@@ -1419,8 +1419,8 @@
         "adm2_en": "Dinajpur",
         "adm2_bn": "দিনাজপুর",
         "adm1_pcode": "BD55",
-        "latitude": 25.6217,
-        "longitude": 88.6354,
+        "latitude": 25.629907,
+        "longitude": 88.786879,
         "population_2022": 3315238,
         "area_sqkm": 3438,
         "elevation_mean_m": 38.5,
@@ -1428,14 +1428,14 @@
         "coastal_lowland_ratio": 0.01,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 88.726239,
-        "center_lat": 25.64163
+        "center_lon": 88.786879,
+        "center_lat": 25.629907
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          88.726239,
-          25.64163
+          88.786879,
+          25.629907
         ]
       }
     },
@@ -1446,8 +1446,8 @@
         "adm2_en": "Gaibandha",
         "adm2_bn": "গাইবান্ধা",
         "adm1_pcode": "BD55",
-        "latitude": 25.3288,
-        "longitude": 89.5408,
+        "latitude": 25.298711,
+        "longitude": 89.50584,
         "population_2022": 2562232,
         "area_sqkm": 2179,
         "elevation_mean_m": 21.0,
@@ -1455,14 +1455,14 @@
         "coastal_lowland_ratio": 0.08,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 89.536224,
-        "center_lat": 25.343199
+        "center_lon": 89.50584,
+        "center_lat": 25.298711
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.536224,
-          25.343199
+          89.50584,
+          25.298711
         ]
       }
     },
@@ -1473,8 +1473,8 @@
         "adm2_en": "Kurigram",
         "adm2_bn": "কুড়িগ্রাম",
         "adm1_pcode": "BD55",
-        "latitude": 25.8054,
-        "longitude": 89.6362,
+        "latitude": 25.791966,
+        "longitude": 89.694721,
         "population_2022": 2329161,
         "area_sqkm": 2296,
         "elevation_mean_m": 24.0,
@@ -1482,14 +1482,14 @@
         "coastal_lowland_ratio": 0.06,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 89.644595,
-        "center_lat": 25.803428
+        "center_lon": 89.694721,
+        "center_lat": 25.791966
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.644595,
-          25.803428
+          89.694721,
+          25.791966
         ]
       }
     },
@@ -1500,8 +1500,8 @@
         "adm2_en": "Lalmonirhat",
         "adm2_bn": "লালমনিরহাট",
         "adm1_pcode": "BD55",
-        "latitude": 25.9923,
-        "longitude": 89.2847,
+        "latitude": 26.063142,
+        "longitude": 89.235695,
         "population_2022": 1428406,
         "area_sqkm": 1241,
         "elevation_mean_m": 31.0,
@@ -1509,14 +1509,14 @@
         "coastal_lowland_ratio": 0.02,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 89.16444,
-        "center_lat": 26.122288
+        "center_lon": 89.235695,
+        "center_lat": 26.063142
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.16444,
-          26.122288
+          89.235695,
+          26.063142
         ]
       }
     },
@@ -1527,8 +1527,8 @@
         "adm2_en": "Nilphamari",
         "adm2_bn": "নীলফামারী",
         "adm1_pcode": "BD55",
-        "latitude": 25.9318,
-        "longitude": 88.856,
+        "latitude": 26.02463,
+        "longitude": 88.929529,
         "population_2022": 2092567,
         "area_sqkm": 1580,
         "elevation_mean_m": 45.0,
@@ -1536,14 +1536,14 @@
         "coastal_lowland_ratio": 0.01,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 88.921681,
-        "center_lat": 26.019678
+        "center_lon": 88.929529,
+        "center_lat": 26.02463
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          88.921681,
-          26.019678
+          88.929529,
+          26.02463
         ]
       }
     },
@@ -1554,8 +1554,8 @@
         "adm2_en": "Panchagarh",
         "adm2_bn": "পঞ্চগড়",
         "adm1_pcode": "BD55",
-        "latitude": 26.3411,
-        "longitude": 88.5542,
+        "latitude": 26.285133,
+        "longitude": 88.575448,
         "population_2022": 1179905,
         "area_sqkm": 1405,
         "elevation_mean_m": 62.0,
@@ -1563,14 +1563,14 @@
         "coastal_lowland_ratio": 0.0,
         "topography_class": "Hilly",
         "provenance_class": "Official",
-        "center_lon": 88.546926,
-        "center_lat": 26.320119
+        "center_lon": 88.575448,
+        "center_lat": 26.285133
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          88.546926,
-          26.320119
+          88.575448,
+          26.285133
         ]
       }
     },
@@ -1581,8 +1581,8 @@
         "adm2_en": "Rangpur",
         "adm2_bn": "রংপুর",
         "adm1_pcode": "BD55",
-        "latitude": 25.7439,
-        "longitude": 89.2752,
+        "latitude": 25.649765,
+        "longitude": 89.236852,
         "population_2022": 3169615,
         "area_sqkm": 2308,
         "elevation_mean_m": 32.5,
@@ -1590,14 +1590,14 @@
         "coastal_lowland_ratio": 0.02,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 89.262011,
-        "center_lat": 25.633274
+        "center_lon": 89.236852,
+        "center_lat": 25.649765
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          89.262011,
-          25.633274
+          89.236852,
+          25.649765
         ]
       }
     },
@@ -1608,8 +1608,8 @@
         "adm2_en": "Thakurgaon",
         "adm2_bn": "ঠাকুরগাঁও",
         "adm1_pcode": "BD55",
-        "latitude": 26.0337,
-        "longitude": 88.4617,
+        "latitude": 25.990614,
+        "longitude": 88.345575,
         "population_2022": 1533894,
         "area_sqkm": 1810,
         "elevation_mean_m": 51.0,
@@ -1617,14 +1617,14 @@
         "coastal_lowland_ratio": 0.01,
         "topography_class": "Hilly",
         "provenance_class": "Official",
-        "center_lon": 88.310547,
-        "center_lat": 25.935824
+        "center_lon": 88.345575,
+        "center_lat": 25.990614
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          88.310547,
-          25.935824
+          88.345575,
+          25.990614
         ]
       }
     },
@@ -1635,8 +1635,8 @@
         "adm2_en": "Habiganj",
         "adm2_bn": "হবিগঞ্জ",
         "adm1_pcode": "BD60",
-        "latitude": 24.3749,
-        "longitude": 91.4155,
+        "latitude": 24.368093,
+        "longitude": 91.43038,
         "population_2022": 2358886,
         "area_sqkm": 2637,
         "elevation_mean_m": 14.5,
@@ -1644,14 +1644,14 @@
         "coastal_lowland_ratio": 0.44,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 91.43079,
-        "center_lat": 24.338197
+        "center_lon": 91.43038,
+        "center_lat": 24.368093
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          91.43079,
-          24.338197
+          91.43038,
+          24.368093
         ]
       }
     },
@@ -1662,8 +1662,8 @@
         "adm2_en": "Moulvibazar",
         "adm2_bn": "মৌলভীবাজার",
         "adm1_pcode": "BD60",
-        "latitude": 24.4829,
-        "longitude": 91.7774,
+        "latitude": 24.480445,
+        "longitude": 91.915402,
         "population_2022": 2123445,
         "area_sqkm": 2799,
         "elevation_mean_m": 21.0,
@@ -1671,14 +1671,14 @@
         "coastal_lowland_ratio": 0.32,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 91.882075,
-        "center_lat": 24.486091
+        "center_lon": 91.915402,
+        "center_lat": 24.480445
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          91.882075,
-          24.486091
+          91.915402,
+          24.480445
         ]
       }
     },
@@ -1689,8 +1689,8 @@
         "adm2_en": "Sunamganj",
         "adm2_bn": "সুনামগঞ্জ",
         "adm1_pcode": "BD60",
-        "latitude": 25.0658,
-        "longitude": 91.395,
+        "latitude": 24.938553,
+        "longitude": 91.346032,
         "population_2022": 2695495,
         "area_sqkm": 3670,
         "elevation_mean_m": 9.2,
@@ -1698,14 +1698,14 @@
         "coastal_lowland_ratio": 0.65,
         "topography_class": "Coastal_Lowland",
         "provenance_class": "Official",
-        "center_lon": 91.385162,
-        "center_lat": 24.888469
+        "center_lon": 91.346032,
+        "center_lat": 24.938553
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          91.385162,
-          24.888469
+          91.346032,
+          24.938553
         ]
       }
     },
@@ -1716,8 +1716,8 @@
         "adm2_en": "Sylhet",
         "adm2_bn": "সিলেট",
         "adm1_pcode": "BD60",
-        "latitude": 24.8949,
-        "longitude": 91.8687,
+        "latitude": 24.919232,
+        "longitude": 91.987314,
         "population_2022": 3857037,
         "area_sqkm": 3490,
         "elevation_mean_m": 17.8,
@@ -1725,14 +1725,14 @@
         "coastal_lowland_ratio": 0.42,
         "topography_class": "Delta_Floodplain",
         "provenance_class": "Official",
-        "center_lon": 91.958196,
-        "center_lat": 24.890493
+        "center_lon": 91.987314,
+        "center_lat": 24.919232
       },
       "geometry": {
         "type": "Point",
         "coordinates": [
-          91.958196,
-          24.890493
+          91.987314,
+          24.919232
         ]
       }
     }

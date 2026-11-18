@@ -207,18 +207,52 @@ function MapCanvasComponent({
       ],
     };
 
+    // Initialize HarfBuzz Complex Text Plugin for 100% Native-Quality Bengali Text Shaping
+    if (maplibregl.getRTLTextPluginStatus() === "unavailable") {
+      try {
+        maplibregl
+          .setRTLTextPlugin("/libs/maplibre-gl-complex-text.js", false)
+          .catch((err) => {
+            console.warn("Complex text plugin load note:", err);
+          });
+      } catch (e) {
+        console.warn("RTL text plugin init note:", e);
+      }
+    }
+
     const mapInstance = new maplibregl.Map({
       container: mapContainer.current,
       style: initialStyle,
       center: BD_CENTER,
       zoom: BD_ZOOM,
       minZoom: 5.5,
-      maxZoom: 14,
+      maxZoom: 15,
       maxBounds: [
         [85.0, 20.0], // Southwest [lng, lat]
         [95.5, 27.5], // Northeast [lng, lat]
       ],
       attributionControl: false,
+      transformRequest: (url: string, resourceType?: string) => {
+        if (resourceType === "Glyphs") {
+          const match = url.match(/(\d+)-(\d+)\.pbf/);
+          if (match) {
+            const start = parseInt(match[1], 10);
+            const end = parseInt(match[2], 10);
+            const encodedRangeStarts = [
+              63488, 63232, 62976, 62720, 62464, 62208, 61952, 61696, 61440,
+              61184, 60928, 60672, 60416, 60160, 59904, 59648, 59392, 59136,
+              58880, 58624, 58368, 58112, 57856, 57600, 3072, 2816, 2560,
+              2304, 10240, 10752,
+            ];
+            if (encodedRangeStarts.includes(start)) {
+              return {
+                url: `https://wipfli.github.io/pgf-glyph-ranges/font/NotoSansMultiscript-Regular-v1/${start}-${end}.pbf`,
+              };
+            }
+          }
+        }
+        return undefined;
+      },
     });
 
     mapInstance.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
@@ -393,42 +427,46 @@ function MapCanvasComponent({
             ["linear"],
             ["zoom"],
             5.5, 9.5,
-            7.0, 11.5,
-            8.5, 14.0,
-            10.0, 17.0,
+            7.0, 11.0,
+            8.5, 13.0,
+            10.0, 15.0,
           ],
           "text-anchor": "center",
+          "text-variable-anchor": ["center", "top", "bottom", "left", "right"],
+          "text-justify": "center",
           "text-allow-overlap": false,
           "text-ignore-placement": false,
-          "text-max-width": 8,
+          "text-padding": 6,
+          "text-max-width": 7,
         },
         paint: {
           "text-color": "#ffffff",
-          "text-halo-color": "#020617",
+          "text-halo-color": "rgba(2, 6, 23, 0.95)",
           "text-halo-width": 2.5,
           "text-halo-blur": 0.8,
         },
       });
 
-      // Layer: Secondary Sub-Labels when zoomed in (e.g. elevation & alternate language)
+      // Layer: Secondary Sub-Labels when zoomed in (elevation & alternate language)
       mapInstance.addLayer({
         id: "districts-sub-labels",
         type: "symbol",
         source: "centroids-source",
-        minzoom: 8.2,
+        minzoom: 8.8,
         layout: {
           visibility: "visible",
           "text-field": [
             "concat",
-            ["get", isBn ? "adm2_en" : "adm2_bn"],
-            " • ",
             ["to-string", ["get", "elevation_mean_m"]],
-            "m",
+            "m • ",
+            ["get", isBn ? "adm2_en" : "adm2_bn"],
           ],
           "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
-          "text-size": 11,
+          "text-size": 10.5,
           "text-anchor": "top",
           "text-offset": [0, 0.85],
+          "text-allow-overlap": false,
+          "text-ignore-placement": false,
         },
         paint: {
           "text-color": "#38bdf8",
@@ -460,7 +498,7 @@ function MapCanvasComponent({
         },
       });
 
-      // Layer: Dhaka Zones Boundary Line
+      // Layer: Dhaka Zones Boundary Line (Real Municipal Borders)
       mapInstance.addLayer({
         id: "dhaka-zones-line",
         type: "line",
@@ -470,31 +508,61 @@ function MapCanvasComponent({
         },
         paint: {
           "line-color": "#38bdf8",
-          "line-width": 2.4,
+          "line-width": 2.2,
           "line-opacity": 0.95,
         },
       });
 
-      // Layer: Dhaka Zones Text Labels
+      // Layer: Dhaka Zones Hover Highlight (Cyan Neon Active Boundary)
+      mapInstance.addLayer({
+        id: "dhaka-zones-highlight",
+        type: "line",
+        source: "dhaka-zones-source",
+        layout: {
+          visibility: "none",
+        },
+        paint: {
+          "line-color": "#00f0ff",
+          "line-width": 3.6,
+          "line-opacity": [
+            "case",
+            ["boolean", ["feature-state", "hover"], false],
+            1.0,
+            0.0,
+          ],
+        },
+      });
+
+      // Layer: Dhaka Zones Text Labels (Concise, Legible, Zero-Overlap)
       mapInstance.addLayer({
         id: "dhaka-zones-labels",
         type: "symbol",
         source: "dhaka-zones-source",
         layout: {
           visibility: "none",
-          "text-field": ["get", isBn ? "name_bn" : "name_en"],
+          "text-field": [
+            "concat",
+            ["get", isBn ? "short_bn" : "short_en"],
+            "\n(",
+            ["get", "corporation"],
+            ")",
+          ],
           "text-font": ["Open Sans Bold", "Arial Unicode MS Regular"],
           "text-size": [
             "interpolate",
             ["linear"],
             ["zoom"],
-            10.0, 11.0,
-            12.0, 13.5,
-            14.0, 16.0,
+            10.0, 11.5,
+            11.5, 13.0,
+            13.5, 15.5,
           ],
           "text-anchor": "center",
-          "text-allow-overlap": true,
-          "text-max-width": 9,
+          "text-variable-anchor": ["center", "top", "bottom", "left", "right"],
+          "text-justify": "center",
+          "text-allow-overlap": false,
+          "text-ignore-placement": false,
+          "text-padding": 8,
+          "text-max-width": 10,
         },
         paint: {
           "text-color": "#ffffff",
@@ -505,16 +573,40 @@ function MapCanvasComponent({
       });
 
       // Interaction Events on Dhaka Zones
+      let hoveredDhakaZoneId: string | number | null = null;
+
       mapInstance.on("mousemove", "dhaka-zones-fill", (e) => {
         if (!e.features || e.features.length === 0) return;
         mapInstance.getCanvas().style.cursor = "pointer";
-        const props = e.features[0].properties;
+        const feature = e.features[0];
+        const props = feature.properties;
         setHoveredDistrict(props);
+
+        if (hoveredDhakaZoneId !== null) {
+          mapInstance.setFeatureState(
+            { source: "dhaka-zones-source", id: hoveredDhakaZoneId },
+            { hover: false }
+          );
+        }
+        hoveredDhakaZoneId = feature.id ?? props.zone_id;
+        if (hoveredDhakaZoneId !== null) {
+          mapInstance.setFeatureState(
+            { source: "dhaka-zones-source", id: hoveredDhakaZoneId },
+            { hover: true }
+          );
+        }
       });
 
       mapInstance.on("mouseleave", "dhaka-zones-fill", () => {
         mapInstance.getCanvas().style.cursor = "";
         setHoveredDistrict(null);
+        if (hoveredDhakaZoneId !== null) {
+          mapInstance.setFeatureState(
+            { source: "dhaka-zones-source", id: hoveredDhakaZoneId },
+            { hover: false }
+          );
+          hoveredDhakaZoneId = null;
+        }
       });
 
       mapInstance.on("click", "dhaka-zones-fill", (e) => {
@@ -606,22 +698,38 @@ function MapCanvasComponent({
     if (!map.current || !map.current.isStyleLoaded()) return;
 
     try {
-      map.current.setLayoutProperty(
-        "districts-labels",
-        "text-field",
-        ["get", isBn ? "adm2_bn" : "adm2_en"]
-      );
-      map.current.setLayoutProperty(
-        "districts-sub-labels",
-        "text-field",
-        [
-          "concat",
-          ["get", isBn ? "adm2_en" : "adm2_bn"],
-          " • ",
-          ["to-string", ["get", "elevation_mean_m"]],
-          "m",
-        ]
-      );
+      if (map.current.getLayer("districts-labels")) {
+        map.current.setLayoutProperty(
+          "districts-labels",
+          "text-field",
+          ["get", isBn ? "adm2_bn" : "adm2_en"]
+        );
+      }
+      if (map.current.getLayer("districts-sub-labels")) {
+        map.current.setLayoutProperty(
+          "districts-sub-labels",
+          "text-field",
+          [
+            "concat",
+            ["to-string", ["get", "elevation_mean_m"]],
+            "m • ",
+            ["get", isBn ? "adm2_en" : "adm2_bn"],
+          ]
+        );
+      }
+      if (map.current.getLayer("dhaka-zones-labels")) {
+        map.current.setLayoutProperty(
+          "dhaka-zones-labels",
+          "text-field",
+          [
+            "concat",
+            ["get", isBn ? "short_bn" : "short_en"],
+            "\n(",
+            ["get", "corporation"],
+            ")",
+          ]
+        );
+      }
     } catch {
       // Ignored if style is still initializing
     }
@@ -642,12 +750,18 @@ function MapCanvasComponent({
 
         if (map.current.getLayer("districts-fill")) {
           map.current.setLayoutProperty("districts-fill", "visibility", "none");
+          map.current.setLayoutProperty("districts-line", "visibility", "none");
+          map.current.setLayoutProperty("districts-highlight", "visibility", "none");
           map.current.setLayoutProperty("districts-labels", "visibility", "none");
           map.current.setLayoutProperty("districts-sub-labels", "visibility", "none");
+        }
+        if (map.current.getLayer("divisions-line")) {
+          map.current.setLayoutProperty("divisions-line", "visibility", "none");
         }
         if (map.current.getLayer("dhaka-zones-fill")) {
           map.current.setLayoutProperty("dhaka-zones-fill", "visibility", "visible");
           map.current.setLayoutProperty("dhaka-zones-line", "visibility", "visible");
+          map.current.setLayoutProperty("dhaka-zones-highlight", "visibility", "visible");
           map.current.setLayoutProperty("dhaka-zones-labels", "visibility", "visible");
         }
       } else {
@@ -660,12 +774,18 @@ function MapCanvasComponent({
 
         if (map.current.getLayer("districts-fill")) {
           map.current.setLayoutProperty("districts-fill", "visibility", "visible");
+          map.current.setLayoutProperty("districts-line", "visibility", "visible");
+          map.current.setLayoutProperty("districts-highlight", "visibility", "visible");
           map.current.setLayoutProperty("districts-labels", "visibility", showLabels ? "visible" : "none");
           map.current.setLayoutProperty("districts-sub-labels", "visibility", showLabels ? "visible" : "none");
+        }
+        if (map.current.getLayer("divisions-line")) {
+          map.current.setLayoutProperty("divisions-line", "visibility", "visible");
         }
         if (map.current.getLayer("dhaka-zones-fill")) {
           map.current.setLayoutProperty("dhaka-zones-fill", "visibility", "none");
           map.current.setLayoutProperty("dhaka-zones-line", "visibility", "none");
+          map.current.setLayoutProperty("dhaka-zones-highlight", "visibility", "none");
           map.current.setLayoutProperty("dhaka-zones-labels", "visibility", "none");
         }
       }
