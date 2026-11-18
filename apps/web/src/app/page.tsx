@@ -255,7 +255,7 @@ export default function Home() {
                   <Sparkles className="h-3 w-3" />
                 </div>
                 <span className="font-semibold text-white">
-                  {isBn ? "সিভিক এআই সহকারী" : "Civic AI Assistant"}
+                  {isBn ? "ডেল্টা এআই সহকারী" : "Delta AI Assistant"}
                 </span>
                 <span className="text-slate-500">|</span>
                 <span className="text-slate-400 text-[11px] hidden sm:inline">

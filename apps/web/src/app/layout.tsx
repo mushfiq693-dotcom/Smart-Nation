@@ -22,9 +22,9 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "CivicSphere AI | ClimAct Twin Bangladesh",
+  title: "Delta AI | National Decision & Policy Twin Bangladesh",
   description:
-    "Grounded geospatial spatial intelligence, classical ML hazard risk scoring, explainable SHAP drivers, and policy simulation for Bangladesh.",
+    "Delta AI: Grounded geospatial spatial intelligence, classical ML hazard risk scoring, explainable SHAP drivers, and policy simulation for Bangladesh Delta Plan 2100.",
 };
 
 export default function RootLayout({

@@ -14,8 +14,8 @@ export function FloatingCopilot() {
     {
       sender: "ai",
       text: isBn
-        ? "আসসালামু আলাইকুম! আমি সিভিকস্ফিয়ার পলিসি অ্যাসিস্ট্যান্ট। ৬৪ জেলার ক্লাইমেট টুইন, ওপেন ডেটা বা বাজেট সিমুলেশন নিয়ে আমাকে যেকোনো প্রশ্ন করতে পারেন।"
-        : "Hello! I am CivicSphere Policy Assistant. Ask me anything about Bangladesh's 64 districts, climate hazards, or budget simulations.",
+        ? "আসসালামু আলাইকুম! আমি ডেল্টা এআই পলিসি সহকারী (Delta AI)। বাংলাদেশ ডেল্টা প্ল্যান ২১০০, ৬৪ জেলার ক্লাইমেট টুইন, ওপেন ডেটা বা বাজেট সিমুলেশন নিয়ে আমাকে যেকোনো প্রশ্ন করতে পারেন।"
+        : "Hello! I am Delta AI Policy Assistant. Ask me anything about Bangladesh Delta Plan 2100, 64 districts climate hazards, or budget simulations.",
     },
   ]);
   const [isTyping, setIsTyping] = useState(false);
@@ -80,7 +80,7 @@ export function FloatingCopilot() {
               <Sparkles className="h-4 w-4 animate-spin-slow" />
             </div>
             <span className="text-xs md:text-sm font-bold tracking-wide">
-              {isBn ? "সিভিক এআই" : "Civic AI"}
+              {isBn ? "ডেল্টা এআই" : "Delta AI"}
             </span>
           </button>
         )}
@@ -93,11 +93,11 @@ export function FloatingCopilot() {
           <div className="px-5 py-4 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-emerald-950/60 to-slate-900/60">
             <div className="flex items-center gap-2.5">
               <div className="flex h-8 w-8 items-center justify-center rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-400/30">
-                <Bot className="h-4 w-4" />
+                <span className="font-sans font-black text-sm text-emerald-300">Δ</span>
               </div>
               <div>
                 <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
-                  <span>CivicSphere AI</span>
+                  <span>Delta AI</span>
                   <span className="rounded-full bg-emerald-500/20 text-emerald-300 text-[9px] px-1.5 py-0.2 font-mono">
                     Grounded
                   </span>

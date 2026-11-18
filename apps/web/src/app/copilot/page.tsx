@@ -49,8 +49,8 @@ export default function CopilotPage() {
       id: "welcome-1",
       sender: "copilot",
       content: isBn
-        ? "আসসালামু আলাইকুম! আমি সিভিকস্ফেয়ার এআই এর গ্রাউন্ডেড পলিসি কোপাইলট (AI Policy Copilot)। আমি ডাকডিবি স্থানিক লেকহাউস, এক্সজিবুস্ট-শ্যাপ ঝুঁকি মডেল এবং জাতীয় অভিযোজন পরিকল্পনা (NAP) ও মুজিব ক্লাইমেট প্ল্যান ২০৩০ থেকে সুনির্দিষ্ট তথ্য সরবরাহ করতে পারি। আপনি কীভাবে সহায়তা চান?"
-        : "Welcome to CivicSphere AI Grounded Policy Copilot. I execute deterministic tool calls against our spatial lakehouse, XGBoost SHAP attribution models, and the official National Adaptation Plan (NAP 2023) corpus. How can I assist your policy inquiry?",
+        ? "আসসালামু আলাইকুম! আমি ডেল্টা এআই এর গ্রাউন্ডেড পলিসি কোপাইলট (Delta AI Policy Copilot)। আমি ডাকডিবি স্থানিক লেকহাউস, এক্সজিবুস্ট-শ্যাপ ঝুঁকি মডেল এবং বাংলাদেশ বদ্বীপ পরিকল্পনা ২১০০ ও জাতীয় অভিযোজন পরিকল্পনা (NAP) থেকে সুনির্দিষ্ট তথ্য সরবরাহ করতে পারি। আপনি কীভাবে সহায়তা চান?"
+        : "Welcome to Delta AI Grounded Policy Copilot. I execute deterministic tool calls against our spatial lakehouse, XGBoost SHAP attribution models, Bangladesh Delta Plan 2100, and the official National Adaptation Plan (NAP 2023) corpus. How can I assist your policy inquiry?",
       timestamp: "10:00 AM",
     },
   ]);

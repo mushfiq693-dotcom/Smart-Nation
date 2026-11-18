@@ -13,9 +13,9 @@ export function Footer() {
         {/* Brand & Attribution */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left gap-1.5">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-200">{t("brand")}</span>
+            <span className="font-bold text-slate-200">Delta AI</span>
             <span className="text-slate-600">&middot;</span>
-            <span className="text-emerald-400 font-medium">ClimAct Twin Bangladesh</span>
+            <span className="text-emerald-400 font-medium">{lang === "bn" ? "বদ্বীপ সিদ্ধান্ত টুইন" : "National Decision Twin"}</span>
           </div>
           <p className="text-[11px] text-slate-500 max-w-xl">
             {t("footer.govt_title")}

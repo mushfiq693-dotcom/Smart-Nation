@@ -117,33 +117,21 @@ export function Header() {
       >
         {/* Left: Brand Emblem & Title */}
         <Link href="/" className="flex items-center gap-3 group shrink-0">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-600 to-emerald-800 text-white shadow-md shadow-emerald-950/50 group-hover:scale-105 transition-transform duration-200 border border-emerald-400/40">
-            {/* Bangladesh Delta Stylized Emblem */}
-            <svg
-              className="h-6 w-6 text-white"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 2L2 7l10 5 10-5-10-5z" />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>
+          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-700 text-white shadow-md shadow-emerald-950/50 group-hover:scale-105 transition-transform duration-200 border border-emerald-400/40">
+            {/* Stylized Delta Symbol */}
+            <span className="font-sans font-black text-xl text-white">Δ</span>
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">
-              <span className="text-base md:text-lg font-bold tracking-tight text-white group-hover:text-emerald-300 transition-colors">
-                CivicSphere
+              <span className="text-base md:text-lg font-extrabold tracking-tight text-white group-hover:text-emerald-300 transition-colors">
+                Delta
               </span>
-              <span className="hidden sm:inline-block rounded-full bg-emerald-500/20 border border-emerald-400/30 px-2 py-0.2 text-[10px] font-semibold text-emerald-300">
+              <span className="rounded-full bg-emerald-500/20 border border-emerald-400/30 px-2 py-0.2 text-[10px] font-bold text-emerald-300">
                 AI
               </span>
             </div>
-            <span className="text-[11px] font-medium text-emerald-400/90 tracking-wide -mt-0.5">
-              ClimAct Twin
+            <span className="text-[10px] font-medium text-emerald-400/90 tracking-wide -mt-0.5">
+              {lang === "bn" ? "বদ্বীপ সিদ্ধান্ত টুইন" : "National Decision Twin"}
             </span>
           </div>
         </Link>
