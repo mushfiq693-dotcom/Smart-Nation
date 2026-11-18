@@ -472,6 +472,27 @@ export function Header() {
               <Globe2 className="h-4 w-4 text-emerald-400" />
               <span>{lang === "bn" ? "হোম ও ম্যাপ" : "Home & Map"}</span>
             </Link>
+
+            {/* Mobile Spatial Layers */}
+            <div className="flex flex-col gap-1 rounded-2xl bg-slate-900/60 p-2 border border-white/10">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-2 pt-1">
+                {lang === "bn" ? "স্থানিক লেয়ারসমূহ" : "Spatial Layers"}
+              </span>
+              {mapSubItems.map((sub) => {
+                const SubIcon = sub.icon;
+                return (
+                  <Link
+                    key={sub.href}
+                    href={sub.href}
+                    onClick={(e) => handleMapMetricSelect(e, sub)}
+                    className="flex items-center gap-2.5 rounded-xl px-2.5 py-1.5 text-xs text-slate-300 hover:bg-slate-800 hover:text-white"
+                  >
+                    <SubIcon className="h-3.5 w-3.5 text-emerald-400" />
+                    <span>{sub.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
             <Link
               href="/simulator"
               onClick={() => setMobileMenuOpen(false)}

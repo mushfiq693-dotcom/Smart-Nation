@@ -69,6 +69,52 @@ export default function Home() {
   const [heroAnswer, setHeroAnswer] = useState<string | null>(null);
   const [isAnswering, setIsAnswering] = useState(false);
 
+  // Listen for "select-map-metric" custom event dispatched from Header dropdown
+  useEffect(() => {
+    const handleMetricEvent = (e: Event) => {
+      const customEvent = e as CustomEvent<MetricType>;
+      if (customEvent.detail) {
+        setActiveMetric(customEvent.detail);
+        setRightPanelTab("controls");
+      }
+    };
+    window.addEventListener("select-map-metric", handleMetricEvent);
+    return () => window.removeEventListener("select-map-metric", handleMetricEvent);
+  }, []);
+
+  // Listen for URL query params on initial mount or back/forward navigation (e.g. /?metric=heat)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const parseQueryMetric = () => {
+      const params = new URLSearchParams(window.location.search);
+      const m = params.get("metric");
+      if (m) {
+        let targetMetric: MetricType | null = null;
+        if (m === "heat" || m === "heat_anomaly") targetMetric = "heat_anomaly";
+        else if (m === "flood" || m === "flood_discharge") targetMetric = "flood_discharge";
+        else if (m === "pm25" || m === "sensor_scarcity" || m === "air") targetMetric = "sensor_scarcity";
+        else if (m === "elevation") targetMetric = "elevation";
+        else if (m === "risk" || m === "composite_risk") targetMetric = "composite_risk";
+
+        if (targetMetric) {
+          setActiveMetric(targetMetric);
+          setRightPanelTab("controls");
+          setTimeout(() => {
+            const mapEl = document.getElementById("map-section");
+            if (mapEl) {
+              mapEl.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }, 200);
+        }
+      }
+    };
+
+    parseQueryMetric();
+    window.addEventListener("popstate", parseQueryMetric);
+    return () => window.removeEventListener("popstate", parseQueryMetric);
+  }, []);
+
   useEffect(() => {
     let isMounted = true;
     api
@@ -398,7 +444,7 @@ export default function Home() {
       </section>
 
       {/* 4. INTERACTIVE CLIMACT TWIN MAP & REGIONAL DOSSIER */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-6">
+      <section id="map-section" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-6 pt-4 scroll-mt-24">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-semibold text-emerald-400 uppercase tracking-wider mb-1">
