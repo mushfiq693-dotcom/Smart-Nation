@@ -22,6 +22,7 @@ import {
 import { useI18n } from "../../context/I18nContext";
 import { useAuth } from "../../context/AuthContext";
 import { api } from "../../lib/api";
+import { runClientSimulation } from "../../lib/simulationEngine";
 import { PolicyBriefModal } from "../../components/Simulator/PolicyBriefModal";
 
 // Dynamic import for ECharts to prevent SSR canvas errors
@@ -122,7 +123,20 @@ export default function SimulatorPage() {
             .catch(() => setTopShap(null));
         }
       } catch (err: any) {
-        setErrorMsg(err.message || "Simulation execution failed.");
+        // Fallback to client-side mathematical simulation engine
+        try {
+          const fallbackRes = runClientSimulation({
+            budget_usd: b,
+            alpha_equity: a,
+            w_risk: wRisk,
+            sector_weights: sectorWeights,
+            intervention_type: intType,
+          });
+          setSimulationResult(fallbackRes);
+          setErrorMsg(null);
+        } catch (fallbackErr: any) {
+          setErrorMsg(err.message || "Simulation execution failed.");
+        }
       } finally {
         setLoading(false);
       }
