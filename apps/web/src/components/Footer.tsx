@@ -12,10 +12,11 @@ export function Footer() {
       <div className="mx-auto max-w-7xl flex flex-col md:flex-row items-center justify-between gap-6">
         {/* Brand & Attribution */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left gap-1.5">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-200">Delta AI</span>
-            <span className="text-slate-600">&middot;</span>
-            <span className="text-emerald-400 font-medium">{lang === "bn" ? "বদ্বীপ সিদ্ধান্ত টুইন" : "National Decision Twin"}</span>
+          <div className="flex items-center gap-2.5">
+            <div className="h-6 w-6 rounded-lg bg-slate-900 border border-emerald-400/30 overflow-hidden p-0.5 shadow-sm">
+              <img src="/delta-emblem-badge.png" alt="Delta AI" className="h-full w-full object-contain" />
+            </div>
+            <span className="font-bold text-slate-200 text-sm">Delta AI</span>
           </div>
           <p className="text-[11px] text-slate-500 max-w-xl">
             {t("footer.govt_title")}

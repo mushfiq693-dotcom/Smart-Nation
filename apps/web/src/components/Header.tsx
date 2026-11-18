@@ -25,6 +25,7 @@ import {
 import { useI18n } from "../context/I18nContext";
 import { useAuth, UserRole } from "../context/AuthContext";
 import { api } from "../lib/api";
+import type { MetricType } from "./Map/MapCanvas";
 
 export function Header() {
   const pathname = usePathname();
@@ -91,12 +92,60 @@ export function Header() {
     },
   ];
 
-  const mapSubItems = [
-    { href: "/?metric=heat", label: lang === "bn" ? "হিটওয়েভ ও তাপমাত্রা" : "Urban Heat Island", icon: Flame },
-    { href: "/?metric=flood", label: lang === "bn" ? "বন্যা ও নদীপ্রবাহ" : "GloFAS Flood Discharge", icon: Waves },
-    { href: "/?metric=pm25", label: lang === "bn" ? "বায়ুমান (PM2.5)" : "OpenAQ Air Quality", icon: Wind },
-    { href: "/?metric=elevation", label: lang === "bn" ? "উপকূলীয় উচ্চতা" : "Copernicus DEM", icon: Mountain },
+  const mapSubItems: {
+    metric: MetricType;
+    href: string;
+    label: string;
+    sublabel: string;
+    icon: any;
+  }[] = [
+    {
+      metric: "heat_anomaly",
+      href: "/#map-section?metric=heat",
+      label: lang === "bn" ? "হিটওয়েভ ও তাপমাত্রা" : "Urban Heat Island",
+      sublabel: lang === "bn" ? "ERA5 তাপদাহ অ্যানোমালি" : "ERA5 2m Anomaly",
+      icon: Flame,
+    },
+    {
+      metric: "flood_discharge",
+      href: "/#map-section?metric=flood",
+      label: lang === "bn" ? "বন্যা ও নদীপ্রবাহ" : "GloFAS Flood Discharge",
+      sublabel: lang === "bn" ? "নদী প্রবাহ পিক" : "River Flow Peak",
+      icon: Waves,
+    },
+    {
+      metric: "sensor_scarcity",
+      href: "/#map-section?metric=pm25",
+      label: lang === "bn" ? "বায়ুমান (PM2.5)" : "OpenAQ Air Quality",
+      sublabel: lang === "bn" ? "গ্রাউন্ড স্টেশন ঘাটতি" : "Station Equity Audit",
+      icon: Wind,
+    },
+    {
+      metric: "elevation",
+      href: "/#map-section?metric=elevation",
+      label: lang === "bn" ? "উপকূলীয় উচ্চতা" : "Copernicus DEM",
+      sublabel: lang === "bn" ? "<৫মি প্লাবন সমভূমি" : "Lowland Elevation",
+      icon: Mountain,
+    },
   ];
+
+  const handleMapMetricSelect = (e: React.MouseEvent, item: (typeof mapSubItems)[0]) => {
+    setActiveDropdown(null);
+    setMobileMenuOpen(false);
+
+    if (pathname === "/") {
+      e.preventDefault();
+      // Dispatch custom event to trigger reactive metric change in page.tsx
+      window.dispatchEvent(new CustomEvent("select-map-metric", { detail: item.metric }));
+      window.history.replaceState(null, "", item.href);
+
+      // Smooth scroll to the live map section
+      const mapEl = document.getElementById("map-section");
+      if (mapEl) {
+        mapEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  };
 
   const simulationSubItems = [
     { href: "/simulator", label: lang === "bn" ? "বাজেট সিমুলেটর (What-If)" : "What-If Budget Simulator", icon: Sliders },
@@ -116,22 +165,20 @@ export function Header() {
         className="pointer-events-auto mx-auto max-w-7xl glass-capsule rounded-full px-4 md:px-6 py-2.5 flex items-center justify-between transition-all duration-300 shadow-2xl border border-white/15 bg-slate-950/80 backdrop-blur-xl"
       >
         {/* Left: Brand Emblem & Title */}
-        <Link href="/" className="flex items-center gap-3 group shrink-0">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-700 text-white shadow-md shadow-emerald-950/50 group-hover:scale-105 transition-transform duration-200 border border-emerald-400/40">
-            {/* Stylized Delta Symbol */}
-            <span className="font-sans font-black text-xl text-white">Δ</span>
+        <Link href="/" className="flex items-center gap-2.5 md:gap-3 group shrink-0">
+          <div className="relative flex h-10 w-10 md:h-11 md:w-11 items-center justify-center rounded-2xl bg-slate-900/90 p-0.5 shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform duration-200 border border-emerald-400/40 overflow-hidden ring-1 ring-white/10">
+            <img
+              src="/delta-emblem-badge.png"
+              alt="Delta AI Logo"
+              className="h-full w-full object-contain rounded-xl"
+            />
           </div>
-          <div className="flex flex-col">
-            <div className="flex items-center gap-1.5">
-              <span className="text-base md:text-lg font-extrabold tracking-tight text-white group-hover:text-emerald-300 transition-colors">
-                Delta
-              </span>
-              <span className="rounded-full bg-emerald-500/20 border border-emerald-400/30 px-2 py-0.2 text-[10px] font-bold text-emerald-300">
-                AI
-              </span>
-            </div>
-            <span className="text-[10px] font-medium text-emerald-400/90 tracking-wide -mt-0.5">
-              {lang === "bn" ? "বদ্বীপ সিদ্ধান্ত টুইন" : "National Decision Twin"}
+          <div className="flex items-center gap-1.5">
+            <span className="text-lg md:text-xl font-extrabold tracking-tight text-white group-hover:text-emerald-300 transition-colors">
+              Delta
+            </span>
+            <span className="rounded-full bg-emerald-500/20 border border-emerald-400/30 px-2.5 py-0.5 text-[11px] md:text-xs font-bold text-emerald-300">
+              AI
             </span>
           </div>
         </Link>
@@ -165,7 +212,7 @@ export function Header() {
             </button>
 
             {activeDropdown === "map" && (
-              <div className="absolute left-0 mt-3 w-56 rounded-2xl border border-white/15 bg-slate-900/95 p-2 shadow-2xl backdrop-blur-2xl animate-in fade-in slide-in-from-top-2 duration-150">
+              <div className="absolute left-0 mt-3 w-60 rounded-2xl border border-white/15 bg-slate-900/95 p-2 shadow-2xl backdrop-blur-2xl animate-in fade-in slide-in-from-top-2 duration-150">
                 <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
                   {lang === "bn" ? "স্থানিক লেয়ারসমূহ" : "Spatial Layers"}
                 </div>
@@ -175,11 +222,20 @@ export function Header() {
                     <Link
                       key={sub.href}
                       href={sub.href}
-                      onClick={() => setActiveDropdown(null)}
-                      className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs text-slate-200 hover:bg-emerald-500/20 hover:text-emerald-300 transition-colors"
+                      onClick={(e) => handleMapMetricSelect(e, sub)}
+                      className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-xs text-slate-200 hover:bg-emerald-500/20 hover:text-emerald-300 transition-colors group"
                     >
-                      <SubIcon className="h-4 w-4 text-emerald-400" />
-                      <span>{sub.label}</span>
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-800/80 group-hover:bg-emerald-500/30 text-emerald-400 transition-colors shrink-0">
+                        <SubIcon className="h-4 w-4" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-medium text-slate-100 group-hover:text-emerald-300">
+                          {sub.label}
+                        </span>
+                        <span className="text-[10px] text-slate-400 group-hover:text-emerald-400/80 font-mono">
+                          {sub.sublabel}
+                        </span>
+                      </div>
                     </Link>
                   );
                 })}

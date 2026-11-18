@@ -22,7 +22,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Delta AI | National Decision & Policy Twin Bangladesh",
+  title: "Delta AI — Bangladesh Climate & Policy Platform",
   description:
     "Delta AI: Grounded geospatial spatial intelligence, classical ML hazard risk scoring, explainable SHAP drivers, and policy simulation for Bangladesh Delta Plan 2100.",
 };

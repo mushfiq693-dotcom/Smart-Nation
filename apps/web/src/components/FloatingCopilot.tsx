@@ -74,10 +74,10 @@ export function FloatingCopilot() {
         {!isOpen && (
           <button
             onClick={() => setIsOpen(true)}
-            className="flex items-center gap-2.5 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-500 text-white px-5 py-3 shadow-2xl border border-emerald-400/40 hover:scale-105 transition-all duration-200 group"
+            className="flex items-center gap-2.5 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-500 hover:to-teal-500 text-white pl-2 pr-5 py-2 shadow-2xl border border-emerald-400/40 hover:scale-105 transition-all duration-200 group"
           >
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 text-white">
-              <Sparkles className="h-4 w-4 animate-spin-slow" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900/90 border border-emerald-400/40 overflow-hidden p-0.5 shadow-sm">
+              <img src="/delta-emblem-badge.png" alt="Delta AI" className="h-full w-full object-contain" />
             </div>
             <span className="text-xs md:text-sm font-bold tracking-wide">
               {isBn ? "ডেল্টা এআই" : "Delta AI"}
@@ -92,8 +92,8 @@ export function FloatingCopilot() {
           {/* Header */}
           <div className="px-5 py-4 border-b border-white/10 flex items-center justify-between bg-gradient-to-r from-emerald-950/60 to-slate-900/60">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-400/30">
-                <span className="font-sans font-black text-sm text-emerald-300">Δ</span>
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900 border border-emerald-400/40 overflow-hidden p-0.5 shadow-sm">
+                <img src="/delta-emblem-badge.png" alt="Delta AI" className="h-full w-full object-contain" />
               </div>
               <div>
                 <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
