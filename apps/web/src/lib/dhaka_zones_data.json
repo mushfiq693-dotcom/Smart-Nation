@@ -1,0 +1,426 @@
+[
+  {
+    "zone_id": "DHK_Z01",
+    "corporation": "DNCC",
+    "name_en": "Uttara & Airport Corridor (Zone 1)",
+    "name_bn": "উত্তরা ও বিমানবন্দর করিডোর (জোন ১)",
+    "centroid": [
+      90.3795,
+      23.8759
+    ],
+    "population": 1450000,
+    "area_sqkm": 34.2,
+    "uhi_anomaly_c": 3.4,
+    "waterlogging_risk_pct": 48.0,
+    "pm25_exposure_ug_m3": 79.5,
+    "green_canopy_ratio": 0.14,
+    "built_up_ratio": 0.76,
+    "poverty_headcount_pct": 11.2,
+    "elevation_mean_m": 7.8,
+    "v_i": 0.42,
+    "key_hazards": [
+      "Rooftop Heat Island",
+      "Airport Heat Island",
+      "Runoff Surge"
+    ],
+    "recommended_intervention": "Urban Tree Canopy & Cool Roof Mandates",
+    "coordinates": [
+      [
+        [
+          90.355,
+          23.855
+        ],
+        [
+          90.35,
+          23.885
+        ],
+        [
+          90.375,
+          23.905
+        ],
+        [
+          90.41,
+          23.895
+        ],
+        [
+          90.415,
+          23.865
+        ],
+        [
+          90.385,
+          23.85
+        ],
+        [
+          90.355,
+          23.855
+        ]
+      ]
+    ]
+  },
+  {
+    "zone_id": "DHK_Z02",
+    "corporation": "DNCC",
+    "name_en": "Mirpur, Pallabi & Kallyanpur Basin (Zone 4)",
+    "name_bn": "মিরপুর, পল্লবী ও কল্যাণপুর বেসিন (জোন ৪)",
+    "centroid": [
+      90.3686,
+      23.807
+    ],
+    "population": 2100000,
+    "area_sqkm": 28.5,
+    "uhi_anomaly_c": 3.8,
+    "waterlogging_risk_pct": 88.0,
+    "pm25_exposure_ug_m3": 92.4,
+    "green_canopy_ratio": 0.08,
+    "built_up_ratio": 0.86,
+    "poverty_headcount_pct": 24.5,
+    "elevation_mean_m": 6.2,
+    "v_i": 0.78,
+    "key_hazards": [
+      "Severe Waterlogging",
+      "Kallyanpur Basin Overflow",
+      "Urban Heat Island"
+    ],
+    "recommended_intervention": "Sluice Gates, Embankments & Permeable Drainage",
+    "coordinates": [
+      [
+        [
+          90.335,
+          23.8
+        ],
+        [
+          90.345,
+          23.835
+        ],
+        [
+          90.375,
+          23.83
+        ],
+        [
+          90.38,
+          23.79
+        ],
+        [
+          90.35,
+          23.785
+        ],
+        [
+          90.335,
+          23.8
+        ]
+      ]
+    ]
+  },
+  {
+    "zone_id": "DHK_Z03",
+    "corporation": "DNCC",
+    "name_en": "Gulshan, Banani, Baridhara & Badda (Zone 3)",
+    "name_bn": "গুলশান, বনানী, বারিধারা ও বাড্ডা (জোন ৩)",
+    "centroid": [
+      90.412,
+      23.7925
+    ],
+    "population": 1150000,
+    "area_sqkm": 22.8,
+    "uhi_anomaly_c": 2.4,
+    "waterlogging_risk_pct": 52.0,
+    "pm25_exposure_ug_m3": 86.4,
+    "green_canopy_ratio": 0.22,
+    "built_up_ratio": 0.72,
+    "poverty_headcount_pct": 9.8,
+    "elevation_mean_m": 8.5,
+    "v_i": 0.35,
+    "key_hazards": [
+      "Lake Basin Runoff",
+      "High Particulate Exposure",
+      "Asset Thermal Stress"
+    ],
+    "recommended_intervention": "Comprehensive Urban Climate Resilience Package",
+    "coordinates": [
+      [
+        [
+          90.395,
+          23.78
+        ],
+        [
+          90.395,
+          23.815
+        ],
+        [
+          90.435,
+          23.82
+        ],
+        [
+          90.435,
+          23.775
+        ],
+        [
+          90.41,
+          23.77
+        ],
+        [
+          90.395,
+          23.78
+        ]
+      ]
+    ]
+  },
+  {
+    "zone_id": "DHK_Z04",
+    "corporation": "DNCC",
+    "name_en": "Tejgaon, Mohakhali & Farmgate Corridor (Zone 5)",
+    "name_bn": "তেজগাঁও, মহাখালী ও ফার্মগেট করিডোর (জোন ৫)",
+    "centroid": [
+      90.395,
+      23.768
+    ],
+    "population": 1300000,
+    "area_sqkm": 16.4,
+    "uhi_anomaly_c": 3.9,
+    "waterlogging_risk_pct": 64.0,
+    "pm25_exposure_ug_m3": 91.8,
+    "green_canopy_ratio": 0.07,
+    "built_up_ratio": 0.89,
+    "poverty_headcount_pct": 16.4,
+    "elevation_mean_m": 7.6,
+    "v_i": 0.62,
+    "key_hazards": [
+      "Extreme Particulate Pollution",
+      "Industrial Heat Trap",
+      "Asphalt Imperviousness"
+    ],
+    "recommended_intervention": "IoT Weather & Hyperlocal Air Quality Sensors",
+    "coordinates": [
+      [
+        [
+          90.38,
+          23.755
+        ],
+        [
+          90.38,
+          23.78
+        ],
+        [
+          90.41,
+          23.78
+        ],
+        [
+          90.415,
+          23.755
+        ],
+        [
+          90.38,
+          23.755
+        ]
+      ]
+    ]
+  },
+  {
+    "zone_id": "DHK_Z05",
+    "corporation": "DSCC",
+    "name_en": "Dhanmondi, Mohammadpur & Hazaribagh (Zone 2)",
+    "name_bn": "ধানমন্ডি, মোহাম্মদপুর ও হাজারীবাগ (জোন ২)",
+    "centroid": [
+      90.368,
+      23.746
+    ],
+    "population": 1420000,
+    "area_sqkm": 20.1,
+    "uhi_anomaly_c": 3.1,
+    "waterlogging_risk_pct": 72.0,
+    "pm25_exposure_ug_m3": 88.6,
+    "green_canopy_ratio": 0.16,
+    "built_up_ratio": 0.81,
+    "poverty_headcount_pct": 17.8,
+    "elevation_mean_m": 6.5,
+    "v_i": 0.58,
+    "key_hazards": [
+      "Buriganga Dyke Backflow",
+      "Urban Drainage Stagnation",
+      "Darus Salam AQ Plume"
+    ],
+    "recommended_intervention": "Sluice Gates, Embankments & Permeable Drainage",
+    "coordinates": [
+      [
+        [
+          90.345,
+          23.73
+        ],
+        [
+          90.345,
+          23.765
+        ],
+        [
+          90.385,
+          23.765
+        ],
+        [
+          90.385,
+          23.735
+        ],
+        [
+          90.365,
+          23.725
+        ],
+        [
+          90.345,
+          23.73
+        ]
+      ]
+    ]
+  },
+  {
+    "zone_id": "DHK_Z06",
+    "corporation": "DSCC",
+    "name_en": "Old Dhaka, Lalbagh & Kotwali (Zone 3)",
+    "name_bn": "পুরান ঢাকা, লালবাগ ও কোতোয়ালি (জোন ৩)",
+    "centroid": [
+      90.402,
+      23.712
+    ],
+    "population": 1250000,
+    "area_sqkm": 12.8,
+    "uhi_anomaly_c": 4.4,
+    "waterlogging_risk_pct": 78.0,
+    "pm25_exposure_ug_m3": 95.5,
+    "green_canopy_ratio": 0.04,
+    "built_up_ratio": 0.94,
+    "poverty_headcount_pct": 21.0,
+    "elevation_mean_m": 6.8,
+    "v_i": 0.85,
+    "key_hazards": [
+      "Severe Urban Heat Island (+4.4°C)",
+      "Extreme Density & Narrow Canopies",
+      "Dholai Khal Clogging"
+    ],
+    "recommended_intervention": "Urban Tree Canopy & Cool Roof Mandates",
+    "coordinates": [
+      [
+        [
+          90.38,
+          23.705
+        ],
+        [
+          90.385,
+          23.725
+        ],
+        [
+          90.42,
+          23.725
+        ],
+        [
+          90.425,
+          23.7
+        ],
+        [
+          90.395,
+          23.695
+        ],
+        [
+          90.38,
+          23.705
+        ]
+      ]
+    ]
+  },
+  {
+    "zone_id": "DHK_Z07",
+    "corporation": "DSCC",
+    "name_en": "Motijheel, Ramna & Shahbagh (Zone 1)",
+    "name_bn": "মতিঝিল, রমনা ও শাহবাগ (জোন ১)",
+    "centroid": [
+      90.408,
+      23.732
+    ],
+    "population": 880000,
+    "area_sqkm": 14.2,
+    "uhi_anomaly_c": 2.2,
+    "waterlogging_risk_pct": 58.0,
+    "pm25_exposure_ug_m3": 82.0,
+    "green_canopy_ratio": 0.26,
+    "built_up_ratio": 0.71,
+    "poverty_headcount_pct": 10.5,
+    "elevation_mean_m": 7.9,
+    "v_i": 0.38,
+    "key_hazards": [
+      "Commercial Asphault Heat",
+      "Ramna Ecological Protection",
+      "Stormwater Surge"
+    ],
+    "recommended_intervention": "Comprehensive Urban Climate Resilience Package",
+    "coordinates": [
+      [
+        [
+          90.385,
+          23.725
+        ],
+        [
+          90.385,
+          23.745
+        ],
+        [
+          90.425,
+          23.745
+        ],
+        [
+          90.425,
+          23.725
+        ],
+        [
+          90.385,
+          23.725
+        ]
+      ]
+    ]
+  },
+  {
+    "zone_id": "DHK_Z08",
+    "corporation": "DSCC",
+    "name_en": "Kamrangirchar & Buriganga Lowlands (Zone 5)",
+    "name_bn": "কামরাঙ্গীরচর ও বুড়িগঙ্গা নিম্নাঞ্চল (জোন ৫)",
+    "centroid": [
+      90.37,
+      23.702
+    ],
+    "population": 950000,
+    "area_sqkm": 11.5,
+    "uhi_anomaly_c": 3.6,
+    "waterlogging_risk_pct": 86.0,
+    "pm25_exposure_ug_m3": 90.5,
+    "green_canopy_ratio": 0.06,
+    "built_up_ratio": 0.88,
+    "poverty_headcount_pct": 32.5,
+    "elevation_mean_m": 4.9,
+    "v_i": 0.89,
+    "key_hazards": [
+      "Buriganga Inundation",
+      "Slum Thermal Exposure",
+      "Drainage Absence"
+    ],
+    "recommended_intervention": "Sluice Gates, Embankments & Permeable Drainage",
+    "coordinates": [
+      [
+        [
+          90.355,
+          23.685
+        ],
+        [
+          90.35,
+          23.715
+        ],
+        [
+          90.38,
+          23.715
+        ],
+        [
+          90.38,
+          23.69
+        ],
+        [
+          90.355,
+          23.685
+        ]
+      ]
+    ]
+  }
+]

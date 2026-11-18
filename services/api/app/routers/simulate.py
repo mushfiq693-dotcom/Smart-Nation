@@ -6,7 +6,7 @@ from app.core.security import get_current_user, Role
 from app.core.audit import log_audit_event
 from app.db.session import get_db
 from app.db.models import PolicyScenario
-from app.engines.equity_optimizer import equity_optimizer, INTERVENTION_PROFILES
+from app.engines.equity_optimizer import equity_optimizer, INTERVENTION_PROFILES, DHAKA_INTERVENTIONS
 
 router = APIRouter(prefix="/simulate", tags=["ClimAct Twin Policy Simulation Studio"])
 
@@ -19,6 +19,7 @@ class SimulationRequest(BaseModel):
         default_factory=lambda: {"heat": 0.35, "flood": 0.35, "air": 0.15, "elevation": 0.15}
     )
     intervention_type: str = Field("balanced_resilience_mix", description="Intervention package type")
+    scope: str = Field("national", description="Scope: 'national' (64 districts) or 'dhaka' (DNCC & DSCC micro-zones)")
 
 
 @router.post("", summary="Run ClimAct Twin 'What-If' policy simulation & equity allocation")
@@ -29,16 +30,25 @@ def run_policy_simulation(
     current_user: Dict[str, Any] = Depends(get_current_user),
 ):
     """
-    Executes prescriptive budget allocation across Bangladesh districts
+    Executes prescriptive budget allocation across Bangladesh districts or Dhaka City zones
     using the equity-weighted mathematical formula and saves the scenario.
     """
-    sim_result = equity_optimizer.run_simulation(
-        budget_usd=request.budget_usd,
-        alpha_equity=request.alpha_equity,
-        w_risk=request.w_risk,
-        sector_weights=request.sector_weights,
-        intervention_type=request.intervention_type,
-    )
+    if request.scope == "dhaka":
+        sim_result = equity_optimizer.run_dhaka_simulation(
+            budget_usd=request.budget_usd,
+            alpha_equity=request.alpha_equity,
+            w_risk=request.w_risk,
+            sector_weights=request.sector_weights,
+            intervention_type=request.intervention_type,
+        )
+    else:
+        sim_result = equity_optimizer.run_simulation(
+            budget_usd=request.budget_usd,
+            alpha_equity=request.alpha_equity,
+            w_risk=request.w_risk,
+            sector_weights=request.sector_weights,
+            intervention_type=request.intervention_type,
+        )
 
     # Persist in PostgreSQL 'policy_scenarios' table
     author = current_user.get("username") or current_user.get("sub", "analyst")
@@ -83,9 +93,11 @@ def run_policy_simulation(
 
 
 @router.get("/interventions", summary="List candidate urban resilience intervention profiles")
-def list_interventions():
+def list_interventions(scope: str = "national"):
     """Returns available intervention packages with cost parameters"""
-    return INTERVENTION_PROFILES
+    if scope == "dhaka":
+        return DHAKA_INTERVENTIONS
+    return {**INTERVENTION_PROFILES, **DHAKA_INTERVENTIONS}
 
 
 @router.get("/scenarios", summary="List recent simulated policy scenarios")

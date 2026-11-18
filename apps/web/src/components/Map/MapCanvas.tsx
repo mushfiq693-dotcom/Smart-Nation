@@ -16,6 +16,8 @@ import {
   Moon,
   Satellite,
   Map,
+  Globe,
+  Building2,
 } from "lucide-react";
 import { useI18n } from "../../context/I18nContext";
 
@@ -41,6 +43,8 @@ export interface MapCanvasProps {
   setShowLabels?: (show: boolean) => void;
   showStations?: boolean;
   setShowStations?: (show: boolean) => void;
+  mapScope?: "national" | "dhaka";
+  setMapScope?: (scope: "national" | "dhaka") => void;
 }
 
 function MapCanvasComponent({
@@ -56,6 +60,8 @@ function MapCanvasComponent({
   setShowLabels: propSetShowLabels,
   showStations: propShowStations,
   setShowStations: propSetShowStations,
+  mapScope: propMapScope,
+  setMapScope: propSetMapScope,
 }: MapCanvasProps) {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maplibregl.Map | null>(null);
@@ -63,6 +69,10 @@ function MapCanvasComponent({
   onSelectDistrictRef.current = onSelectDistrict;
   const districtsMatrixRef = useRef(districtsMatrix);
   districtsMatrixRef.current = districtsMatrix;
+
+  const [internalScope, setInternalScope] = useState<"national" | "dhaka">("national");
+  const mapScope = propMapScope ?? internalScope;
+  const setMapScope = propSetMapScope ?? setInternalScope;
 
   const [internalMetric, setInternalMetric] = useState<MetricType>("composite_risk");
   const activeMetric = propActiveMetric ?? internalMetric;
@@ -244,6 +254,12 @@ function MapCanvasComponent({
         data: "/data/openaq_bd_stations.geojson",
       });
 
+      // 6. Add Dhaka Micro-Zones GeoJSON Source
+      mapInstance.addSource("dhaka-zones-source", {
+        type: "geojson",
+        data: "/data/dhaka_zones.geojson",
+      });
+
       // Layer: Districts Fill (Semi-transparent Choropleth over real basemap)
       mapInstance.addLayer({
         id: "districts-fill",
@@ -421,6 +437,101 @@ function MapCanvasComponent({
         },
       });
 
+      // Layer: Dhaka Zones Fill (Choropleth for 8 DNCC & DSCC Micro-Zones)
+      mapInstance.addLayer({
+        id: "dhaka-zones-fill",
+        type: "fill",
+        source: "dhaka-zones-source",
+        layout: {
+          visibility: "none",
+        },
+        paint: {
+          "fill-color": [
+            "interpolate",
+            ["linear"],
+            ["coalesce", ["get", "uhi_anomaly_c"], 3.0],
+            2.0, "#10b981",
+            2.8, "#06b6d4",
+            3.4, "#f59e0b",
+            3.8, "#f97316",
+            4.4, "#dc2626",
+          ],
+          "fill-opacity": 0.68,
+        },
+      });
+
+      // Layer: Dhaka Zones Boundary Line
+      mapInstance.addLayer({
+        id: "dhaka-zones-line",
+        type: "line",
+        source: "dhaka-zones-source",
+        layout: {
+          visibility: "none",
+        },
+        paint: {
+          "line-color": "#38bdf8",
+          "line-width": 2.4,
+          "line-opacity": 0.95,
+        },
+      });
+
+      // Layer: Dhaka Zones Text Labels
+      mapInstance.addLayer({
+        id: "dhaka-zones-labels",
+        type: "symbol",
+        source: "dhaka-zones-source",
+        layout: {
+          visibility: "none",
+          "text-field": ["get", isBn ? "name_bn" : "name_en"],
+          "text-font": ["Open Sans Bold", "Arial Unicode MS Regular"],
+          "text-size": [
+            "interpolate",
+            ["linear"],
+            ["zoom"],
+            10.0, 11.0,
+            12.0, 13.5,
+            14.0, 16.0,
+          ],
+          "text-anchor": "center",
+          "text-allow-overlap": true,
+          "text-max-width": 9,
+        },
+        paint: {
+          "text-color": "#ffffff",
+          "text-halo-color": "#020617",
+          "text-halo-width": 3.0,
+          "text-halo-blur": 1.0,
+        },
+      });
+
+      // Interaction Events on Dhaka Zones
+      mapInstance.on("mousemove", "dhaka-zones-fill", (e) => {
+        if (!e.features || e.features.length === 0) return;
+        mapInstance.getCanvas().style.cursor = "pointer";
+        const props = e.features[0].properties;
+        setHoveredDistrict(props);
+      });
+
+      mapInstance.on("mouseleave", "dhaka-zones-fill", () => {
+        mapInstance.getCanvas().style.cursor = "";
+        setHoveredDistrict(null);
+      });
+
+      mapInstance.on("click", "dhaka-zones-fill", (e) => {
+        if (!e.features || e.features.length === 0) return;
+        const props = e.features[0].properties;
+        if (props.longitude && props.latitude) {
+          mapInstance.flyTo({
+            center: [Number(props.longitude), Number(props.latitude)],
+            zoom: Math.max(mapInstance.getZoom(), 12.5),
+            duration: 700,
+          });
+        }
+        if (onSelectDistrictRef.current) {
+          onSelectDistrictRef.current(props);
+        }
+      });
+
       // Interaction Events
       let hoveredFeatureId: string | number | null = null;
 
@@ -515,6 +626,53 @@ function MapCanvasComponent({
       // Ignored if style is still initializing
     }
   }, [lang, isBn]);
+
+  // Toggle Scope between National 64 Districts and Dhaka Megacity Twin
+  useEffect(() => {
+    if (!map.current || !map.current.isStyleLoaded()) return;
+
+    try {
+      if (mapScope === "dhaka") {
+        map.current.flyTo({
+          center: [90.3950, 23.7750],
+          zoom: 11.6,
+          duration: 1500,
+          essential: true,
+        });
+
+        if (map.current.getLayer("districts-fill")) {
+          map.current.setLayoutProperty("districts-fill", "visibility", "none");
+          map.current.setLayoutProperty("districts-labels", "visibility", "none");
+          map.current.setLayoutProperty("districts-sub-labels", "visibility", "none");
+        }
+        if (map.current.getLayer("dhaka-zones-fill")) {
+          map.current.setLayoutProperty("dhaka-zones-fill", "visibility", "visible");
+          map.current.setLayoutProperty("dhaka-zones-line", "visibility", "visible");
+          map.current.setLayoutProperty("dhaka-zones-labels", "visibility", "visible");
+        }
+      } else {
+        map.current.flyTo({
+          center: BD_CENTER,
+          zoom: BD_ZOOM,
+          duration: 1400,
+          essential: true,
+        });
+
+        if (map.current.getLayer("districts-fill")) {
+          map.current.setLayoutProperty("districts-fill", "visibility", "visible");
+          map.current.setLayoutProperty("districts-labels", "visibility", showLabels ? "visible" : "none");
+          map.current.setLayoutProperty("districts-sub-labels", "visibility", showLabels ? "visible" : "none");
+        }
+        if (map.current.getLayer("dhaka-zones-fill")) {
+          map.current.setLayoutProperty("dhaka-zones-fill", "visibility", "none");
+          map.current.setLayoutProperty("dhaka-zones-line", "visibility", "none");
+          map.current.setLayoutProperty("dhaka-zones-labels", "visibility", "none");
+        }
+      }
+    } catch {
+      // Style may not be loaded yet
+    }
+  }, [mapScope, showLabels]);
 
   // Toggle Label Visibility
   useEffect(() => {
@@ -629,6 +787,62 @@ function MapCanvasComponent({
 
     try {
       map.current.setPaintProperty("districts-fill", "fill-color", colorExpression);
+
+      let dhakaColorExpr: any = [
+        "interpolate",
+        ["linear"],
+        ["coalesce", ["get", "v_i"], 0.5],
+        0.3, "#10b981",
+        0.5, "#06b6d4",
+        0.7, "#f59e0b",
+        0.9, "#ef4444",
+      ];
+
+      if (activeMetric === "heat_anomaly") {
+        dhakaColorExpr = [
+          "interpolate",
+          ["linear"],
+          ["coalesce", ["get", "uhi_anomaly_c"], 3.0],
+          2.0, "#10b981",
+          2.8, "#06b6d4",
+          3.4, "#f59e0b",
+          3.8, "#f97316",
+          4.4, "#dc2626",
+        ];
+      } else if (activeMetric === "flood_discharge") {
+        dhakaColorExpr = [
+          "interpolate",
+          ["linear"],
+          ["coalesce", ["get", "waterlogging_risk_pct"], 60.0],
+          40.0, "#38bdf8",
+          60.0, "#0284c7",
+          75.0, "#1d4ed8",
+          88.0, "#1e1b4b",
+        ];
+      } else if (activeMetric === "elevation") {
+        dhakaColorExpr = [
+          "interpolate",
+          ["linear"],
+          ["coalesce", ["get", "elevation_mean_m"], 6.0],
+          4.5, "#059669",
+          6.0, "#10b981",
+          7.5, "#f59e0b",
+          9.0, "#b45309",
+        ];
+      } else if (activeMetric === "sensor_scarcity") {
+        dhakaColorExpr = [
+          "interpolate",
+          ["linear"],
+          ["coalesce", ["get", "pm25_exposure_ug_m3"], 85.0],
+          75.0, "#eab308",
+          85.0, "#f97316",
+          95.0, "#dc2626",
+        ];
+      }
+
+      if (map.current.getLayer("dhaka-zones-fill")) {
+        map.current.setPaintProperty("dhaka-zones-fill", "fill-color", dhakaColorExpr);
+      }
     } catch {
       // Style may be reloading
     }
@@ -663,11 +877,19 @@ function MapCanvasComponent({
 
   const resetView = () => {
     if (!map.current) return;
-    map.current.flyTo({
-      center: BD_CENTER,
-      zoom: BD_ZOOM,
-      duration: 1000,
-    });
+    if (mapScope === "dhaka") {
+      map.current.flyTo({
+        center: [90.3950, 23.7750],
+        zoom: 11.6,
+        duration: 1000,
+      });
+    } else {
+      map.current.flyTo({
+        center: BD_CENTER,
+        zoom: BD_ZOOM,
+        duration: 1000,
+      });
+    }
   };
 
   const metricButtons: { id: MetricType; label: string; icon: any }[] = [
@@ -682,6 +904,32 @@ function MapCanvasComponent({
     <div className="relative w-full h-[580px] lg:h-[650px] rounded-3xl overflow-hidden border border-slate-800 bg-slate-950 shadow-2xl">
       {/* Map Canvas Element */}
       <div ref={mapContainer} className="w-full h-full" />
+
+      {/* Top Left Floating Dual-Scope Switch Capsule: National vs Dhaka Urban Twin */}
+      <div className="absolute top-4 left-4 z-10 flex items-center p-1 rounded-full bg-slate-950/90 backdrop-blur-xl border border-white/20 shadow-2xl">
+        <button
+          onClick={() => setMapScope("national")}
+          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+            mapScope === "national"
+              ? "bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/30 font-bold"
+              : "text-slate-300 hover:text-white"
+          }`}
+        >
+          <Globe className="h-3.5 w-3.5" />
+          <span>{isBn ? "জাতীয় (৬৪ জেলা)" : "National (64 Districts)"}</span>
+        </button>
+        <button
+          onClick={() => setMapScope("dhaka")}
+          className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+            mapScope === "dhaka"
+              ? "bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/30 font-bold"
+              : "text-slate-300 hover:text-white"
+          }`}
+        >
+          <Building2 className="h-3.5 w-3.5" />
+          <span>{isBn ? "ঢাকা আরবান টুইন (DNCC & DSCC)" : "Dhaka Urban Twin"}</span>
+        </button>
+      </div>
 
       {/* Top Right Floating Controls: ONLY OpenAQ & Reset View as requested */}
       <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
@@ -703,7 +951,7 @@ function MapCanvasComponent({
         <button
           onClick={resetView}
           className="flex items-center gap-1.5 rounded-xl border border-slate-800 bg-slate-900/90 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:border-slate-700 hover:bg-slate-800 shadow-2xl backdrop-blur-xl transition-colors"
-          title="Reset to Bangladesh center"
+          title="Reset View"
         >
           <RotateCcw className="h-3.5 w-3.5 text-slate-400" />
           <span>{isBn ? "রিসেট" : "Reset"}</span>
@@ -763,14 +1011,18 @@ function MapCanvasComponent({
           <div className="flex items-center justify-between gap-3">
             <div>
               <span className="font-bold text-white text-sm block">
-                {isBn ? hoveredDistrict.adm2_bn || hoveredDistrict.adm2_en : hoveredDistrict.adm2_en}
+                {isBn
+                  ? hoveredDistrict.name_bn || hoveredDistrict.adm2_bn || hoveredDistrict.name_en || hoveredDistrict.adm2_en
+                  : hoveredDistrict.name_en || hoveredDistrict.adm2_en}
               </span>
               <span className="text-[10px] text-slate-400">
-                {hoveredDistrict.adm2_en} • {hoveredDistrict.topography_class?.replace("_", " ") || "Delta"}
+                {hoveredDistrict.corporation
+                  ? `${hoveredDistrict.corporation} • ` + (isBn ? "ঢাকা নগর ক্লাইমেট জোন" : "Dhaka Climate Zone")
+                  : `${hoveredDistrict.adm2_en} • ${hoveredDistrict.topography_class?.replace("_", " ") || "Delta"}`}
               </span>
             </div>
             <span className="font-mono text-[10px] text-cyan-400 bg-slate-800 px-1.5 py-0.5 rounded border border-cyan-500/20">
-              {hoveredDistrict.adm2_pcode}
+              {hoveredDistrict.zone_id || hoveredDistrict.adm2_pcode}
             </span>
           </div>
 
@@ -778,15 +1030,23 @@ function MapCanvasComponent({
             <div>
               <span className="text-slate-500 block">{isBn ? "জনসংখ্যা:" : "Population:"}</span>
               <span className="font-mono font-semibold">
-                {hoveredDistrict.population_2022
+                {hoveredDistrict.population
+                  ? Number(hoveredDistrict.population).toLocaleString()
+                  : hoveredDistrict.population_2022
                   ? Number(hoveredDistrict.population_2022).toLocaleString()
                   : "—"}
               </span>
             </div>
             <div>
-              <span className="text-slate-500 block">{isBn ? "গড় উচ্চতা:" : "Mean Elevation:"}</span>
-              <span className="font-mono font-semibold text-emerald-400">
-                {hoveredDistrict.elevation_mean_m
+              <span className="text-slate-500 block">
+                {hoveredDistrict.uhi_anomaly_c
+                  ? (isBn ? "তাপদ্বীপ (UHI):" : "Heat Island:")
+                  : (isBn ? "গড় উচ্চতা:" : "Mean Elevation:")}
+              </span>
+              <span className="font-mono font-semibold text-amber-400">
+                {hoveredDistrict.uhi_anomaly_c
+                  ? `+${Number(hoveredDistrict.uhi_anomaly_c).toFixed(1)}°C`
+                  : hoveredDistrict.elevation_mean_m
                   ? `${Number(hoveredDistrict.elevation_mean_m).toFixed(1)} m`
                   : "—"}
               </span>

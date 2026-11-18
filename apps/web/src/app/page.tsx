@@ -62,6 +62,7 @@ export default function Home() {
   const [basemap, setBasemap] = useState<BasemapType>("streets");
   const [showLabels, setShowLabels] = useState<boolean>(true);
   const [showStations, setShowStations] = useState<boolean>(true);
+  const [mapScope, setMapScope] = useState<"national" | "dhaka">("national");
   const [rightPanelTab, setRightPanelTab] = useState<"controls" | "dossier">("controls");
 
   // Hero AI Assistant Search State
@@ -503,6 +504,8 @@ export default function Home() {
               setShowLabels={setShowLabels}
               showStations={showStations}
               setShowStations={setShowStations}
+              mapScope={mapScope}
+              setMapScope={setMapScope}
             />
           </div>
 
@@ -528,7 +531,7 @@ export default function Home() {
                       : "text-slate-400 hover:text-slate-200"
                   }`}
                 >
-                  📍 {isBn ? selectedDistrict.adm2_bn || selectedDistrict.adm2_en : selectedDistrict.adm2_en} {isBn ? "ডসিয়ার" : "Dossier"}
+                  📍 {selectedDistrict.zone_id ? (isBn ? selectedDistrict.name_bn || selectedDistrict.name_en : selectedDistrict.name_en) : (isBn ? selectedDistrict.adm2_bn || selectedDistrict.adm2_en : selectedDistrict.adm2_en)} {isBn ? "ডসিয়ার" : "Dossier"}
                 </button>
               </div>
             )}

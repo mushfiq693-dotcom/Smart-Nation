@@ -1,4 +1,5 @@
 import districtsData from "./districts_data.json";
+import dhakaZonesData from "./dhaka_zones_data.json";
 
 export interface DistrictMetric {
   adm2_pcode: string;
@@ -228,5 +229,211 @@ export function runClientSimulation(params: {
     created_by: "dhaka_analyst",
     disclaimer:
       "Scenario estimate based on mathematical priority modeling. Not a causal policy forecast.",
+  };
+}
+
+export const DHAKA_INTERVENTIONS: Record<string, any> = {
+  dhaka_cool_roofs: {
+    title_en: "DNCC Slum Cool Roofs & Thermal Paint Initiative",
+    title_bn: "বস্তির টিনের চালে কুল রুফ ও থার্মাল কোটিং উদ্যোগ",
+    primary_sector: "heat",
+    target_hazard: "uhi_anomaly_c",
+    unit_cost_usd: 20000.0,
+    max_risk_reduction_pct: 26.0,
+  },
+  dhaka_drainage_sluice: {
+    title_en: "Hatirjheel & Kallyanpur Basin Smart Sluice Gates & Desilting",
+    title_bn: "হাতিরঝিল ও কল্যাণপুর খালে স্মার্ট স্লুইস গেট ও পলি অপসারণ",
+    primary_sector: "flood",
+    target_hazard: "waterlogging_risk_pct",
+    unit_cost_usd: 35000.0,
+    max_risk_reduction_pct: 32.0,
+  },
+  dhaka_urban_forestry: {
+    title_en: "Miyawaki Micro-Forestry & Green Corridor Network",
+    title_bn: "মিয়াওয়াকি ক্ষুদ্র নগর বনায়ন ও সবুজ করিডোর নেটওয়ার্ক",
+    primary_sector: "heat",
+    target_hazard: "green_canopy_ratio",
+    unit_cost_usd: 25000.0,
+    max_risk_reduction_pct: 22.0,
+  },
+  dhaka_iot_sensors: {
+    title_en: "129 Wards Micro IoT Air & Drainage Sensor Mesh",
+    title_bn: "১২৯টি ওয়ার্ডে হাইপারলোকাল আইওটি বায়ু ও বন্যা সেন্সর গ্রিড",
+    primary_sector: "air",
+    target_hazard: "pm25_exposure_ug_m3",
+    unit_cost_usd: 15000.0,
+    max_risk_reduction_pct: 18.0,
+  },
+  dhaka_balanced_package: {
+    title_en: "Dhaka Megacity Integrated Climate Resilience Package",
+    title_bn: "ঢাকা মেগাসিটি সমন্বিত জলবায়ু সহনশীলতা প্যাকেজ",
+    primary_sector: "all",
+    target_hazard: "composite_hazard",
+    unit_cost_usd: 30000.0,
+    max_risk_reduction_pct: 28.0,
+  },
+};
+
+export function runClientDhakaSimulation(params: {
+  budget_usd?: number;
+  alpha_equity?: number;
+  w_risk?: number;
+  sector_weights?: Record<string, number>;
+  intervention_type?: string;
+  min_allocation_usd?: number;
+}) {
+  const budget_usd = params.budget_usd ?? 250000;
+  const alpha_equity = params.alpha_equity ?? 0.5;
+  const w_risk = params.w_risk ?? 1.0;
+  const sector_weights = params.sector_weights ?? {
+    heat: 0.35,
+    flood: 0.35,
+    air: 0.15,
+    elevation: 0.15,
+  };
+  const intervention_type = params.intervention_type ?? "dhaka_balanced_package";
+  const min_allocation_usd = params.min_allocation_usd ?? 10000;
+
+  const weightSum =
+    Object.values(sector_weights).reduce((a, b) => a + b, 0) || 1.0;
+  const normWeights: Record<string, number> = {};
+  for (const [k, v] of Object.entries(sector_weights)) {
+    normWeights[k] = v / weightSum;
+  }
+
+  const intervention =
+    DHAKA_INTERVENTIONS[intervention_type] ||
+    DHAKA_INTERVENTIONS["dhaka_balanced_package"];
+
+  const zones: any[] = dhakaZonesData as any[];
+  const maxPop = Math.max(...zones.map((z) => z.population)) || 1.0;
+
+  const zoneScores = zones.map((z) => {
+    const popNorm = z.population / maxPop;
+    const v_i = z.v_i;
+
+    const normHeat = Math.min(1.0, z.uhi_anomaly_c / 4.5);
+    const normWaterlogging = z.waterlogging_risk_pct / 100.0;
+    const normAir = Math.min(1.0, Math.max(0.0, (z.pm25_exposure_ug_m3 - 60.0) / 40.0));
+    const normPoverty = z.poverty_headcount_pct / 35.0;
+
+    // Dhaka Hazard Risk Score R_hat
+    const r_hat =
+      0.30 * normHeat * (normWeights["heat"] || 0.35) * 2.8 +
+      0.35 * normWaterlogging * (normWeights["flood"] || 0.35) * 2.8 +
+      0.20 * normAir * (normWeights["air"] || 0.15) * 6.5 +
+      0.15 * normPoverty;
+
+    const r_hat_clamped = Math.min(0.99, Math.max(0.20, r_hat));
+
+    // Priority Score formula:
+    const p_score =
+      w_risk *
+      r_hat_clamped *
+      (1.0 + alpha_equity * v_i) *
+      Math.pow(popNorm, 0.65);
+
+    return {
+      adm2_pcode: z.zone_id,
+      adm2_en: z.name_en,
+      adm2_bn: z.name_bn,
+      corporation: z.corporation,
+      adm1_pcode: "BD30",
+      population: z.population,
+      r_hat: parseFloat(r_hat_clamped.toFixed(4)),
+      v_i: z.v_i,
+      p_score,
+      key_hazards: z.key_hazards,
+      recommended_intervention: z.recommended_intervention,
+    };
+  });
+
+  const totalPScore = zoneScores.reduce((acc, z) => acc + z.p_score, 0) || 1.0;
+  const scored = zoneScores.map((z) => ({
+    ...z,
+    weight_share: z.p_score / totalPScore,
+  }));
+
+  scored.sort((a, b) => b.weight_share - a.weight_share);
+
+  const allocations: any[] = [];
+  let allocatedSoFar = 0;
+
+  scored.forEach((z, idx) => {
+    const rank = idx + 1;
+    const rawAlloc = (z.weight_share / 1.0) * budget_usd;
+    let allocUsd = Math.round(Math.max(min_allocation_usd, rawAlloc));
+
+    if (rank === scored.length) {
+      allocUsd = Math.round(budget_usd - allocatedSoFar);
+    }
+    allocatedSoFar += allocUsd;
+
+    const mitigationPct = Math.min(
+      intervention.max_risk_reduction_pct,
+      (allocUsd / 40000.0) * intervention.max_risk_reduction_pct
+    );
+    const r_hat_after = Math.max(0.0, z.r_hat * (1.0 - mitigationPct / 100.0));
+    const protectedPop = Math.round(z.population * (mitigationPct / 100.0));
+
+    allocations.push({
+      rank,
+      adm2_pcode: z.adm2_pcode,
+      adm2_en: z.adm2_en,
+      adm2_bn: z.adm2_bn,
+      corporation: z.corporation,
+      adm1_pcode: "BD30",
+      population: z.population,
+      baseline_risk_score: z.r_hat,
+      vulnerability_index_vi: z.v_i,
+      priority_score: parseFloat(z.p_score.toFixed(4)),
+      allocated_usd: allocUsd,
+      allocation_pct: parseFloat(((allocUsd / budget_usd) * 100).toFixed(2)),
+      estimated_risk_reduction_pct: parseFloat(mitigationPct.toFixed(2)),
+      simulated_risk_score_after: parseFloat(r_hat_after.toFixed(4)),
+      estimated_protected_population: protectedPop,
+      sensor_gap_addressed: true,
+      key_hazards: z.key_hazards,
+    });
+  });
+
+  const allocValues = allocations.map((a) => a.allocated_usd).sort((a, b) => a - b);
+  const n = allocValues.length;
+  const total = allocValues.reduce((a, b) => a + b, 0);
+  let diffSum = 0;
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      diffSum += Math.abs(allocValues[i] - allocValues[j]);
+    }
+  }
+  const gini = total > 0 ? diffSum / (2 * n * total) : 0;
+
+  const totalProtected = allocations.reduce(
+    (acc, a) => acc + a.estimated_protected_population,
+    0
+  );
+  const meanReduction =
+    allocations.reduce((acc, a) => acc + a.estimated_risk_reduction_pct, 0) /
+    allocations.length;
+
+  return {
+    budget_usd,
+    alpha_equity,
+    w_risk,
+    sector_weights: normWeights,
+    intervention,
+    total_districts_funded: allocations.length,
+    total_allocated_usd: allocations.reduce((acc, a) => acc + a.allocated_usd, 0),
+    total_estimated_protected_population: totalProtected,
+    mean_risk_mitigation_pct: parseFloat(meanReduction.toFixed(2)),
+    equity_gini_coefficient: parseFloat(gini.toFixed(3)),
+    allocations,
+    is_exploratory: true,
+    scenario_id: `scen_dhaka_${Date.now()}`,
+    created_by: "dhaka_analyst",
+    scope: "dhaka_megacity",
+    disclaimer:
+      "Dhaka Megacity Urban Resilience scenario. Prescriptive municipal allocation model for DNCC & DSCC.",
   };
 }

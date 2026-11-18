@@ -96,6 +96,7 @@ export const api = {
     w_risk?: number;
     sector_weights?: Record<string, number>;
     intervention_type?: string;
+    scope?: "national" | "dhaka";
   }, token?: string) {
     return apiFetch<any>("/api/v1/simulate", {
       method: "POST",

@@ -46,6 +46,49 @@ INTERVENTION_PROFILES = {
     },
 }
 
+DHAKA_INTERVENTIONS = {
+    "dhaka_cool_roofs": {
+        "title_en": "DNCC Slum Cool Roofs & Thermal Paint Initiative",
+        "title_bn": "বস্তির টিনের চালে কুল রুফ ও থার্মাল কোটিং উদ্যোগ",
+        "primary_sector": "heat",
+        "target_hazard": "uhi_anomaly_c",
+        "unit_cost_usd": 20000.0,
+        "max_risk_reduction_pct": 26.0,
+    },
+    "dhaka_drainage_sluice": {
+        "title_en": "Hatirjheel & Kallyanpur Basin Smart Sluice Gates & Desilting",
+        "title_bn": "হাতিরঝিল ও কল্যাণপুর খালে স্মার্ট স্লুইস গেট ও পলি অপসারণ",
+        "primary_sector": "flood",
+        "target_hazard": "waterlogging_risk_pct",
+        "unit_cost_usd": 35000.0,
+        "max_risk_reduction_pct": 32.0,
+    },
+    "dhaka_urban_forestry": {
+        "title_en": "Miyawaki Micro-Forestry & Green Corridor Network",
+        "title_bn": "মিয়াওয়াকি ক্ষুদ্র নগর বনায়ন ও সবুজ করিডোর নেটওয়ার্ক",
+        "primary_sector": "heat",
+        "target_hazard": "green_canopy_ratio",
+        "unit_cost_usd": 25000.0,
+        "max_risk_reduction_pct": 22.0,
+    },
+    "dhaka_iot_sensors": {
+        "title_en": "129 Wards Micro IoT Air & Drainage Sensor Mesh",
+        "title_bn": "১২৯টি ওয়ার্ডে হাইপারলোকাল আইওটি বায়ু ও বন্যা সেন্সর গ্রিড",
+        "primary_sector": "air",
+        "target_hazard": "pm25_exposure_ug_m3",
+        "unit_cost_usd": 15000.0,
+        "max_risk_reduction_pct": 18.0,
+    },
+    "dhaka_balanced_package": {
+        "title_en": "Dhaka Megacity Integrated Climate Resilience Package",
+        "title_bn": "ঢাকা মেগাসিটি সমন্বিত জলবায়ু সহনশীলতা প্যাকেজ",
+        "primary_sector": "all",
+        "target_hazard": "composite_hazard",
+        "unit_cost_usd": 30000.0,
+        "max_risk_reduction_pct": 28.0,
+    },
+}
+
 
 class EquityOptimizer:
     def __init__(self):
@@ -203,6 +246,139 @@ class EquityOptimizer:
             return 0.0
         diff_sum = sum(abs(x - y) for x in sorted_vals for y in sorted_vals)
         return diff_sum / (2.0 * n * total)
+
+    def run_dhaka_simulation(
+        self,
+        budget_usd: float = 250000.0,
+        alpha_equity: float = 0.50,
+        w_risk: float = 1.0,
+        sector_weights: Optional[Dict[str, float]] = None,
+        intervention_type: str = "dhaka_balanced_package",
+        min_allocation_usd: float = 10000.0,
+    ) -> Dict[str, Any]:
+        """
+        Executes municipal budget allocation across Dhaka City's 8 micro-zones (DNCC & DSCC).
+        """
+        import pandas as pd
+        from pathlib import Path
+        from app.core.config import settings
+
+        if sector_weights is None:
+            sector_weights = {"heat": 0.35, "flood": 0.35, "air": 0.15, "elevation": 0.15}
+
+        weight_sum = sum(sector_weights.values()) or 1.0
+        norm_sector_weights = {k: v / weight_sum for k, v in sector_weights.items()}
+
+        dhaka_p = Path(settings.DATA_DIR) / "curated" / "dhaka_zones.parquet"
+        if not dhaka_p.exists():
+            raise FileNotFoundError("Dhaka curated zones parquet missing.")
+
+        df = pd.read_parquet(dhaka_p)
+        zones = df.to_dict(orient="records")
+        max_pop = max(z["population"] for z in zones) or 1.0
+
+        intervention = DHAKA_INTERVENTIONS.get(
+            intervention_type, DHAKA_INTERVENTIONS["dhaka_balanced_package"]
+        )
+
+        zone_scores = []
+        for z in zones:
+            pop = z["population"]
+            pop_norm = pop / max_pop
+            v_i = z["v_i"]
+
+            norm_heat = min(1.0, z["uhi_anomaly_c"] / 4.5)
+            norm_waterlogging = z["waterlogging_risk_pct"] / 100.0
+            norm_air = min(1.0, max(0.0, (z["pm25_exposure_ug_m3"] - 60.0) / 40.0))
+            norm_poverty = z["poverty_headcount_pct"] / 35.0
+
+            r_hat = (
+                0.30 * norm_heat * norm_sector_weights.get("heat", 0.35) * 2.8 +
+                0.35 * norm_waterlogging * norm_sector_weights.get("flood", 0.35) * 2.8 +
+                0.20 * norm_air * norm_sector_weights.get("air", 0.15) * 6.5 +
+                0.15 * norm_poverty
+            )
+            r_hat_clamped = min(0.99, max(0.20, r_hat))
+
+            p_score = w_risk * r_hat_clamped * (1.0 + alpha_equity * v_i) * (pop_norm ** 0.65)
+
+            zone_scores.append({
+                "adm2_pcode": z["zone_id"],
+                "adm2_en": z["name_en"],
+                "adm2_bn": z["name_bn"],
+                "corporation": z["corporation"],
+                "adm1_pcode": "BD30",
+                "population": pop,
+                "r_hat": round(r_hat_clamped, 4),
+                "v_i": v_i,
+                "p_score": p_score,
+                "key_hazards": z.get("key_hazards", "").split(", "),
+            })
+
+        total_p_score = sum(z["p_score"] for z in zone_scores) or 1.0
+        for z in zone_scores:
+            z["weight_share"] = z["p_score"] / total_p_score
+
+        zone_scores.sort(key=lambda x: x["weight_share"], reverse=True)
+
+        allocations = []
+        allocated_so_far = 0.0
+
+        for rank, z in enumerate(zone_scores, start=1):
+            raw_alloc = (z["weight_share"] / 1.0) * budget_usd
+            alloc_usd = round(max(min_allocation_usd, raw_alloc), 2)
+            if rank == len(zone_scores):
+                alloc_usd = round(budget_usd - allocated_so_far, 2)
+            allocated_so_far += alloc_usd
+
+            mitigation_pct = min(
+                intervention["max_risk_reduction_pct"],
+                (alloc_usd / 40000.0) * intervention["max_risk_reduction_pct"]
+            )
+            r_hat_after = round(max(0.0, z["r_hat"] * (1.0 - (mitigation_pct / 100.0))), 4)
+            protected_pop = int(round(z["population"] * (mitigation_pct / 100.0)))
+
+            allocations.append({
+                "rank": rank,
+                "adm2_pcode": z["adm2_pcode"],
+                "adm2_en": z["adm2_en"],
+                "adm2_bn": z["adm2_bn"],
+                "corporation": z["corporation"],
+                "adm1_pcode": "BD30",
+                "population": z["population"],
+                "baseline_risk_score": z["r_hat"],
+                "vulnerability_index_vi": z["v_i"],
+                "priority_score": round(z["p_score"], 4),
+                "allocated_usd": alloc_usd,
+                "allocation_pct": round((alloc_usd / budget_usd) * 100.0, 2),
+                "estimated_risk_reduction_pct": round(mitigation_pct, 2),
+                "simulated_risk_score_after": r_hat_after,
+                "estimated_protected_population": protected_pop,
+                "sensor_gap_addressed": True,
+                "key_hazards": z["key_hazards"],
+            })
+
+        alloc_values = [a["allocated_usd"] for a in allocations]
+        gini = self._calculate_gini(alloc_values)
+        total_protected = sum(a["estimated_protected_population"] for a in allocations)
+        mean_reduction = round(sum(a["estimated_risk_reduction_pct"] for a in allocations) / len(allocations), 2)
+
+        return {
+            "budget_usd": budget_usd,
+            "alpha_equity": alpha_equity,
+            "w_risk": w_risk,
+            "sector_weights": norm_sector_weights,
+            "intervention": intervention,
+            "total_districts_funded": len(allocations),
+            "total_allocated_usd": round(sum(a["allocated_usd"] for a in allocations), 2),
+            "total_estimated_protected_population": total_protected,
+            "mean_risk_mitigation_pct": mean_reduction,
+            "equity_gini_coefficient": round(gini, 3),
+            "allocations": allocations,
+            "is_exploratory": True,
+            "scope": "dhaka_megacity",
+            "disclaimer": "Scenario estimate for Dhaka Megacity (DNCC & DSCC).",
+        }
 
 
 # Global singleton
