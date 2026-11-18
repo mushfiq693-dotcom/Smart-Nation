@@ -31,6 +31,7 @@ import {
   DHAKA_INTERVENTIONS,
   INTERVENTION_PROFILES,
 } from "../../lib/simulationEngine";
+import { generateClientPolicyBrief } from "../../lib/briefEngine";
 import { PolicyBriefModal } from "../../components/Simulator/PolicyBriefModal";
 
 // Dynamic import for ECharts to prevent SSR canvas errors
@@ -203,37 +204,16 @@ export default function SimulatorPage() {
       setGeneratedBrief(brief);
       setBriefModalOpen(true);
     } catch {
-      // Robust client fallback memo
-      const mockBrief = {
-        brief_id: `brief_${Date.now()}`,
-        scenario_id: simulationResult.scenario_id,
-        classification: "RESTRICTED // CABINET LEVEL POLICY DIRECTIVE",
-        title: simScope === "dhaka"
-          ? (isBn
-            ? "ঢাকা মেগাসিটি নগর জলবায়ু সহনশীলতা ও ন্যায্যতা তহবিল বণ্টন নির্দেশিকা ২০২৬"
-            : "Dhaka Megacity Urban Climate Resilience & Equity Allocation Directive 2026")
-          : (isBn
-            ? "বাংলাদেশ জাতীয় জলবায়ু বাজেট ও সমতাভিত্তিক তহবিল বণ্টন রূপরেখা ২০২৬"
-            : "Bangladesh National Climate Budget & Equity Allocation Directive 2026"),
-        executive_summary: simScope === "dhaka"
-          ? (isBn
-            ? `ঢাকা উত্তর (DNCC) ও ঢাকা দক্ষিণ (DSCC) সিটি কর্পোরেশনের ৮টি প্রধান ক্লাইমেট মাইক্রো-জোনে $${(simulationResult.total_allocated_usd || 250000).toLocaleString()} USD বরাদ্দ চূড়ান্ত করা হয়েছে। চরম জলমগ্নতা ও নগর তাপদ্বীপের ঝুঁকিতে থাকা মিরপুর, পুরান ঢাকা ও কামরাঙ্গীরচর জোন অগ্রাধিকারের শীর্ষে রয়েছে। মোট ${(simulationResult.total_estimated_protected_population || 1200000).toLocaleString()} জন নগরবাসী সরাসরি এই অভিযোজন সুরক্ষার আওতায় আসবে।`
-            : `Fiscal envelope of $${(simulationResult.total_allocated_usd || 250000).toLocaleString()} USD allocated across 8 micro-zones of DNCC and DSCC. Prioritizing high UHI and flood-congested zones: Mirpur, Old Dhaka, and Kamrangirchar. Benefiting ${(simulationResult.total_estimated_protected_population || 1200000).toLocaleString()} direct urban citizens.`)
-          : (isBn
-            ? `৬৪ জেলার মধ্যে অগ্রাধিকারপ্রাপ্ত শীর্ষ অঞ্চলে মোট $${(simulationResult.total_allocated_usd || 500000).toLocaleString()} USD তহবিল বণ্টন মডেল সম্পন্ন হয়েছে। এতে ${(simulationResult.total_estimated_protected_population || 2500000).toLocaleString()} জন জলবায়ু ঝুঁকিপূর্ণ নাগরিক সরাসরি সুরক্ষার আওতায় আসবে।`
-            : `National fiscal envelope of $${(simulationResult.total_allocated_usd || 500000).toLocaleString()} USD optimized across vulnerable districts, protecting ${(simulationResult.total_estimated_protected_population || 2500000).toLocaleString()} citizens.`),
-        policy_recommendations: simScope === "dhaka"
-          ? [
-              isBn ? "মিরপুর ও কল্যাণপুর বেসিনে স্মার্ট স্লুইস গেট ও পানি নিষ্কাশন চ্যানেল সক্রিয়করণ।" : "Deploy automated sluice gates along Kallyanpur canal basin.",
-              isBn ? "পুরান ঢাকা ও কামরাঙ্গীরচরের বস্তির টিনের চালে কুল রুফ কোটিং ও তাপনিরোধক সাদা রঙ।" : "Mandate cool roof thermal coating on dense informal housing in Old Dhaka.",
-              isBn ? "ঢাকার ১২৯টি ওয়ার্ডে হাইপারলোকাল আইওটি বায়ু ও ড্রেনেজ সেন্সর নেটওয়ার্ক স্থাপন।" : "Deploy ward-level IoT air quality and water level sensors across 129 wards."
-            ]
-          : [
-              isBn ? "উপকূলীয় চরাঞ্চল ও হাওর বেসিনে প্রাথমিক তহবিল ছাড়।" : "Disburse initial funds to coastal chars and haor basins.",
-              isBn ? "সেন্সরবিহীন ৫২টি জেলায় নতুন এয়ার কোয়ালিটি মনিটর স্থাপন।" : "Deploy IoT air quality monitors in 52 sensor-scarce districts."
-            ]
-      };
-      setGeneratedBrief(mockBrief);
+      // Robust client fallback with full 6-section evidence-backed memo
+      const clientBrief = generateClientPolicyBrief({
+        simulationResult,
+        scope: simScope,
+        lang,
+        customNotes: simScope === "dhaka"
+          ? "Dhaka North (DNCC) & Dhaka South (DSCC) Mayoral Climate Resilience Directive"
+          : "Ministerial Cabinet Review: Balanced Resilient Infrastructure Allocation",
+      });
+      setGeneratedBrief(clientBrief);
       setBriefModalOpen(true);
     } finally {
       setLoadingBrief(false);
